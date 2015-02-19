@@ -22,6 +22,7 @@ public class DiffSystemSolver {
             valuesTemp.put(temp, new Double[4]);  // добавляем массив для промежуточных вычислений исходя из количества вычисляемых параметров
             resultIntegration.setValueByName(temp, initialСonditions.get(temp));  // добавляем в объект результатов вычисления для начальных значений
         }
+        resultIntegration.setValueByName("parameterIntegration", startingValueIntegration);
 
         for (; r( x , digitRounding ) < finalValueIntegration; x += step ) {  // главный цикл вычисления. Условие выхода - достижение конца интервала вычисления
             for ( String temp : nameValueIntegrationSet ) {  // цикл для расчета 1-го этапа метода Рунге-Кутты для всех функций системы
@@ -58,6 +59,7 @@ public class DiffSystemSolver {
                 resultIntegration.setValueByName(temp,tempResult);
                 initialСonditions.put(temp, tempResult);
             }
+            resultIntegration.setValueByName("parameterIntegration", x+step);
 
         }
 

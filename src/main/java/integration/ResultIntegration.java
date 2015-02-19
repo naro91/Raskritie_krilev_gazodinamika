@@ -11,6 +11,10 @@ public class ResultIntegration {
     private Map<String, ArrayList<Double> > hashMapNameAndArraylist = new HashMap<String, ArrayList<Double>> ();
     private Map<String, Integer> indexes = new HashMap<String, Integer>();
 
+    public ResultIntegration () {
+        addResult("parameterIntegration");
+    }
+
     public void clearIndex() {
         for (Integer index : indexes.values()) {
             index = 0;

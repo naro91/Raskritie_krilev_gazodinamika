@@ -34,6 +34,7 @@ public class Main {
         initialConditions.put("Acceleration", 0.0);
 
         ResultIntegration resultIntegration = diffSystemSolver.integration(initialConditions, 0.001, 0, 1, 2, functionHashMap);
-        resultIntegration.printResultForName("Acceleration");
+        resultIntegration.printResultForName("parameterIntegration");
+        resultIntegration.printResultForName("X_sht");
     }
 }
