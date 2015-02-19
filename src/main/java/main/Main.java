@@ -36,5 +36,6 @@ public class Main {
         ResultIntegration resultIntegration = diffSystemSolver.integration(initialConditions, 0.001, 0, 1, 2, functionHashMap);
         resultIntegration.printResultForName("parameterIntegration");
         resultIntegration.printResultForName("X_sht");
+        resultIntegration.printFile("resultSolve.txt");
     }
 }

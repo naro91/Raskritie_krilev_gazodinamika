@@ -1,5 +1,7 @@
 package integration;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,4 +41,18 @@ public class ResultIntegration {
         System.out.println(hashMapNameAndArraylist.get(name).toString());
     }
 
+    public void printFile(String filename) {
+        try (PrintWriter out = new PrintWriter(filename) ) {
+            for (String temp : hashMapNameAndArraylist.keySet()) out.printf("%s   ", temp);
+            out.print("\n\n");
+            for (int i = 0; i < indexes.get("parameterIntegration"); i++) {
+                for (String temp : hashMapNameAndArraylist.keySet()) {
+                    out.printf("%f   ", hashMapNameAndArraylist.get(temp).get(i));
+                }
+                out.print("\n");
+            }
+        }catch (FileNotFoundException e) {
+            System.out.println(e.toString());
+        }
+    }
 }
