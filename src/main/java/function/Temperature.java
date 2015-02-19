@@ -1,21 +1,20 @@
 package function;
 
 
+import integration.InitialData;
+
 import java.util.HashMap;
 
 /**
  * Created by Abovyan Narek on 14.02.15.
  */
 public class Temperature implements interfaceFunction {
-    private double X0;
+    public InitialData initialData;
+    public Massa_sc massa_sc = new Massa_sc();
     public Temperature () {
-        X0 = 0;
+        this.initialData = GeneralFunctions.initialData;
     }
 
-    @Override
-    public double calculateForInitialCondition() {
-        return 0;
-    }
 
     @Override
     public String getName() {
@@ -24,13 +23,10 @@ public class Temperature implements interfaceFunction {
 
     @Override
     public double calculate(double x, HashMap<String, Double> values) {
-        return Math.tan(x);
-    }
-
-
-    @Override
-    public double getX0() {
-        return 0;
+        return (values.get("Temperature")/(values.get("Vks")*GeneralFunctions.p_ks(values)))*
+                (GeneralFunctions.U(values)*GeneralFunctions.S(values)*initialData.gama*initialData.R/initialData.cv *
+                        (initialData.ksi*initialData.cp*initialData.Tp - initialData.cv*values.get("Temperature")-
+                                (initialData.k-1)*initialData.R*values.get("Temperature")*massa_sc.calculate(x,values)));
     }
 
 }
