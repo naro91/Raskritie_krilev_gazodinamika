@@ -1,6 +1,6 @@
 package function;
 
-import integration.InitialData;
+import initialDataForTask.InitialData;
 
 import java.util.HashMap;
 
@@ -9,9 +9,11 @@ import java.util.HashMap;
  */
 public class Massa_g implements interfaceFunction {
     InitialData initialData;
+    GeneralFunctions generalFunctions;
 
     public Massa_g() {
-        this.initialData = GeneralFunctions.initialData;
+        this.initialData = GeneralFunctions.getInitialData();
+        generalFunctions = GeneralFunctions.instance();
     }
 
     @Override
@@ -21,10 +23,16 @@ public class Massa_g implements interfaceFunction {
 
     @Override
     public double calculate(double x, HashMap<String, Double> values) {
-        return GeneralFunctions.U(values)*GeneralFunctions.S(values)*initialData.gama;
+        //calculateOtherParametrs(values);
+        return generalFunctions.U(x, values) * generalFunctions.S(x, values)*initialData.gama;
     }
 
-
+    //public void calculateOtherParametrs(HashMap<String, Double> values) {
+    //    generalFunctions.getResultIntegration().setValueByName("U", U);
+    //    generalFunctions.getResultIntegration().setValueByName("S", S);
+    //    generalFunctions.getResultIntegration().setValueByName("P_ks", Pks);
+    //    generalFunctions.getResultIntegration().setValueByName("P_sc", Psc);
+    //}
 
 
 }

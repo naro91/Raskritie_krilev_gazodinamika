@@ -6,6 +6,11 @@ import java.util.HashMap;
  * Created by Abovyan Narek on 18.02.15.
  */
 public class Vks implements interfaceFunction {
+    private GeneralFunctions generalFunctions;
+    public Vks () {
+        this.generalFunctions = GeneralFunctions.instance();
+    }
+
     @Override
     public String getName() {
         return "Vks";
@@ -13,6 +18,6 @@ public class Vks implements interfaceFunction {
 
     @Override
     public double calculate(double x, HashMap<String, Double> values) {
-        return GeneralFunctions.U(values)*GeneralFunctions.S(values);
+        return generalFunctions.U(x, values)*generalFunctions.S(x, values);
     }
 }

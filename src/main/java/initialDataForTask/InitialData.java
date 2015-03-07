@@ -1,4 +1,4 @@
-package integration;
+package initialDataForTask;
 
 /**
  * Created by Abovyan on 21.12.14.

@@ -1,6 +1,6 @@
 package function;
 
-import integration.InitialData;
+import initialDataForTask.InitialData;
 
 import java.util.HashMap;
 
@@ -8,10 +8,11 @@ import java.util.HashMap;
  * Created by Abovyan Narek on 17.02.15.
  */
 public class Massa_sc implements interfaceFunction {
-    public InitialData initialData;
-
+    private InitialData initialData;
+    private GeneralFunctions generalFunctions;
     public Massa_sc () {
-        this.initialData = GeneralFunctions.initialData;
+        this.initialData = GeneralFunctions.getInitialData();
+        this.generalFunctions = GeneralFunctions.instance();
     }
 
     @Override
@@ -21,15 +22,15 @@ public class Massa_sc implements interfaceFunction {
 
     @Override
     public double calculate(double x, HashMap<String, Double> values) {
-        if (GeneralFunctions.p_ks(values) >= GeneralFunctions.p_sc(values) ) {
-            return a_ist(values)*initialData.Skr*GeneralFunctions.p_ks(values);
+        if (generalFunctions.p_ks(x, values) >= generalFunctions.p_sc(x, values) ) {
+            return a_ist(x, values)*initialData.Skr*generalFunctions.p_ks(x, values);
         } else //return -a_ist(values)*initialData.Skr*GeneralFunctions.p_sc(values);
         return 0;
     }
 
 
-    private double a_ist(HashMap<String, Double> values) {
-        double Pks = GeneralFunctions.p_ks(values), Psc = GeneralFunctions.p_sc(values);
+    private double a_ist(double x, HashMap<String, Double> values) {
+        double Pks = generalFunctions.p_ks(x, values), Psc = generalFunctions.p_sc(x, values);
         if ( Pks == Psc ) {
             return 0;
         } else if ( Pks > Psc ) {

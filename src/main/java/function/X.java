@@ -1,6 +1,6 @@
 package function;
 
-import integration.InitialData;
+import initialDataForTask.InitialData;
 
 import java.util.HashMap;
 
@@ -8,10 +8,12 @@ import java.util.HashMap;
  * Created by Abovyan Narek on 18.02.15.
  */
 public class X implements interfaceFunction {
-    InitialData initialData;
+    private InitialData initialData;
+    private GeneralFunctions generalFunctions;
 
     public X() {
-        this.initialData = GeneralFunctions.initialData;
+        this.initialData = GeneralFunctions.getInitialData();
+        this.generalFunctions = GeneralFunctions.instance();
     }
 
     @Override
@@ -22,7 +24,7 @@ public class X implements interfaceFunction {
     @Override
     public double calculate(double x, HashMap<String, Double> values) {
         if (values.get("X") <= initialData.e) {
-            return GeneralFunctions.U(values);
+            return generalFunctions.U(x , values);
         } else return 0;
     }
 }

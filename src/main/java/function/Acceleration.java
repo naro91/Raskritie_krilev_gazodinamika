@@ -1,6 +1,6 @@
 package function;
 
-import integration.InitialData;
+import initialDataForTask.InitialData;
 
 import java.util.HashMap;
 
@@ -9,9 +9,11 @@ import java.util.HashMap;
  */
 public class Acceleration implements interfaceFunction {
     private InitialData initialData;
+    private GeneralFunctions generalFunctions;
 
     public Acceleration () {
-        this.initialData = GeneralFunctions.initialData;
+        this.initialData = GeneralFunctions.getInitialData();
+        this.generalFunctions = GeneralFunctions.instance();
     }
     @Override
     public String getName() {
@@ -20,7 +22,7 @@ public class Acceleration implements interfaceFunction {
 
     @Override
     public double calculate(double x, HashMap<String, Double> values) {
-        double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = GeneralFunctions.p_sc(values);
+        double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = generalFunctions.p_sc(x, values);
         return ( Psc*initialData.Spor+ ( (Mvn + Mves)/initialData.rsr )*A(Psc*initialData.Spor, (Mvn + Mves)/initialData.rsr) ) /
                 (initialData.msht + initialData.J/(Math.pow(initialData.rsr, 2)*Math.tan(initialData.delta)));
     }

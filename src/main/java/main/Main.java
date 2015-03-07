@@ -3,6 +3,7 @@ package main;
 import function.*;
 import integration.DiffSystemSolver;
 import integration.ResultIntegration;
+import plotter.Plotter;
 
 import java.util.HashMap;
 
@@ -25,17 +26,19 @@ public class Main {
         functionHashMap.put("Acceleration", new Acceleration());
 
         // initial conditions
-        initialConditions.put("Temperature", GeneralFunctions.initialData.Tks0);
+        initialConditions.put("Temperature", GeneralFunctions.getInitialData().Tks0);
         initialConditions.put("X_sht", 0.0);
         initialConditions.put("X", 0.0);
-        initialConditions.put("Massa_sc", GeneralFunctions.initialData.mgsc0);
-        initialConditions.put("Massa_g", GeneralFunctions.initialData.mgg0);
-        initialConditions.put("Vks", GeneralFunctions.initialData.Vks0);
+        initialConditions.put("Massa_sc", GeneralFunctions.getInitialData().mgsc0);
+        initialConditions.put("Massa_g", GeneralFunctions.getInitialData().mgg0);
+        initialConditions.put("Vks", GeneralFunctions.getInitialData().Vks0);
         initialConditions.put("Acceleration", 0.0);
 
         ResultIntegration resultIntegration = diffSystemSolver.integration(initialConditions, 0.001, 0, 1, 2, functionHashMap);
         resultIntegration.printResultForName("parameterIntegration");
         resultIntegration.printResultForName("X_sht");
         resultIntegration.printFile("resultSolve.txt");
+        Plotter plotter = new Plotter();
+        plotter.plot();
     }
 }
