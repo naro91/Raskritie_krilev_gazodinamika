@@ -42,6 +42,7 @@ public class Plotter {
 
     public static void plotAllGraphics (double x0, double xFinish, ResultIntegration resultIntegration) {
         for (String temp : resultIntegration.getHashMapNameAndArraylist().keySet()) {
+            if (temp.equals("parameterIntegration")) continue;
             plot(x0, xFinish, temp, resultIntegration);
         }
     }
