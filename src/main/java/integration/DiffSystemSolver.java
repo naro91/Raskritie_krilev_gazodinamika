@@ -1,5 +1,6 @@
 package integration;
 
+import function.GeneralFunctions;
 import function.interfaceFunction;
 import java.util.HashMap;
 import java.util.Set;
@@ -16,6 +17,7 @@ public class DiffSystemSolver {
         HashMap<String, Double[]> valuesTemp = new HashMap<String, Double[]>(); // HashMap для хранения значений имя функции - массив для промежуточных вычислений для метода Рунге-Кутты 4-го порядка
         HashMap<String, Double> valuesForNextStep = new HashMap<String, Double>(); // HashMap для хранеия значений имя функции - переменные для вычисления следующего промежуточного шага
         ResultIntegration resultIntegration = new ResultIntegration();  // объект для хранения результатов вычислений
+        resultIntegration.addParametrIntegration();
         Set<String> nameValueIntegrationSet = initialСonditions.keySet();  // получение множества имен функций для которых необходимо провести вычисления
         for (String temp : nameValueIntegrationSet ) { // выделяем необходимые ресурсы для данной задачи
             resultIntegration.addResult(temp);   // добавляем массив в объект хранения результатов, исходя из количества вычисляемых параметров
@@ -59,6 +61,7 @@ public class DiffSystemSolver {
                 resultIntegration.setValueByName(temp,tempResult);
                 initialСonditions.put(temp, tempResult);
             }
+            GeneralFunctions.instance().calculate(initialСonditions);
             resultIntegration.setValueByName("parameterIntegration", x+step);
 
         }
@@ -73,8 +76,5 @@ public class DiffSystemSolver {
     public double r(double value, int k){
         return (double)Math.round((Math.pow(10, k)*value))/Math.pow(10, k);
     }
-    /**
-     * функции, которые получаются из системы
-     */
 
 }

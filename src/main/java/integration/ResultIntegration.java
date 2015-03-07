@@ -22,7 +22,7 @@ public class ResultIntegration {
     }
 
     public ResultIntegration () {
-        addResult("parameterIntegration"); // добавление контейнера для переменной по которому происходит интегирование
+
     }
 
     public void clearIndex() {
@@ -69,5 +69,9 @@ public class ResultIntegration {
         }catch (FileNotFoundException e) {
             System.out.println(e.toString());
         }
+    }
+
+    public void addParametrIntegration() {
+        addResult("parameterIntegration"); // добавление контейнера для переменной по которому происходит интегирование
     }
 }

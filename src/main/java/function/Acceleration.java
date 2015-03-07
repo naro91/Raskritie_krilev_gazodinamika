@@ -22,7 +22,7 @@ public class Acceleration implements interfaceFunction {
 
     @Override
     public double calculate(double x, HashMap<String, Double> values) {
-        double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = generalFunctions.p_sc(x, values);
+        double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = generalFunctions.p_sc(values);
         return ( Psc*initialData.Spor+ ( (Mvn + Mves)/initialData.rsr )*A(Psc*initialData.Spor, (Mvn + Mves)/initialData.rsr) ) /
                 (initialData.msht + initialData.J/(Math.pow(initialData.rsr, 2)*Math.tan(initialData.delta)));
     }

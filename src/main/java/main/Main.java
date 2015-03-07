@@ -34,11 +34,12 @@ public class Main {
         initialConditions.put("Vks", GeneralFunctions.getInitialData().Vks0);
         initialConditions.put("Acceleration", 0.0);
 
-        ResultIntegration resultIntegration = diffSystemSolver.integration(initialConditions, 0.001, 0, 1, 2, functionHashMap);
+        ResultIntegration resultIntegration = diffSystemSolver.integration(initialConditions, 0.00001, 0, 0.01, 5, functionHashMap);
+        resultIntegration.addResultResultIntegration(GeneralFunctions.instance().getResultIntegration());
         resultIntegration.printResultForName("parameterIntegration");
         resultIntegration.printResultForName("X_sht");
         resultIntegration.printFile("resultSolve.txt");
         Plotter plotter = new Plotter();
-        plotter.plot();
+        //plotter.plot();
     }
 }

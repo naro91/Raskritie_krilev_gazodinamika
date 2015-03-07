@@ -25,8 +25,8 @@ public class Temperature implements interfaceFunction {
 
     @Override
     public double calculate(double x, HashMap<String, Double> values) {
-        return (values.get("Temperature")/(values.get("Vks")*generalFunctions.p_ks(x, values)))*
-                (generalFunctions.U(x, values)*generalFunctions.S(x, values)*initialData.gama*initialData.R/initialData.cv *
+        return (values.get("Temperature")/(values.get("Vks")*generalFunctions.p_ks(values)))*
+                (generalFunctions.U(values)*generalFunctions.S(values)*initialData.gama*initialData.R/initialData.cv *
                         (initialData.ksi*initialData.cp*initialData.Tp - initialData.cv*values.get("Temperature")-
                                 (initialData.k-1)*initialData.R*values.get("Temperature")*massa_sc.calculate(x,values)));
     }

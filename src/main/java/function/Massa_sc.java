@@ -22,15 +22,15 @@ public class Massa_sc implements interfaceFunction {
 
     @Override
     public double calculate(double x, HashMap<String, Double> values) {
-        if (generalFunctions.p_ks(x, values) >= generalFunctions.p_sc(x, values) ) {
-            return a_ist(x, values)*initialData.Skr*generalFunctions.p_ks(x, values);
+        if (generalFunctions.p_ks(values) >= generalFunctions.p_sc(values) ) {
+            return a_ist(x, values)*initialData.Skr*generalFunctions.p_ks(values);
         } else //return -a_ist(values)*initialData.Skr*GeneralFunctions.p_sc(values);
         return 0;
     }
 
 
     private double a_ist(double x, HashMap<String, Double> values) {
-        double Pks = generalFunctions.p_ks(x, values), Psc = generalFunctions.p_sc(x, values);
+        double Pks = generalFunctions.p_ks(values), Psc = generalFunctions.p_sc(values);
         if ( Pks == Psc ) {
             return 0;
         } else if ( Pks > Psc ) {

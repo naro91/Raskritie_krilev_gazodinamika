@@ -24,7 +24,7 @@ public class Massa_g implements interfaceFunction {
     @Override
     public double calculate(double x, HashMap<String, Double> values) {
         //calculateOtherParametrs(values);
-        return generalFunctions.U(x, values) * generalFunctions.S(x, values)*initialData.gama;
+        return generalFunctions.U(values) * generalFunctions.S(values)*initialData.gama;
     }
 
     //public void calculateOtherParametrs(HashMap<String, Double> values) {
