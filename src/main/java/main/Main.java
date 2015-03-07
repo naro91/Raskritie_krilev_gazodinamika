@@ -36,10 +36,10 @@ public class Main {
 
         ResultIntegration resultIntegration = diffSystemSolver.integration(initialConditions, 0.00001, 0, 0.01, 5, functionHashMap);
         resultIntegration.addResultResultIntegration(GeneralFunctions.instance().getResultIntegration());
+        //System.out.println( resultIntegration.getHashMapNameAndArraylist().get("S").size() == resultIntegration.getHashMapNameAndArraylist().get("parameterIntegration").size());
         resultIntegration.printResultForName("parameterIntegration");
         resultIntegration.printResultForName("X_sht");
         resultIntegration.printFile("resultSolve.txt");
-        Plotter plotter = new Plotter();
-        //plotter.plot();
+        Plotter.plotAllGraphics(0, 0.01, resultIntegration);
     }
 }

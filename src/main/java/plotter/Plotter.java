@@ -1,4 +1,5 @@
 package plotter;
+import integration.ResultIntegration;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -16,16 +17,17 @@ import javax.swing.JFrame;
  */
 public class Plotter {
 
-    public static void plot() {
-        XYSeries series = new XYSeries("sin(a)");
-
-        for(float i = 0; i < Math.PI; i+=0.1){
-            series.add(i, Math.sin(i));
+    public static void plot(double x0, double xFinish, String nameGraphic, ResultIntegration resultIntegration) {
+        XYSeries series = new XYSeries(nameGraphic);
+        double step = (xFinish - x0) / resultIntegration.getHashMapNameAndArraylist().get(nameGraphic).size();
+        for(double temp : resultIntegration.getHashMapNameAndArraylist().get(nameGraphic)){
+            series.add(x0, temp);
+            x0 += step;
         }
 
         XYDataset xyDataset = new XYSeriesCollection(series);
         JFreeChart chart = ChartFactory
-                .createXYLineChart("y = sin(x)", "x", "y",
+                .createXYLineChart(nameGraphic, "t", nameGraphic,
                         xyDataset,
                         PlotOrientation.VERTICAL,
                         true, true, true);
@@ -36,6 +38,12 @@ public class Plotter {
                 .add(new ChartPanel(chart));
         frame.setSize(400,300);
         frame.setVisible(true);
+    }
+
+    public static void plotAllGraphics (double x0, double xFinish, ResultIntegration resultIntegration) {
+        for (String temp : resultIntegration.getHashMapNameAndArraylist().keySet()) {
+            plot(x0, xFinish, temp, resultIntegration);
+        }
     }
 
 }
