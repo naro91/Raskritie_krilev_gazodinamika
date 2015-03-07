@@ -38,6 +38,6 @@ public class Main {
         resultIntegration.addResultResultIntegration(GeneralFunctions.instance().getResultIntegration());
         //System.out.println( resultIntegration.getHashMapNameAndArraylist().get("S").size() == resultIntegration.getHashMapNameAndArraylist().get("parameterIntegration").size());
         //resultIntegration.printFile("resultSolve.txt");
-        Plotter.plotAllGraphics(0, 0.01, resultIntegration);
+        Plotter.plot(0, 0.01, "P_ks", resultIntegration, true);
     }
 }
