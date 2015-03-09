@@ -25,9 +25,10 @@ public class ResultIntegration {
 
     }
 
-    public void clearIndex() {
-        for (Integer index : indexes.values()) {
-            index = 0;
+    public void clearIndexAndArray() {
+        for (String temp : hashMapNameAndArraylist.keySet()){
+            hashMapNameAndArraylist.get(temp).clear();
+            indexes.put(temp, 0);
         }
     }
 

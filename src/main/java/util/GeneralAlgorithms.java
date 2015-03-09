@@ -1,7 +1,6 @@
-package main;
+package util;
 
 import function.*;
-import gui.GraphicInterface;
 import integration.DiffSystemSolver;
 import integration.ResultIntegration;
 import plotter.Plotter;
@@ -9,14 +8,15 @@ import plotter.Plotter;
 import java.util.HashMap;
 
 /**
- * Created by Abovyan Narek on 14.02.15.
+ * Created by Abovyan Narek on 09.03.15.
  */
-public class Main {
-    public static void main (String args[]){
-        /*DiffSystemSolver diffSystemSolver = new DiffSystemSolver();
-        HashMap<String, Double> initialConditions = new HashMap<String, Double>();
-        HashMap<String, interfaceFunction> functionHashMap = new HashMap<String, interfaceFunction>();
+public class GeneralAlgorithms {
+    private DiffSystemSolver diffSystemSolver = new DiffSystemSolver();
+    private HashMap<String, Double> initialConditions = new HashMap<String, Double>();
+    private HashMap<String, interfaceFunction> functionHashMap = new HashMap<String, interfaceFunction>();
+    private ResultIntegration resultIntegration;
 
+    public void startCalculating () {
         // system equation
         functionHashMap.put("Temperature", new Temperature());
         functionHashMap.put("X_sht", new X_sht());
@@ -35,12 +35,15 @@ public class Main {
         initialConditions.put("Vks", GeneralFunctions.getInitialData().Vks0);
         initialConditions.put("Acceleration", 0.0);
 
-        ResultIntegration resultIntegration = diffSystemSolver.integration(initialConditions, 0.00001, 0, 0.01, 5, functionHashMap);
+        resultIntegration = diffSystemSolver.integration(initialConditions, 0.00001, 0, 0.01, 5, functionHashMap);
         resultIntegration.addResultResultIntegration(GeneralFunctions.instance().getResultIntegration());
         //System.out.println( resultIntegration.getHashMapNameAndArraylist().get("S").size() == resultIntegration.getHashMapNameAndArraylist().get("parameterIntegration").size());
         //resultIntegration.printFile("resultSolve.txt");
-        Plotter.plot(0, 0.01, "P_ks", resultIntegration, true);*/
-        GraphicInterface graphicInterface = new GraphicInterface();
-        graphicInterface.begin();
     }
+
+    public ResultIntegration getResultIntegration( ) {
+        return resultIntegration;
+    }
+
+
 }

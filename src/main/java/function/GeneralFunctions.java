@@ -12,7 +12,7 @@ public class GeneralFunctions {
     private static InitialData initialData = new InitialData();
     private ResultIntegration resultIntegration = new ResultIntegration();
     private static GeneralFunctions generalFunctions = null;
-    private volatile double P_ks, P_sc, V_sc, U, S, x;
+    private volatile double P_ks, P_sc, V_sc, U, S;
     private GeneralFunctions() {
         resultIntegration.addResult("P_ks");
         resultIntegration.addResult("P_sc");
