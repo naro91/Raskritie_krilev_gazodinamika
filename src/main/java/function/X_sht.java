@@ -11,14 +11,14 @@ public class X_sht implements interfaceFunction {
 
     }
 
-    @Override
-    public String getName() {
+
+    public static String getName() {
         return "X_sht";
     }
 
     @Override
     public double calculate(double x, HashMap<String, Double> values) {
-        return values.get("Acceleration");
+        return values.get("Velocity");
     }
 
 }

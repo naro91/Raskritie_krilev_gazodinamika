@@ -16,8 +16,8 @@ public class Massa_g implements interfaceFunction {
         generalFunctions = GeneralFunctions.instance();
     }
 
-    @Override
-    public String getName() {
+
+    public static String getName() {
         return "Massa_g";
     }
 
@@ -26,13 +26,5 @@ public class Massa_g implements interfaceFunction {
         //calculateOtherParametrs(values);
         return generalFunctions.U(values) * generalFunctions.S(values)*initialData.gama;
     }
-
-    //public void calculateOtherParametrs(HashMap<String, Double> values) {
-    //    generalFunctions.getResultIntegration().setValueByName("U", U);
-    //    generalFunctions.getResultIntegration().setValueByName("S", S);
-    //    generalFunctions.getResultIntegration().setValueByName("P_ks", Pks);
-    //    generalFunctions.getResultIntegration().setValueByName("P_sc", Psc);
-    //}
-
 
 }

@@ -18,8 +18,8 @@ public class Temperature implements interfaceFunction {
     }
 
 
-    @Override
-    public String getName() {
+
+    public static String getName() {
         return "Temperature";
     }
 

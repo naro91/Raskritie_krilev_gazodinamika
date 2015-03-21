@@ -3,7 +3,6 @@ package util;
 import function.*;
 import integration.DiffSystemSolver;
 import integration.ResultIntegration;
-import plotter.Plotter;
 
 import java.util.HashMap;
 
@@ -15,27 +14,32 @@ public class GeneralAlgorithms {
     private HashMap<String, Double> initialConditions = new HashMap<String, Double>();
     private HashMap<String, interfaceFunction> functionHashMap = new HashMap<String, interfaceFunction>();
     private ResultIntegration resultIntegration;
+    public static double step = 0.00001, theBeginningOfTheInterval = 0, endOfTheInterval = 0.03;
+    public static int round = 5;
 
     public void startCalculating () {
+        GeneralFunctions.instance().getResultIntegration().clearIndexAndArray();
         // system equation
-        functionHashMap.put("Temperature", new Temperature());
-        functionHashMap.put("X_sht", new X_sht());
-        functionHashMap.put("X", new X());
-        functionHashMap.put("Vks", new Vks());
-        functionHashMap.put("Massa_sc", new Massa_sc());
-        functionHashMap.put("Massa_g", new Massa_g());
-        functionHashMap.put("Acceleration", new Acceleration());
+        // добавляем уравнения в хэшмэп для передачи в метод решения дифф. ур.
+        functionHashMap.put(Temperature.getName(), new Temperature());
+        functionHashMap.put(X_sht.getName(), new X_sht());
+        functionHashMap.put(X.getName(), new X());
+        functionHashMap.put(Vks.getName(), new Vks());
+        functionHashMap.put(Massa_sc.getName(), new Massa_sc());
+        functionHashMap.put(Massa_g.getName(), new Massa_g());
+        functionHashMap.put(Velocity.getName(), new Velocity());
 
         // initial conditions
-        initialConditions.put("Temperature", GeneralFunctions.getInitialData().Tks0);
-        initialConditions.put("X_sht", 0.0);
-        initialConditions.put("X", 0.0);
-        initialConditions.put("Massa_sc", GeneralFunctions.getInitialData().mgsc0);
-        initialConditions.put("Massa_g", GeneralFunctions.getInitialData().mgg0);
-        initialConditions.put("Vks", GeneralFunctions.getInitialData().Vks0);
-        initialConditions.put("Acceleration", 0.0);
+        // добавляем начальные условия в хэшмэп для передачи методу решения диффур
+        initialConditions.put(Temperature.getName(), GeneralFunctions.getInitialData().Tks0);
+        initialConditions.put(X_sht.getName(), GeneralFunctions.getInitialData().X_sht0);
+        initialConditions.put(X.getName(), GeneralFunctions.getInitialData().X0);
+        initialConditions.put(Massa_sc.getName(), GeneralFunctions.getInitialData().mgsc0);
+        initialConditions.put(Massa_g.getName(), GeneralFunctions.getInitialData().mgg0);
+        initialConditions.put(Vks.getName(), GeneralFunctions.getInitialData().Vks0);
+        initialConditions.put(Velocity.getName(), GeneralFunctions.getInitialData().velocity0);
 
-        resultIntegration = diffSystemSolver.integration(initialConditions, 0.00001, 0, 0.01, 5, functionHashMap);
+        resultIntegration = diffSystemSolver.integration(initialConditions, step, theBeginningOfTheInterval, endOfTheInterval, round, functionHashMap);
         resultIntegration.addResultResultIntegration(GeneralFunctions.instance().getResultIntegration());
         //System.out.println( resultIntegration.getHashMapNameAndArraylist().get("S").size() == resultIntegration.getHashMapNameAndArraylist().get("parameterIntegration").size());
         //resultIntegration.printFile("resultSolve.txt");

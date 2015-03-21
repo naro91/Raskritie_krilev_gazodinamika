@@ -15,8 +15,8 @@ public class Massa_sc implements interfaceFunction {
         this.generalFunctions = GeneralFunctions.instance();
     }
 
-    @Override
-    public String getName() {
+
+    public static String getName() {
         return "Massa_sc";
     }
 

@@ -55,7 +55,7 @@ public class Plotter {
                 .add(new ChartPanel(chart));
         frame.setSize(600, 400);
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         arrayListJFrame.add(frame);
     }

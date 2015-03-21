@@ -1,5 +1,6 @@
 package gui;
 
+import function.GeneralFunctions;
 import plotter.Plotter;
 import util.GeneralAlgorithms;
 import java.awt.*;
@@ -61,8 +62,8 @@ public class GraphicInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!(generalAlgorithms.getResultIntegration() == null)) {
-                    Plotter.plotAllGraphics(0, 0.01, generalAlgorithms.getResultIntegration(), true);
-                }
+                    Plotter.plotAllGraphics(GeneralAlgorithms.theBeginningOfTheInterval, GeneralAlgorithms.endOfTheInterval, generalAlgorithms.getResultIntegration(), true);
+                } else countLabel.setText("you first need to calculate !!!");
             }
         });
     }

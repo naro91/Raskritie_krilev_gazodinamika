@@ -20,14 +20,14 @@ public class X implements interfaceFunction {
         this.generalFunctions = GeneralFunctions.instance();
     }
 
-    @Override
-    public String getName() {
+
+    public static String getName() {
         return "X";
     }
 
     @Override
     public double calculate(double x, HashMap<String, Double> values) {
-        if (values.get("X") <= initialData.e) {
+        if (values.get("X") < initialData.e) {
             double result = generalFunctions.U(values);
             return result;
         } else return 0;
