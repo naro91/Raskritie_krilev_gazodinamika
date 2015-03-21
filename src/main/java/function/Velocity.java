@@ -36,9 +36,9 @@ public class Velocity implements interfaceFunction {
                 //return (1 + (2 * initialData.ftr / Math.tan(initialData.delta)) - Math.pow(initialData.ftr, 2)) / (Math.tan(initialData.delta) - initialData.ftr);
                 return (1 + Math.tan(initialData.delta) * initialData.ftr) / (Math.tan(initialData.delta - initialData.ftr));
             }
-        } else if (pressureForce * Math.sin(initialData.delta) == externalForce * Math.cos(initialData.delta)) { // если движения резьбы нет то не учитывается
+        } else if (pressureForce * Math.sin(initialData.delta) + externalForce * Math.cos(initialData.delta) == 0.0) { // todo нужно подумать как будет вести себя сила трения
             return 1.0/Math.tan(initialData.delta);
-        } else return (1 - Math.tan(initialData.delta) * initialData.ftr) / (Math.tan(initialData.delta + initialData.ftr));
+        } else return (1 - Math.tan(initialData.delta) * initialData.ftr) / (Math.tan(initialData.delta + initialData.ftr));  // todo нужно более точное соотношение найти
     }
 
     private double fi(HashMap<String, Double> values) {
