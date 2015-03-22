@@ -6,6 +6,8 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -26,7 +28,10 @@ import java.util.ArrayList;
 public class Plotter {
     private static ArrayList<JFrame> arrayListJFrame = new ArrayList<>();
     private static ChartPanel tempChartPanel = null;
-    public static void plot(double x0, double xFinish, String nameGraphic, ResultIntegration resultIntegration, boolean outputImage, JFrame frame) {
+    private static XYSeriesCollection xyDataset;
+    private static StringBuilder nameGraphics = new StringBuilder();
+    private static JFreeChart chart;
+    public static void plot(double x0, double xFinish, String nameGraphic, ResultIntegration resultIntegration, JFrame frame, boolean addToOld) {
         // метод для отображения соответствущего графика исходя из переданного значения nameGraphic
         XYSeries series = new XYSeries(nameGraphic);
         double step = (xFinish - x0) / resultIntegration.getHashMapNameAndArraylist().get(nameGraphic).size();
@@ -34,22 +39,23 @@ public class Plotter {
             series.add(x0, temp);
             x0 += step;
         }
-
-        XYDataset xyDataset = new XYSeriesCollection(series);
-        JFreeChart chart = ChartFactory
-                .createXYLineChart(nameGraphic, "t", nameGraphic,
-                        xyDataset,
-                        PlotOrientation.VERTICAL,
-                        true, true, true);
-        if (outputImage) {
-            try {
-                // например в файл
-                OutputStream stream = new FileOutputStream("./graphicsImage/".concat(nameGraphic.concat(".png")));
-                ChartUtilities.writeChartAsPNG(stream, chart, 700, 500);
-            } catch (IOException e) {
-                System.err.println("Failed to render chart as png: " + e.getMessage());
-                e.printStackTrace();
-            }
+        if (addToOld && xyDataset != null) {
+            xyDataset.addSeries(series);
+            nameGraphics.append(nameGraphic).append(", ");
+            chart = ChartFactory
+                    .createXYLineChart(nameGraphics.toString(), "t", nameGraphics.toString(),
+                            xyDataset,
+                            PlotOrientation.VERTICAL,
+                            true, true, true);
+        } else {
+            nameGraphics.delete(0, nameGraphics.length() == 0 ? 0 : nameGraphics.length() - 1);
+            nameGraphics.append(nameGraphic).append(", ");
+            xyDataset = new XYSeriesCollection(series);
+            chart = ChartFactory
+                    .createXYLineChart(nameGraphic, "t", nameGraphic,
+                            xyDataset,
+                            PlotOrientation.VERTICAL,
+                            true, true, true);
         }
 
         if (frame == null) {
@@ -75,19 +81,41 @@ public class Plotter {
         }
     }
 
-    public static void plotAllGraphics (double x0, double xFinish, ResultIntegration resultIntegration, boolean outputImage, JFrame frame) {
+    public static void saveAllChart (double x0, double xFinish, ResultIntegration resultIntegration) {
         // метод для отображения всех графиков
         for (String temp : resultIntegration.getHashMapNameAndArraylist().keySet()) {
             if (temp.equals("parameterIntegration")) continue;
-            plot(x0, xFinish, temp, resultIntegration, outputImage, frame);
+            saveChart(x0, xFinish, temp, resultIntegration, false);
         }
     }
 
-    public static void closeAllWindow () {  // метод предназначенный для закрытия всех окон графиков
-        for (JFrame temp : arrayListJFrame) {
-            temp.setVisible(false);
-            temp.dispose();
+    public static void saveChart (double x0, double xFinish, String nameGraphic, ResultIntegration resultIntegration, boolean currentChart) {
+        JFreeChart chartTemp;
+        if (!currentChart) {
+            // метод для отображения соответствущего графика исходя из переданного значения nameGraphic
+            XYSeries series = new XYSeries(nameGraphic);
+            double step = (xFinish - x0) / resultIntegration.getHashMapNameAndArraylist().get(nameGraphic).size();
+            for(double temp : resultIntegration.getHashMapNameAndArraylist().get(nameGraphic)){
+                series.add(x0, temp);
+                x0 += step;
+            }
+            XYSeriesCollection xyDatasetTemp = new XYSeriesCollection(series);
+            chartTemp = ChartFactory
+                    .createXYLineChart(nameGraphic, "t", nameGraphic,
+                            xyDatasetTemp,
+                            PlotOrientation.VERTICAL,
+                            true, true, true);
+        } else chartTemp = chart;
+
+        try {
+            // сохранение в файл
+            OutputStream stream = new FileOutputStream("./graphicsImage/".concat(nameGraphic.concat(".png")));
+            ChartUtilities.writeChartAsPNG(stream, chartTemp, 700, 500);
+        } catch (IOException e) {
+            System.err.println("Failed to render chart as png: " + e.getMessage());
+            e.printStackTrace();
         }
+
     }
 
 }

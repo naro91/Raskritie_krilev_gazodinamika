@@ -23,8 +23,9 @@ public class GraphicInterface extends JFrame {
     private GeneralAlgorithms generalAlgorithms; // ссылка на объект который инкапсулирует в себе общий алгоритм задачи
     private JLabel countLabel;   // текстовое поле для отображения информации
     private JButton startСalculating;  // кнопка для начала вычислений
-    private JButton closeAllWindow;  // кнопка для закрытия всех окон содержащих графики
-    private JButton visableAndSaveImageAllGraph;  // кнопка для отображения всех графиков и сохранения их в виде картинок
+    private JButton addChart;  // кнопка для добавления выбранного графика
+    private JButton visableChart;  // кнопка для отображения выбранного графика
+    private JButton saveAllChart; // кнопка для сохранения всех графиков
     private String selectesItem = "P_ks";
     private JComboBox comboBox; //= new JComboBox(items);
     public GraphicInterface() {
@@ -39,8 +40,9 @@ public class GraphicInterface extends JFrame {
      /* Расставляем компоненты по местам  */
         add(countLabel, BorderLayout.NORTH);
         buttonsPanel.add(startСalculating);
-        buttonsPanel.add(closeAllWindow);
-        buttonsPanel.add(visableAndSaveImageAllGraph);
+        buttonsPanel.add(addChart);
+        buttonsPanel.add(visableChart);
+        buttonsPanel.add(saveAllChart);
         buttonsPanel.add(comboBox);
         add(buttonsPanel, BorderLayout.SOUTH);
         initListeners(); // иницируем слушателей событий формы
@@ -51,7 +53,6 @@ public class GraphicInterface extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 generalAlgorithms.startCalculating();
                 countLabel.setText("Расчет завершен !!!");
-                //Plotter.plot(0, 0.01, "P_ks", generalAlgorithms.getResultIntegration(), true);
             }
         });
         comboBox.addActionListener(new ActionListener() {
@@ -60,17 +61,26 @@ public class GraphicInterface extends JFrame {
                 selectesItem = (String)box.getSelectedItem();
             }
         });
-        closeAllWindow.addActionListener(new ActionListener() {
+        addChart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Plotter.closeAllWindow();  // закрываем все окна с графиками
-                //GeneralFunctions.instance().getResultIntegration().clearIndexAndArray();  // очищаем resultIntegretion singleton класса GeneralFunctions
+                if (generalAlgorithms.getResultIntegration() != null) {
+                    Plotter.plot(GeneralAlgorithms.theBeginningOfTheInterval, GeneralAlgorithms.endOfTheInterval, selectesItem, generalAlgorithms.getResultIntegration(), GraphicInterface.this, true);
+                } else countLabel.setText("Необходимо сначала провести расчет !!!");
             }
         });
-        visableAndSaveImageAllGraph.addActionListener(new ActionListener() {
+        visableChart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!(generalAlgorithms.getResultIntegration() == null)) {
-                    Plotter.plot(GeneralAlgorithms.theBeginningOfTheInterval, GeneralAlgorithms.endOfTheInterval, selectesItem, generalAlgorithms.getResultIntegration(), true, GraphicInterface.this);
+                    Plotter.plot(GeneralAlgorithms.theBeginningOfTheInterval, GeneralAlgorithms.endOfTheInterval, selectesItem, generalAlgorithms.getResultIntegration(), GraphicInterface.this, false);
+                } else countLabel.setText("Необходимо сначала провести расчет !!!");
+            }
+        });
+        saveAllChart.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (generalAlgorithms.getResultIntegration() != null) {
+                    Plotter.saveAllChart(GeneralAlgorithms.theBeginningOfTheInterval, GeneralAlgorithms.endOfTheInterval, generalAlgorithms.getResultIntegration());
+                    countLabel.setText("Все графики сохранены с расширением png в директории graphicsImage !!!");
                 } else countLabel.setText("Необходимо сначала провести расчет !!!");
             }
         });
@@ -88,8 +98,9 @@ public class GraphicInterface extends JFrame {
         /* Подготавливаем компоненты объекта  */
         countLabel = new JLabel("Добро пожаловать в программу для расчета раскрытия крыльев !!!");
         startСalculating = new JButton("Начать расчет");
-        closeAllWindow = new JButton("Закрыть все окна");
-        visableAndSaveImageAllGraph = new JButton("Построить график");
+        addChart = new JButton("Добавить график");
+        visableChart = new JButton("Построить график");
+        saveAllChart = new JButton("Сохранить все графики");
         // список для выбора графика
         Font font = new Font("Verdana", Font.PLAIN, 18);
         comboBox = new JComboBox(getItems());
