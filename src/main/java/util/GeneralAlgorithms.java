@@ -49,5 +49,4 @@ public class GeneralAlgorithms {
         return resultIntegration;
     }
 
-
 }

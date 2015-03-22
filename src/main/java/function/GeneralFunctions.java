@@ -84,4 +84,10 @@ public class GeneralFunctions {
     public static InitialData getInitialData() {
         return initialData;
     }
+
+    public static String[] getListFunctionsNames() {
+        String[] listFunctionsNames = {"P_ks", "P_sc", "V_sc", "U", "S", Massa_g.getName(), Massa_sc.getName(), Temperature.getName(), Velocity.getName(),
+        Vks.getName(), X.getName(), X_sht.getName()};
+        return listFunctionsNames;
+    }
 }

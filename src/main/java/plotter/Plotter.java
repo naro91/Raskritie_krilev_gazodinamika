@@ -1,4 +1,5 @@
 package plotter;
+import gui.GraphicInterface;
 import integration.ResultIntegration;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -8,7 +9,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import javax.swing.JFrame;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -22,7 +25,8 @@ import java.util.ArrayList;
 
 public class Plotter {
     private static ArrayList<JFrame> arrayListJFrame = new ArrayList<>();
-    public static void plot(double x0, double xFinish, String nameGraphic, ResultIntegration resultIntegration, boolean outputImage) {
+    private static ChartPanel tempChartPanel = null;
+    public static void plot(double x0, double xFinish, String nameGraphic, ResultIntegration resultIntegration, boolean outputImage, JFrame frame) {
         // метод для отображения соответствущего графика исходя из переданного значения nameGraphic
         XYSeries series = new XYSeries(nameGraphic);
         double step = (xFinish - x0) / resultIntegration.getHashMapNameAndArraylist().get(nameGraphic).size();
@@ -48,23 +52,34 @@ public class Plotter {
             }
         }
 
-        JFrame frame =
-                new JFrame("MinimalStaticChart");
-        // Помещаем график на фрейм
-        frame.getContentPane()
-                .add(new ChartPanel(chart));
-        frame.setSize(600, 400);
-        frame.setLocationRelativeTo(null);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        arrayListJFrame.add(frame);
+        if (frame == null) {
+            frame = new JFrame("Program for NPO");
+            // Помещаем график на фрейм
+            frame.getContentPane().add(new ChartPanel(chart));
+            frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null);
+            //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
+            arrayListJFrame.add(frame);
+        }else {
+            ChartPanel graphic = new ChartPanel(chart);
+            if (tempChartPanel != null) {
+                frame.remove(tempChartPanel);
+                tempChartPanel = null;
+            }
+            tempChartPanel = graphic;
+            frame.add(graphic);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        }
     }
 
-    public static void plotAllGraphics (double x0, double xFinish, ResultIntegration resultIntegration, boolean outputImage) {
+    public static void plotAllGraphics (double x0, double xFinish, ResultIntegration resultIntegration, boolean outputImage, JFrame frame) {
         // метод для отображения всех графиков
         for (String temp : resultIntegration.getHashMapNameAndArraylist().keySet()) {
             if (temp.equals("parameterIntegration")) continue;
-            plot(x0, xFinish, temp, resultIntegration, outputImage);
+            plot(x0, xFinish, temp, resultIntegration, outputImage, frame);
         }
     }
 
