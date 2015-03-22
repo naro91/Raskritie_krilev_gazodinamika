@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 /**
  * Created by Abovyan Narek on 09.03.15.
+ * класс инкапсулирует алгоритм решения задачи в целом
  */
 public class GeneralAlgorithms {
     private DiffSystemSolver diffSystemSolver = new DiffSystemSolver();
@@ -30,7 +31,7 @@ public class GeneralAlgorithms {
         functionHashMap.put(Velocity.getName(), new Velocity());
 
         // initial conditions
-        // добавляем начальные условия в хэшмэп для передачи методу решения диффур
+        // добавляем начальные условия в хэшмэп для передачи методу для решения дифференциальных уравнений
         initialConditions.put(Temperature.getName(), GeneralFunctions.getInitialData().Tks0);
         initialConditions.put(X_sht.getName(), GeneralFunctions.getInitialData().X_sht0);
         initialConditions.put(X.getName(), GeneralFunctions.getInitialData().X0);

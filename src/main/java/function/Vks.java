@@ -17,7 +17,7 @@ public class Vks implements interfaceFunction {
     }
 
     @Override
-    public double calculate(double x, HashMap<String, Double> values) {
+    public double calculate(double x, HashMap<String, Double> values) { // возвращает изменение объема
         return generalFunctions.U(values)*generalFunctions.S(values);
     }
 }

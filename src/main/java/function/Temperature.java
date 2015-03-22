@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 /**
  * Created by Abovyan Narek on 14.02.15.
+ * Класс для вычисления температуры
  */
 public class Temperature implements interfaceFunction {
     private InitialData initialData;

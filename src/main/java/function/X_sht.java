@@ -17,7 +17,7 @@ public class X_sht implements interfaceFunction {
     }
 
     @Override
-    public double calculate(double x, HashMap<String, Double> values) {
+    public double calculate(double x, HashMap<String, Double> values) { // возвращает скорость движения штока
         return values.get("Velocity");
     }
 

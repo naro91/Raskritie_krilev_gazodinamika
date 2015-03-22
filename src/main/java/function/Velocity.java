@@ -21,13 +21,13 @@ public class Velocity implements interfaceFunction {
     }
 
     @Override
-    public double calculate(double x, HashMap<String, Double> values) {
+    public double calculate(double x, HashMap<String, Double> values) { // возвращает ускорение штока
         double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = generalFunctions.p_sc(values); System.out.println(Math.toDegrees(fi(values)));
         return ( Psc*initialData.Spor+ ( (Mvn + Mves)/initialData.rsr )*A(Psc*initialData.Spor, (Mvn + Mves)/initialData.rsr) ) /
                 (initialData.msht + initialData.J/(Math.pow(initialData.rsr, 2)*Math.tan(initialData.delta)));
     }
 
-    public double A(double pressureForce, double externalForce) {
+    public double A(double pressureForce, double externalForce) { // коэффициент для расчета силы в зависимости от момента на винтовой передаче
         if(pressureForce*externalForce < 0) {
             if (pressureForce * Math.sin(initialData.delta) <= externalForce * Math.cos(initialData.delta)) {
                 //return (1 - (2 * initialData.ftr / Math.tan(initialData.delta)) - Math.pow(initialData.ftr, 2)) / (Math.tan(initialData.delta) + initialData.ftr);
@@ -41,7 +41,7 @@ public class Velocity implements interfaceFunction {
         } else return (1 - Math.tan(initialData.delta) * initialData.ftr) / (Math.tan(initialData.delta + initialData.ftr));  // todo нужно более точное соотношение найти
     }
 
-    private double fi(HashMap<String, Double> values) {
+    private double fi(HashMap<String, Double> values) { // метод возвращает угол поворота корневой панели в зависимости от перемещения штока
         return values.get("X_sht")/(initialData.rsr*Math.tan(initialData.delta));
     }
 

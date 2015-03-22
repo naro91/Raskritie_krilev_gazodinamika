@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 /**
  * Created by Abovyan Narek on 17.02.15.
+ * Класс для вычисления массы газа в силовом цилиндре
  */
 public class Massa_sc implements interfaceFunction {
     private InitialData initialData;

@@ -40,9 +40,9 @@ public class GraphicInterface extends JFrame {
      /* Расставляем компоненты по местам  */
         add(countLabel, BorderLayout.NORTH);
         buttonsPanel.add(startСalculating);
+        buttonsPanel.add(saveAllChart);
         buttonsPanel.add(addChart);
         buttonsPanel.add(visableChart);
-        buttonsPanel.add(saveAllChart);
         buttonsPanel.add(comboBox);
         add(buttonsPanel, BorderLayout.SOUTH);
         initListeners(); // иницируем слушателей событий формы

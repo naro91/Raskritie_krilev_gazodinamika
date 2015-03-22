@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * Created by Abovyan on 21.12.14.
+ * Класс предназначен для организации хранения результатов вычислений
  */
 public class ResultIntegration {
     private Map<String, ArrayList<Double> > hashMapNameAndArraylist = new HashMap<String, ArrayList<Double>> ();
