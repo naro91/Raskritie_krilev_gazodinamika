@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class X implements interfaceFunction {
     private InitialData initialData;
     private GeneralFunctions generalFunctions;
-
+    private static boolean markerFix = true;
     public X() {
         this.initialData = GeneralFunctions.getInitialData();
         this.generalFunctions = GeneralFunctions.instance();
@@ -30,6 +30,12 @@ public class X implements interfaceFunction {
         if (values.get("X") < initialData.e) {
             double result = generalFunctions.U(values);
             return result;
-        } else return 0;
+        } else {
+            if ( markerFix ) {
+                generalFunctions.getResultIntegration().addMarker("EndOfBurning", x);
+                markerFix = false;
+            }
+            return 0;
+        }
     }
 }

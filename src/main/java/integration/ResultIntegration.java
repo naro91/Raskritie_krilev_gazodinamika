@@ -13,6 +13,7 @@ import java.util.Map;
 public class ResultIntegration {
     private Map<String, ArrayList<Double> > hashMapNameAndArraylist = new HashMap<String, ArrayList<Double>> ();
     private Map<String, Integer> indexes = new HashMap<String, Integer>();
+    private Map<String, Double> marker = new HashMap<String, Double>();
 
     public Map<String, ArrayList<Double>> getHashMapNameAndArraylist() {
         return hashMapNameAndArraylist;
@@ -42,6 +43,9 @@ public class ResultIntegration {
         for (String temp : resultIntegration.getHashMapNameAndArraylist().keySet()) {
             hashMapNameAndArraylist.put(temp, resultIntegration.getHashMapNameAndArraylist().get(temp));
             indexes.put(temp, resultIntegration.getHashMapNameAndArraylist().get(temp).size());
+        }
+        for (String temp : resultIntegration.getMarker().keySet()) {
+            marker.put(temp, resultIntegration.getMarker().get(temp));
         }
     }
 
@@ -75,5 +79,13 @@ public class ResultIntegration {
 
     public void addParametrIntegration() {
         addResult("parameterIntegration"); // добавление контейнера для переменной по которому происходит интегирование
+    }
+
+    public void addMarker(String nameMarker, double position) {
+        marker.put(nameMarker, position);
+    }
+
+    public Map<String, Double> getMarker () {
+        return marker;
     }
 }

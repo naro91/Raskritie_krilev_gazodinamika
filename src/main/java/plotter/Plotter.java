@@ -6,9 +6,12 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.ValueMarker;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import javax.swing.*;
+import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -34,6 +37,7 @@ public class Plotter {
             series.add(x0, temp);
             x0 += step;
         }
+
         if (addToOld && xyDataset != null) {
             xyDataset.addSeries(series);
             nameGraphics.append(nameGraphic).append(", ");
@@ -52,7 +56,7 @@ public class Plotter {
                             PlotOrientation.VERTICAL,
                             true, true, true);
         }
-
+        plotMarker(chart, resultIntegration);
         if (frame == null) {
             frame = new JFrame("Program for NPO");
             // Помещаем график на фрейм
@@ -109,6 +113,16 @@ public class Plotter {
         } catch (IOException e) {
             System.err.println("Failed to render chart as png: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    public static void plotMarker(JFreeChart chart, ResultIntegration resultIntegration) {
+        XYPlot plot = (XYPlot) chart.getPlot();
+        for (String temp : resultIntegration.getMarker().keySet()) {
+            ValueMarker marker = new ValueMarker(resultIntegration.getMarker().get(temp));  // position is the value on the axis
+            marker.setPaint(Color.black);
+            marker.setLabel(temp); // see JavaDoc for labels, colors, strokes
+            plot.addDomainMarker(marker);
         }
     }
 }
