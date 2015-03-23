@@ -79,8 +79,14 @@ public class GraphicInterface extends JFrame {
         saveAllChart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (generalAlgorithms.getResultIntegration() != null) {
-                    Plotter.saveAllChart(GeneralAlgorithms.theBeginningOfTheInterval, GeneralAlgorithms.endOfTheInterval, generalAlgorithms.getResultIntegration());
-                    countLabel.setText("Все графики сохранены с расширением png в директории graphicsImage !!!");
+                    Thread threadSaving = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Plotter.saveAllChart(GeneralAlgorithms.theBeginningOfTheInterval, GeneralAlgorithms.endOfTheInterval, generalAlgorithms.getResultIntegration());
+                            countLabel.setText("Все графики сохранены с расширением png в директории graphicsImage !!!");
+                        }
+                    });
+                    threadSaving.start();
                 } else countLabel.setText("Необходимо сначала провести расчет !!!");
             }
         });

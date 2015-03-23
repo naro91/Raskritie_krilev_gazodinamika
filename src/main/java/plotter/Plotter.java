@@ -1,19 +1,14 @@
 package plotter;
-import gui.GraphicInterface;
+
 import integration.ResultIntegration;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-
 import javax.swing.*;
-import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -115,7 +110,5 @@ public class Plotter {
             System.err.println("Failed to render chart as png: " + e.getMessage());
             e.printStackTrace();
         }
-
     }
-
 }
