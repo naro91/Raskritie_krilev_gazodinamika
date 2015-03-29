@@ -40,13 +40,13 @@ public class GeneralFunctions {
     }
 
     public double U(HashMap<String, Double> values) { // метод для расчета скорости горения на текущем шаге интегрирования
-        if (values.get("X") > initialData.e) {
+        if (values.get("X") > initialData.eps) {
             return 0;
         } else return initialData.K * (0.00546 + 5.36*Math.pow(10, -8)*p_ks(values));
     }
 
     public double S(HashMap<String, Double> values) { // метод для расчета площади горения заряда на текущем шаге интегрирования
-        if (values.get("X") > initialData.e) {
+        if (values.get("X") > initialData.eps) {
             return 0;
         } else return initialData.S0zar - 4*Math.PI*(initialData.Dzar+initialData.dzar)*values.get("X");
     }

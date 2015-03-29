@@ -4,8 +4,9 @@ package initialDataForTask;
  * Created by Abovyan on 21.12.14.
  */
 public class InitialData {
-    public double J, m1, m2, r1, r2, msht, Spor, delta, L, Dzar, dzar, V0sc, ksi, ftr, B, g, k, R, Tp, mzar, tokrSr, rsr, dotvKr, Skr, Vzar,
-            gama, mgsc0, mgg0, cp, cv, Vks0, X0, e, S0zar, K, dp, Tks0, X_sht0, velocity0, t;
+    public double J, m1, m2, r1m, r2m, msht, Spor, delta, L, Dzar, dzar, V0sc, ksi, ftr, B, g, k, R, Tp, mzar, tokrSr, rsr, dotvKr, Skr, Vzar,
+            gama, mgsc0, mgg0, cp, cv, Vks0, X0, eps, S0zar, K, dp, Tks0, X_sht0, velocity0, t, r1, r2, r13, r23, r30, r4, r5, r6, r7, e, fi0, psi_r1,
+            betta_c, alfa_c, alfa, psi_r2;
     public double[][] M_vn = {
             {Math.toRadians(0), -4.71},
             {Math.toRadians(10), -58.17},
@@ -20,12 +21,13 @@ public class InitialData {
             {Math.toRadians(107), -24.53},
             {Math.toRadians(110), -20.0}
     };
+
     public InitialData() {
         J = 0.1785;
         m1 = 6.911;
         m2 = 3.297;
-        r1 = 0.062;
-        r2 = 0.197;
+        r1m = 0.062;
+        r2m = 0.197;
         msht = 0.197;
         dp = 0.026;
         Spor = 5.31/10000.0;//Math.PI*dp*dp/4;
@@ -57,7 +59,7 @@ public class InitialData {
         X0 = 0;
         X_sht0 = 0;
         velocity0 = 0;
-        e = (Dzar - dzar)/4;
+        eps = (Dzar - dzar)/4;
         S0zar = (Math.PI*(Dzar+dzar)/2.0) * (Dzar-dzar+2.0*L);
         t = 20;
         K = B / (B - (t - 20));
