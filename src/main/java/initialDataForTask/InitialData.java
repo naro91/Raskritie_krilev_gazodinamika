@@ -5,8 +5,8 @@ package initialDataForTask;
  */
 public class InitialData {
     public double J, m1, m2, r1m, r2m, msht, Spor, delta, L, Dzar, dzar, V0sc, ksi, ftr, B, g, k, R, Tp, mzar, tokrSr, rsr, dotvKr, Skr, Vzar,
-            gama, mgsc0, mgg0, cp, cv, Vks0, X0, eps, S0zar, K, dp, Tks0, X_sht0, velocity0, t, r1, r2, r13, r23, r30, r4, r5, r6, r7, e, fi0, psi_r1,
-            betta_c, alfa_c, alfa, psi_r2;
+            gama, mgsc0, mgg0, cp, cv, Vks0, X0, eps, S0zar, K, dp, Tks0, X_sht0, velocity0, t, r1, r2, r13, r23, r60, r4, r5, ro0, e, fi0, psi_r1,
+            betta_c, alfa_c, psi_r2, angleChangeRadius, xO2, xO1, yO2, yO1;
     public double[][] M_vn = {
             {Math.toRadians(0), -4.71},
             {Math.toRadians(10), -58.17},
@@ -63,6 +63,27 @@ public class InitialData {
         S0zar = (Math.PI*(Dzar+dzar)/2.0) * (Dzar-dzar+2.0*L);
         t = 20;
         K = B / (B - (t - 20));
+        //-------Данные для расчета кинематики-----------------
+        xO1 = 7.28 / 1000.0;
+        yO1 = -4.47 / 1000.0;
+        xO2 = -5.2 / 1000.0;
+        yO2 = 8.5 / 1000.0;
+        r1 = Math.sqrt(xO1*xO1 + yO1*yO1);
+        r2 = Math.sqrt(xO2*xO2 + yO2*yO2);
+        fi0 = Math.toRadians(18);
+        psi_r1 = Math.atan(yO1/xO1);
+        psi_r2 = Math.PI + Math.atan(yO2/xO2);
+        r13 = 18.0 / 1000.0;
+        r23 = 37.0 / 1000.0;
+        e = 8.5 / 1000.0;
+        r5 = 8.0 / 1000.0;
+        r4 = 19.0 / 1000.0;
+        r60 = 27.9 / 1000.0;
+        alfa_c = Math.toRadians(60);
+        betta_c = Math.toRadians(45);
+        ro0 = 0.021363191294607516;//(20.42) / 1000.0;
+        angleChangeRadius = Math.toRadians(30);
+
     }
 
 }

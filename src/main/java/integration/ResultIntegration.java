@@ -35,8 +35,10 @@ public class ResultIntegration {
     }
 
     public void addResult ( String name ) {
-        hashMapNameAndArraylist.put(name, new ArrayList<Double>());
-        indexes.put(name, new Integer(0));
+        if (!hashMapNameAndArraylist.containsKey(name)){
+            hashMapNameAndArraylist.put(name, new ArrayList<Double>());
+            indexes.put(name, new Integer(0));
+        }
     }
 
     public void addResultResultIntegration(ResultIntegration resultIntegration) {

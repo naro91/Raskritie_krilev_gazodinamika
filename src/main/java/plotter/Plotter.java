@@ -81,7 +81,7 @@ public class Plotter {
     }
 
     public static void saveAllChart (double x0, double xFinish, ResultIntegration resultIntegration) {
-        // метод для отображения всех графиков
+        // метод для сохранения всех графиков
         for (String temp : resultIntegration.getHashMapNameAndArraylist().keySet()) {
             if (temp.equals("parameterIntegration")) continue;
             saveChart(x0, xFinish, temp, resultIntegration, false);
@@ -91,7 +91,7 @@ public class Plotter {
     public static void saveChart (double x0, double xFinish, String nameGraphic, ResultIntegration resultIntegration, boolean currentChart) {
         JFreeChart chartTemp;
         if (!currentChart) {
-            // метод для отображения соответствущего графика исходя из переданного значения nameGraphic
+            // метод для сохранения соответствущего графика исходя из переданного значения nameGraphic
             XYSeries series = new XYSeries(nameGraphic);
             double step = (xFinish - x0) / resultIntegration.getHashMapNameAndArraylist().get(nameGraphic).size();
             for(double temp : resultIntegration.getHashMapNameAndArraylist().get(nameGraphic)){
