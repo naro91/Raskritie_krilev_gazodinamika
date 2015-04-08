@@ -87,7 +87,7 @@ public class GeneralFunctions {
 
     public static String[] getListFunctionsNames() {
         String[] listFunctionsNames = {"P_ks", "P_sc", "V_sc", "U", "S", Massa_g.getName(), Massa_sc.getName(), Temperature.getName(), Velocity.getName(),
-        Vks.getName(), X.getName(), X_sht.getName(), "movingPusher", "angleEndPanel"};
+        Vks.getName(), X.getName(), X_sht.getName(), "movingPusher", "angleEndPanel", "movingPusher_r1", "movingPusher_r2"};
         return listFunctionsNames;
     }
 }

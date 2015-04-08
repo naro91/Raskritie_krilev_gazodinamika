@@ -16,7 +16,7 @@ public class GeneralAlgorithms {
     private HashMap<String, interfaceFunction> functionHashMap = new HashMap<String, interfaceFunction>();
     Kinematics kinematics = new Kinematics();
     private ResultIntegration resultIntegration;
-    public static double step = 0.00001, theBeginningOfTheInterval = 0, endOfTheInterval = Math.toRadians(108);//0.03;
+    public static double step = 0.00001, theBeginningOfTheInterval = 0, endOfTheInterval = 0.03;
     public static int round = 5;
 
     public void startCalculating () {
@@ -42,14 +42,15 @@ public class GeneralAlgorithms {
         initialConditions.put(Velocity.getName(), GeneralFunctions.getInitialData().velocity0);
 
         resultIntegration = diffSystemSolver.integration(initialConditions, step, theBeginningOfTheInterval, endOfTheInterval, round, functionHashMap);
+        startCalculatKinematics(resultIntegration);
         resultIntegration.addResultResultIntegration(GeneralFunctions.instance().getResultIntegration());
         //System.out.println( resultIntegration.getHashMapNameAndArraylist().get("S").size() == resultIntegration.getHashMapNameAndArraylist().get("parameterIntegration").size());
         //resultIntegration.printFile("resultSolve.txt");
     }
 
-    public void startCalculatKinematics () {
-        kinematics.calculate();
-        resultIntegration = GeneralFunctions.instance().getResultIntegration();
+    public void startCalculatKinematics (ResultIntegration resultIntegration) {
+        kinematics.calculate(resultIntegration);
+        kinematics.calculateSplit(resultIntegration);
     }
 
     public ResultIntegration getResultIntegration( ) {

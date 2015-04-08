@@ -51,8 +51,7 @@ public class GraphicInterface extends JFrame {
     private void initListeners() {
         startСalculating.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //generalAlgorithms.startCalculating();
-                generalAlgorithms.startCalculatKinematics();
+                generalAlgorithms.startCalculating();
                 countLabel.setText("Расчет завершен !!!");
             }
         });
