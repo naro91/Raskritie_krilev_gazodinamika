@@ -14,7 +14,7 @@ public class GeneralAlgorithms {
     private DiffSystemSolver diffSystemSolver = new DiffSystemSolver();
     private HashMap<String, Double> initialConditions = new HashMap<String, Double>();
     private HashMap<String, interfaceFunction> functionHashMap = new HashMap<String, interfaceFunction>();
-    Kinematics kinematics = new Kinematics();
+    Kinematic kinematic = new Kinematic();
     private ResultIntegration resultIntegration;
     public static double step = 0.00001, theBeginningOfTheInterval = 0, endOfTheInterval = 0.03;
     public static int round = 5;
@@ -49,8 +49,8 @@ public class GeneralAlgorithms {
     }
 
     public void startCalculatKinematics (ResultIntegration resultIntegration) {
-        kinematics.calculate(resultIntegration);
-        kinematics.calculateSplit(resultIntegration);
+        kinematic.calculate(resultIntegration);
+        kinematic.calculateSplit(resultIntegration);
     }
 
     public ResultIntegration getResultIntegration( ) {

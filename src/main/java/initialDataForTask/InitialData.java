@@ -7,6 +7,7 @@ public class InitialData {
     public double J, m1, m2, r1m, r2m, msht, Spor, delta, L, Dzar, dzar, V0sc, ksi, ftr, B, g, k, R, Tp, mzar, tokrSr, rsr, dotvKr, Skr, Vzar,
             gama, mgsc0, mgg0, cp, cv, Vks0, X0, eps, S0zar, K, dp, Tks0, X_sht0, velocity0, t, r1, r2, r13, r23, r60, r4, r5, ro0, e, fi0, psi_r1,
             betta_c, alfa_c, psi_r2, angleChangeRadius, xO2, xO1, yO2, yO1;
+
     public double[][] M_vn = {
             {Math.toRadians(0), -4.71},
             {Math.toRadians(10), -58.17},

@@ -10,10 +10,14 @@ import java.util.HashMap;
 public class Velocity implements interfaceFunction {
     private InitialData initialData;
     private GeneralFunctions generalFunctions;
+    private double diffirentDirectionCoefficient, collinearDirectionCoefficient;
 
     public Velocity() {
         this.initialData = GeneralFunctions.getInitialData();
         this.generalFunctions = GeneralFunctions.instance();
+        diffirentDirectionCoefficient =  (1 - Math.tan(initialData.delta) * initialData.ftr) / (Math.tan(initialData.delta) + initialData.ftr);
+        collinearDirectionCoefficient = (1 + Math.tan(initialData.delta)*initialData.ftr) / (Math.tan(initialData.delta) - initialData.ftr);
+        System.out.printf("%f  %f ", diffirentDirectionCoefficient, collinearDirectionCoefficient);
     }
 
     public static String getName() {
@@ -22,23 +26,26 @@ public class Velocity implements interfaceFunction {
 
     @Override
     public double calculate(double x, HashMap<String, Double> values) { // возвращает ускорение штока
-        double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = generalFunctions.p_sc(values); System.out.println(Math.toDegrees(fi(values)));
-        return ( Psc*initialData.Spor+ ( (Mvn + Mves)/initialData.rsr )*A(Psc*initialData.Spor, (Mvn + Mves)/initialData.rsr) ) /
-                (initialData.msht + initialData.J/(Math.pow(initialData.rsr, 2)*Math.tan(initialData.delta)));
+
+        double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = generalFunctions.p_sc(values); //System.out.println(Math.toDegrees(fi(values)));
+        double K = A(values, (Mvn + Mves)/initialData.rsr);
+
+        return ( Psc*initialData.Spor+ ( (Mvn + Mves)/initialData.rsr ) * K ) /
+                (initialData.msht + (initialData.J ) / (Math.pow(initialData.rsr, 2)*Math.tan(initialData.delta)));
     }
 
-    public double A(double pressureForce, double externalForce) { // коэффициент для расчета силы в зависимости от момента на винтовой передаче
-        if(pressureForce*externalForce < 0) { // если продольная сила и сила от момента противонаправлены
-            if (pressureForce * Math.sin(initialData.delta) <= externalForce * Math.cos(initialData.delta)) {
-                //return (1 - (2 * initialData.ftr / Math.tan(initialData.delta)) - Math.pow(initialData.ftr, 2)) / (Math.tan(initialData.delta) + initialData.ftr);
-                return (1 - Math.tan(initialData.delta) * initialData.ftr) / (Math.tan(initialData.delta + initialData.ftr));
+    public double A(HashMap<String, Double> values, double externalForce) { // коэффициент для расчета силы в зависимости от момента на винтовой передаче
+        if(values.get("Velocity") * externalForce > 0) { // если момент направлен против силы трения
+            return diffirentDirectionCoefficient;
+        } else {
+            if ( values.get("Velocity") * externalForce < 0 ) {
+                return collinearDirectionCoefficient;
             } else {
-                //return (1 + (2 * initialData.ftr / Math.tan(initialData.delta)) - Math.pow(initialData.ftr, 2)) / (Math.tan(initialData.delta) - initialData.ftr);
-                return (1 + Math.tan(initialData.delta) * initialData.ftr) / (Math.tan(initialData.delta - initialData.ftr));
+                if ( values.get("Velocity") == 0.0 ) {
+                    return diffirentDirectionCoefficient;
+                } else return 0;
             }
-        } else if (pressureForce * Math.sin(initialData.delta) + externalForce * Math.cos(initialData.delta) == 0.0) { // todo нужно подумать как будет вести себя сила трения
-            return 1.0/Math.tan(initialData.delta);
-        } else return (1 - Math.tan(initialData.delta) * initialData.ftr) / (Math.tan(initialData.delta + initialData.ftr));  // todo нужно более точное соотношение найти
+        }
     }
 
     private double fi(HashMap<String, Double> values) { // метод возвращает угол поворота корневой панели в зависимости от перемещения штока
