@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Abovyan on 21.12.14.
@@ -12,8 +13,9 @@ import java.util.Map;
  */
 public class ResultIntegration {
     private Map<String, ArrayList<Double> > hashMapNameAndArraylist = new HashMap<String, ArrayList<Double>> ();
-    private Map<String, Integer> indexes = new HashMap<String, Integer>();
-    private Map<String, Double> marker = new HashMap<String, Double>();
+    private Map<String, Integer> indexes = new HashMap<>();
+    private Map<String, Double[]> rangeOfTheFunctions = new HashMap<>();
+    private Map<String, Double> marker = new HashMap<>();
 
     public Map<String, ArrayList<Double>> getHashMapNameAndArraylist() {
         return hashMapNameAndArraylist;
@@ -45,6 +47,9 @@ public class ResultIntegration {
         for (String temp : resultIntegration.getHashMapNameAndArraylist().keySet()) {
             hashMapNameAndArraylist.put(temp, resultIntegration.getHashMapNameAndArraylist().get(temp));
             indexes.put(temp, resultIntegration.getHashMapNameAndArraylist().get(temp).size());
+        }
+        for (String temp : resultIntegration.getRangeOfTheFunctionsByName().keySet()){
+            rangeOfTheFunctions.put(temp, resultIntegration.getRangeByName(temp));
         }
         for (String temp : resultIntegration.getMarker().keySet()) {
             marker.put(temp, resultIntegration.getMarker().get(temp));
@@ -89,5 +94,48 @@ public class ResultIntegration {
 
     public Map<String, Double> getMarker () {
         return marker;
+    }
+
+    public void addRangeOfTheFunctionsByName(String name, double startValue, double finishValue) {
+        Double[] range = new Double[2];
+        range[0] = startValue;
+        range[1] = finishValue;
+        rangeOfTheFunctions.put(name, range);
+    }
+
+    public Map<String, Double[]> getRangeOfTheFunctionsByName() {
+        return rangeOfTheFunctions;
+    }
+
+    public Double[] getRangeByName(String name) {
+        return rangeOfTheFunctions.get(name);
+    }
+
+    public double getRangeStartByName(String name) {
+        return rangeOfTheFunctions.get(name).length == 2 ? rangeOfTheFunctions.get(name)[0] : -1;
+    }
+
+    public double getRangeFinishByName(String name) {
+        return rangeOfTheFunctions.get(name).length == 2 ? rangeOfTheFunctions.get(name)[1] : -1;
+    }
+
+    public double getStepFunctionByName(String name) {
+        return (getRangeFinishByName(name) - getRangeStartByName(name)) / ((double) getSizeArrayByName(name));
+    }
+
+    public int getSizeArrayByName(String name) {
+        return hashMapNameAndArraylist.get(name).size();
+    }
+
+    public String[] getListResultsNames() {
+        String[] listNames = new String[hashMapNameAndArraylist.size()-1];
+        int i = 0;
+        Set<String> tempSet = hashMapNameAndArraylist.keySet();
+        tempSet.remove("parameterIntegration");
+        for (String temp : tempSet) {
+            listNames[i] = temp;
+            ++i;
+        }
+        return listNames;
     }
 }

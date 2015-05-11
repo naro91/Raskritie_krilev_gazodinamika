@@ -26,7 +26,7 @@ public class GraphicInterface extends JFrame {
     private JButton addChart;  // кнопка для добавления выбранного графика
     private JButton visableChart;  // кнопка для отображения выбранного графика
     private JButton saveAllChart; // кнопка для сохранения всех графиков
-    private String selectesItem = "P_ks";
+    private String selectesItem;//= "Temperature";
     private JComboBox comboBox; //= new JComboBox(items);
     public GraphicInterface() {
         super("Crow calculator");
@@ -34,7 +34,7 @@ public class GraphicInterface extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);  // устанавливаем действие при нажатии крестика
         /* Подготавливаем компоненты объекта  */
         addComponents();
-
+        selectesItem = null;
      /* Подготавливаем временные компоненты  */
         JPanel buttonsPanel = new JPanel(new FlowLayout());
      /* Расставляем компоненты по местам  */
@@ -52,6 +52,12 @@ public class GraphicInterface extends JFrame {
         startСalculating.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 generalAlgorithms.startCalculating();
+                comboBox.setModel(new DefaultComboBoxModel<String>(getItems()));
+                if (selectesItem != null) {
+                    comboBox.setSelectedItem(selectesItem);
+                } else {
+                    selectesItem = (String) comboBox.getSelectedItem();
+                }
                 countLabel.setText("Расчет завершен !!!");
             }
         });
@@ -64,7 +70,7 @@ public class GraphicInterface extends JFrame {
         addChart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (generalAlgorithms.getResultIntegration() != null) {
-                    Plotter.plot(GeneralAlgorithms.theBeginningOfTheInterval, GeneralAlgorithms.endOfTheInterval, selectesItem, generalAlgorithms.getResultIntegration(), GraphicInterface.this, true);
+                    Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(), GraphicInterface.this, true);
                 } else countLabel.setText("Необходимо сначала провести расчет !!!");
             }
         });
@@ -72,7 +78,7 @@ public class GraphicInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!(generalAlgorithms.getResultIntegration() == null)) {
-                    Plotter.plot(GeneralAlgorithms.theBeginningOfTheInterval, GeneralAlgorithms.endOfTheInterval, selectesItem, generalAlgorithms.getResultIntegration(), GraphicInterface.this, false);
+                    Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(), GraphicInterface.this, false);
                 } else countLabel.setText("Необходимо сначала провести расчет !!!");
             }
         });
@@ -82,7 +88,8 @@ public class GraphicInterface extends JFrame {
                     Thread threadSaving = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            Plotter.saveAllChart(GeneralAlgorithms.theBeginningOfTheInterval, GeneralAlgorithms.endOfTheInterval, generalAlgorithms.getResultIntegration());
+                            countLabel.setText("Идет процесс сохранения графиков !!!");
+                            Plotter.saveAllChart(generalAlgorithms.getResultIntegration());
                             countLabel.setText("Все графики сохранены с расширением png в директории graphicsImage !!!");
                         }
                     });
@@ -115,6 +122,7 @@ public class GraphicInterface extends JFrame {
     }
 
     private String[] getItems() {
-        return GeneralFunctions.getListFunctionsNames();
+        String[] temp = {"Список результатов"};
+        return generalAlgorithms.getResultIntegration() == null ? temp : generalAlgorithms.getResultIntegration().getListResultsNames();
     }
 }

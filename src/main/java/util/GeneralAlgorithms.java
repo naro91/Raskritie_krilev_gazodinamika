@@ -1,8 +1,10 @@
 package util;
 
 import function.*;
+import initialDataForTask.InitialData;
 import integration.DiffSystemSolver;
 import integration.ResultIntegration;
+import resources.ResourceFactory;
 
 import java.util.HashMap;
 
@@ -50,7 +52,7 @@ public class GeneralAlgorithms {
 
     public void startCalculatKinematics (ResultIntegration resultIntegration) {
         kinematic.calculate(resultIntegration);
-        kinematic.calculateSplit(resultIntegration);
+        //kinematic.calculateSplit(resultIntegration);
     }
 
     public ResultIntegration getResultIntegration( ) {

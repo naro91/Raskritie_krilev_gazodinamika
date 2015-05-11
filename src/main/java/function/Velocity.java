@@ -27,7 +27,7 @@ public class Velocity implements interfaceFunction {
     @Override
     public double calculate(double x, HashMap<String, Double> values) { // возвращает ускорение штока
 
-        double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = generalFunctions.p_sc(values); //System.out.println(Math.toDegrees(fi(values)));
+        double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = generalFunctions.p_sc(values); System.out.println(Math.toDegrees(fi(values)));
         double K = A(values, (Mvn + Mves)/initialData.rsr);
 
         return ( Psc*initialData.Spor+ ( (Mvn + Mves)/initialData.rsr ) * K ) /

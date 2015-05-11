@@ -2,6 +2,7 @@ package function;
 
 import initialDataForTask.InitialData;
 import integration.ResultIntegration;
+import resources.ResourceFactory;
 
 import java.util.HashMap;
 
@@ -20,6 +21,8 @@ public class GeneralFunctions {
         resultIntegration.addResult("U");
         resultIntegration.addResult("S");
         initialization();
+        InitialData initialData1 = ResourceFactory.instance().getResource("./initialData/initialData.xml");
+        System.out.println(initialData1.J);
     }
     public static GeneralFunctions instance() { // для реализации патерна Singleton
         if (generalFunctions == null) {
@@ -42,7 +45,7 @@ public class GeneralFunctions {
     public double U(HashMap<String, Double> values) { // метод для расчета скорости горения на текущем шаге интегрирования
         if (values.get("X") > initialData.eps) {
             return 0;
-        } else return initialData.K * (0.00546 + 5.36*Math.pow(10, -8)*p_ks(values));
+        } else return initialData.K * (0.00546 + 5.36*Math.pow(10, -9.3)*p_ks(values));
     }
 
     public double S(HashMap<String, Double> values) { // метод для расчета площади горения заряда на текущем шаге интегрирования
@@ -52,9 +55,9 @@ public class GeneralFunctions {
     }
 
     public void calculate(HashMap<String, Double> values) {//метод для расчета и сохранения всех параметоров на каждом шаге интегирования в resultIntegration
-        P_ks = p_ks(values);
+        P_ks = p_ks(values)/(1013250.0/2.7);
         V_sc = v_sc(values);
-        P_sc = p_sc(values);
+        P_sc = p_sc(values)/(1013250.0/2.7);
         U = U(values);
         S = S(values);
         resultIntegration.setValueByName("P_ks", P_ks);
@@ -65,9 +68,9 @@ public class GeneralFunctions {
     }
 
     private void initialization () {// расчет и сохранение начальных значений параметров определенных в GeneralFunctions в resultIntegretion
-        P_ks = ( ( initialData.mgg0 - initialData.mgsc0 ) * initialData.R * initialData.Tks0 ) / initialData.Vks0;
+        P_ks = ( ( initialData.mgg0 - initialData.mgsc0 ) * initialData.R * initialData.Tks0 ) / (initialData.Vks0*101325.0);
         V_sc = initialData.V0sc + initialData.Spor * 0.0;
-        P_sc = (initialData.mgsc0  * initialData.R * initialData.Tks0) / V_sc;
+        P_sc = (initialData.mgsc0  * initialData.R * initialData.Tks0) / (V_sc*101325.0);
         U = initialData.K * (0.00546 + 5.36* Math.pow(10, -8)*P_ks);
         S = initialData.S0zar - 4 * Math.PI*(initialData.Dzar+initialData.dzar)*0.0;
         resultIntegration.setValueByName("P_ks", P_ks);
@@ -75,6 +78,14 @@ public class GeneralFunctions {
         resultIntegration.setValueByName("V_sc", V_sc);
         resultIntegration.setValueByName("U", U);
         resultIntegration.setValueByName("S", S);
+    }
+
+    public void setRange(double startRange, double finishRange) {
+        resultIntegration.addRangeOfTheFunctionsByName("P_ks", startRange, finishRange); // добавление интервалов вычислений для функций
+        resultIntegration.addRangeOfTheFunctionsByName("P_sc", startRange, finishRange);
+        resultIntegration.addRangeOfTheFunctionsByName("V_sc", startRange, finishRange);
+        resultIntegration.addRangeOfTheFunctionsByName("U", startRange, finishRange);
+        resultIntegration.addRangeOfTheFunctionsByName("S", startRange, finishRange);
     }
 
     public ResultIntegration getResultIntegration() {
@@ -85,9 +96,9 @@ public class GeneralFunctions {
         return initialData;
     }
 
-    public static String[] getListFunctionsNames() {
-        String[] listFunctionsNames = {"P_ks", "P_sc", "V_sc", "U", "S", Massa_g.getName(), Massa_sc.getName(), Temperature.getName(), Velocity.getName(),
-        Vks.getName(), X.getName(), X_sht.getName(), "movingPusher", "angleEndPanel", "movingPusher_r1", "movingPusher_r2"};
-        return listFunctionsNames;
-    }
+//    public static String[] getListFunctionsNames() {
+//        String[] listFunctionsNames = {"P_ks", "P_sc", "V_sc", "U", "S", Massa_g.getName(), Massa_sc.getName(), Temperature.getName(), Velocity.getName(),
+//        Vks.getName(), X.getName(), X_sht.getName(), "movingPusher", "angleEndPanel", "movingPusher_r1", "movingPusher_r2"};
+//        return listFunctionsNames;
+//    }
 }

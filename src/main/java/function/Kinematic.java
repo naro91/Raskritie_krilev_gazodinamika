@@ -26,6 +26,8 @@ public class Kinematic {
         int i = 0;
         resultIntegration.addResult("movingPusher");
         resultIntegration.addResult("angleEndPanel");
+        resultIntegration.addRangeOfTheFunctionsByName("movingPusher", resultIntegration.getRangeStartByName("X_sht"), resultIntegration.getRangeFinishByName("X_sht"));
+        resultIntegration.addRangeOfTheFunctionsByName("angleEndPanel", resultIntegration.getRangeStartByName("X_sht"), resultIntegration.getRangeFinishByName("X_sht"));
         calculateMuvingPusher0();
         for (double fi : resultIntegration.getHashMapNameAndArraylist().get("X_sht")) {
             fi = fi / moveToAngle;
@@ -42,11 +44,11 @@ public class Kinematic {
         double psi = fi - initialData.fi0;
         if (psi <= angleChangeRadius) {
             if (changeRadius) {
-                resultIntegration.addMarker("ChangeR ".concat((currentTime).toString()), currentTime);
+                //resultIntegration.addMarker("ChangeR ".concat((currentTime).toString()), currentTime);
                 changeRadius = false;}
             return movingPusher_r1(psi);
         } else {
-            if (!changeRadius) { resultIntegration.addMarker("ChangeR ".concat((currentTime).toString()), currentTime); changeRadius = true;}
+            //if (!changeRadius) { resultIntegration.addMarker("ChangeR ".concat((currentTime).toString()), currentTime); changeRadius = true;}
             return movingPusher_r2(psi);
         }
     }
@@ -71,12 +73,32 @@ public class Kinematic {
                 + 2 * initialData.r2 * initialData.e * Math.cos(initialData.psi_r2 - psi)) - initialData.r2 * Math.sin(initialData.psi_r2 - psi)) - movingPusher0;
     }
 
+    public double movingPusher_fi (double fi) {
+        double psi = fi - initialData.fi0;
+        if (psi <= angleChangeRadius) {
+            return movingPusher_r1(psi);
+        } else {
+            return movingPusher_r2(psi);
+        }
+    }
+    public double angleEndPanel_fi (double fi) {
+        return ( Math.acos( (initialData.r5 - ( initialData.r60 - movingPusher_fi(fi) )*Math.sin(initialData.betta_c)) / initialData.r4 )
+                - initialData.alfa_c - initialData.betta_c ) ;
+    }
+
     public void calculateSplit(ResultIntegration resultIntegration) {
+        calculateMuvingPusher0();
         resultIntegration.addResult("movingPusher_r1");
         resultIntegration.addResult("movingPusher_r2");
+        resultIntegration.addResult("movingPusher_fi");
+        resultIntegration.addResult("angleEndPanel_fi");
+        resultIntegration.addResult("parameterIntegration");
         for (double fi = 0; fi < Math.toRadians(109); fi += 0.01) {
             resultIntegration.setValueByName("movingPusher_r1", movingPusher_r1(fi));
             resultIntegration.setValueByName("movingPusher_r2", movingPusher_r2(fi));
+            resultIntegration.setValueByName("movingPusher_fi", movingPusher_fi (fi));
+            resultIntegration.setValueByName("angleEndPanel_fi", angleEndPanel_fi (fi));
+            resultIntegration.setValueByName("parameterIntegration", fi);
         }
     }
 }

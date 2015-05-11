@@ -31,11 +31,11 @@ public class InitialData {
         r2m = 0.197;
         msht = 0.197;
         dp = 0.026;
-        Spor = 5.31/10000.0;//Math.PI*dp*dp/4;
+        Spor = L;//Math.PI*dp*dp/4;
         delta = Math.toRadians(76.5);
         L = 0.018;
-        Dzar = 0.023;
-        dzar = 0.011;
+        Dzar = 0.023;//0.023;
+        dzar = 0.011;//0.011;
         V0sc = 4*Math.pow(10, -6);
         ksi = 0.7;
         ftr = 0.095;
@@ -44,7 +44,7 @@ public class InitialData {
         k = 1.24;
         R = 361;
         Tp = 4000;
-        mzar = 0.0082;
+        mzar = 0.0082*3;//0.0082;
         tokrSr = 20;
         Tks0 = 2200;
         rsr = (0.005/2.0) + (0.01645/2.0);
@@ -60,7 +60,7 @@ public class InitialData {
         X0 = 0;
         X_sht0 = 0;
         velocity0 = 0;
-        eps = (Dzar - dzar)/4;
+        eps = (Dzar - dzar)/4.0;
         S0zar = (Math.PI*(Dzar+dzar)/2.0) * (Dzar-dzar+2.0*L);
         t = 20;
         K = B / (B - (t - 20));

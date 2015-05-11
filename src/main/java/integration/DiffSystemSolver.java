@@ -19,8 +19,10 @@ public class DiffSystemSolver {
         ResultIntegration resultIntegration = new ResultIntegration();  // объект для хранения результатов вычислений
         resultIntegration.addParametrIntegration();
         Set<String> nameValueIntegrationSet = initialСonditions.keySet();  // получение множества имен функций для которых необходимо провести вычисления
+        GeneralFunctions.instance().setRange(startingValueIntegration, finalValueIntegration);
         for (String temp : nameValueIntegrationSet ) { // выделяем необходимые ресурсы для данной задачи
             resultIntegration.addResult(temp);   // добавляем массив в объект хранения результатов, исходя из количества вычисляемых параметров
+            resultIntegration.addRangeOfTheFunctionsByName(temp, startingValueIntegration, finalValueIntegration); // добавляем в объект хранения результатов интервал вычисления результатова для конкретной функции
             valuesTemp.put(temp, new Double[4]);  // добавляем массив для промежуточных вычислений исходя из количества вычисляемых параметров
             resultIntegration.setValueByName(temp, initialСonditions.get(temp));  // добавляем в объект результатов вычисления для начальных значений
         }

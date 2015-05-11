@@ -1,5 +1,6 @@
 package plotter;
 
+import initialDataForTask.InitialData;
 import integration.ResultIntegration;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -29,12 +30,16 @@ public class Plotter {
     private static XYSeriesCollection xyDataset;
     private static StringBuilder nameGraphics = new StringBuilder();
     private static JFreeChart chart;
-    public static void plot(double x0, double xFinish, String nameGraphic, ResultIntegration resultIntegration, JFrame frame, boolean addToOld) {
+    private static double coefficientConversionUnitsOY = 1;
+    private static double coefficientConversionUnitsOX = 1;
+    private static InitialData initialData = new InitialData();
+    public static void plot(String nameGraphic, ResultIntegration resultIntegration, JFrame frame, boolean addToOld) {
         // метод для отображения соответствущего графика исходя из переданного значения nameGraphic
         XYSeries series = new XYSeries(nameGraphic);
-        double step = (xFinish - x0) / resultIntegration.getHashMapNameAndArraylist().get(nameGraphic).size();
+        double step = resultIntegration.getStepFunctionByName(nameGraphic);
+        double x0 = resultIntegration.getRangeStartByName(nameGraphic);
         for(double temp : resultIntegration.getHashMapNameAndArraylist().get(nameGraphic)){
-            series.add(x0, temp);
+            series.add(x0/coefficientConversionUnitsOX, temp/coefficientConversionUnitsOY);
             x0 += step;
         }
 
@@ -56,7 +61,7 @@ public class Plotter {
                             PlotOrientation.VERTICAL,
                             true, true, true);
         }
-        plotMarker(chart, resultIntegration);
+        //plotMarker(chart, resultIntegration);
         if (frame == null) {
             frame = new JFrame("Program for NPO");
             // Помещаем график на фрейм
@@ -80,20 +85,21 @@ public class Plotter {
         }
     }
 
-    public static void saveAllChart (double x0, double xFinish, ResultIntegration resultIntegration) {
+    public static void saveAllChart (ResultIntegration resultIntegration) {
         // метод для сохранения всех графиков
         for (String temp : resultIntegration.getHashMapNameAndArraylist().keySet()) {
             if (temp.equals("parameterIntegration")) continue;
-            saveChart(x0, xFinish, temp, resultIntegration, false);
+            saveChart(temp, resultIntegration, false);
         }
     }
 
-    public static void saveChart (double x0, double xFinish, String nameGraphic, ResultIntegration resultIntegration, boolean currentChart) {
+    public static void saveChart (String nameGraphic, ResultIntegration resultIntegration, boolean currentChart) {
         JFreeChart chartTemp;
         if (!currentChart) {
             // метод для сохранения соответствущего графика исходя из переданного значения nameGraphic
             XYSeries series = new XYSeries(nameGraphic);
-            double step = (xFinish - x0) / resultIntegration.getHashMapNameAndArraylist().get(nameGraphic).size();
+            double step = resultIntegration.getStepFunctionByName(nameGraphic);
+            double x0 = resultIntegration.getRangeStartByName(nameGraphic);
             for(double temp : resultIntegration.getHashMapNameAndArraylist().get(nameGraphic)){
                 series.add(x0, temp);
                 x0 += step;
@@ -123,6 +129,15 @@ public class Plotter {
             marker.setPaint(Color.black);
             marker.setLabel(temp); // see JavaDoc for labels, colors, strokes
             plot.addDomainMarker(marker);
+        }
+    }
+
+    private static void setUnitMeasure (String unitMeasure) {
+        switch (unitMeasure) {
+            case "degrees" :
+                coefficientConversionUnitsOY = (initialData.rsr*Math.tan(initialData.delta));
+                break;
+            default: coefficientConversionUnitsOY = 1;
         }
     }
 }
