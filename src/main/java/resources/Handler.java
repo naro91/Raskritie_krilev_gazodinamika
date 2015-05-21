@@ -30,7 +30,8 @@ public class Handler extends DefaultHandler {
 	}
  
 	public void endElement(String uri, String localName, String qName) throws SAXException {
-		element = null;
+        ReflectionHelper.setArrayField(object, element);
+        element = null;
 	}
  
 	public void characters(char ch[], int start, int length) throws SAXException {

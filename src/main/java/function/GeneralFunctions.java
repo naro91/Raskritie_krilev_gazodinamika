@@ -55,9 +55,9 @@ public class GeneralFunctions {
     }
 
     public void calculate(HashMap<String, Double> values) {//метод для расчета и сохранения всех параметоров на каждом шаге интегирования в resultIntegration
-        P_ks = p_ks(values)/(1013250.0/2.7);
+        P_ks = p_ks(values);
         V_sc = v_sc(values);
-        P_sc = p_sc(values)/(1013250.0/2.7);
+        P_sc = p_sc(values);
         U = U(values);
         S = S(values);
         resultIntegration.setValueByName("P_ks", P_ks);
@@ -68,11 +68,11 @@ public class GeneralFunctions {
     }
 
     private void initialization () {// расчет и сохранение начальных значений параметров определенных в GeneralFunctions в resultIntegretion
-        P_ks = ( ( initialData.mgg0 - initialData.mgsc0 ) * initialData.R * initialData.Tks0 ) / (initialData.Vks0*101325.0);
-        V_sc = initialData.V0sc + initialData.Spor * 0.0;
-        P_sc = (initialData.mgsc0  * initialData.R * initialData.Tks0) / (V_sc*101325.0);
+        P_ks = ( ( initialData.mgg0 - initialData.mgsc0 ) * initialData.R * initialData.Tks0 ) / (initialData.Vks0);
+        V_sc = initialData.V0sc;
+        P_sc = (initialData.mgsc0  * initialData.R * initialData.Tks0) / (V_sc);
         U = initialData.K * (0.00546 + 5.36* Math.pow(10, -8)*P_ks);
-        S = initialData.S0zar - 4 * Math.PI*(initialData.Dzar+initialData.dzar)*0.0;
+        S = initialData.S0zar;
         resultIntegration.setValueByName("P_ks", P_ks);
         resultIntegration.setValueByName("P_sc", P_sc);
         resultIntegration.setValueByName("V_sc", V_sc);

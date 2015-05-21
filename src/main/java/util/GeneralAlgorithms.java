@@ -34,7 +34,7 @@ public class GeneralAlgorithms {
         functionHashMap.put(Velocity.getName(), new Velocity());
 
         // initial conditions
-        // добавляем начальные условия в хэшмэп для передачи методу для решения дифференциальных уравнений
+        // добавляем начальные условия в хэшмэп для передачи методу решения дифференциальных уравнений
         initialConditions.put(Temperature.getName(), GeneralFunctions.getInitialData().Tks0);
         initialConditions.put(X_sht.getName(), GeneralFunctions.getInitialData().X_sht0);
         initialConditions.put(X.getName(), GeneralFunctions.getInitialData().X0);
@@ -42,7 +42,7 @@ public class GeneralAlgorithms {
         initialConditions.put(Massa_g.getName(), GeneralFunctions.getInitialData().mgg0);
         initialConditions.put(Vks.getName(), GeneralFunctions.getInitialData().Vks0);
         initialConditions.put(Velocity.getName(), GeneralFunctions.getInitialData().velocity0);
-
+        // получаем решение дифференциальных уравнений путем вызова метода integration
         resultIntegration = diffSystemSolver.integration(initialConditions, step, theBeginningOfTheInterval, endOfTheInterval, round, functionHashMap);
         startCalculatKinematics(resultIntegration);
         resultIntegration.addResultResultIntegration(GeneralFunctions.instance().getResultIntegration());

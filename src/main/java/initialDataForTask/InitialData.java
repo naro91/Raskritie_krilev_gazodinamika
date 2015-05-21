@@ -29,9 +29,9 @@ public class InitialData {
         m2 = 3.297;
         r1m = 0.062;
         r2m = 0.197;
-        msht = 0.197;
+        msht = 0.397;
         dp = 0.026;
-        Spor = L;//Math.PI*dp*dp/4;
+        Spor = 5.39/10000;//Math.PI*dp*dp/4;
         delta = Math.toRadians(76.5);
         L = 0.018;
         Dzar = 0.023;//0.023;
@@ -44,7 +44,7 @@ public class InitialData {
         k = 1.24;
         R = 361;
         Tp = 4000;
-        mzar = 0.0082*3;//0.0082;
+        mzar = 0.0082;//0.0082;
         tokrSr = 20;
         Tks0 = 2200;
         rsr = (0.005/2.0) + (0.01645/2.0);

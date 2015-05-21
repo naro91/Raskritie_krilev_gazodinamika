@@ -30,9 +30,9 @@ public class Plotter {
     private static XYSeriesCollection xyDataset;
     private static StringBuilder nameGraphics = new StringBuilder();
     private static JFreeChart chart;
+    private static InitialData initialData = new InitialData();
     private static double coefficientConversionUnitsOY = 1;
     private static double coefficientConversionUnitsOX = 1;
-    private static InitialData initialData = new InitialData();
     public static void plot(String nameGraphic, ResultIntegration resultIntegration, JFrame frame, boolean addToOld) {
         // метод для отображения соответствущего графика исходя из переданного значения nameGraphic
         XYSeries series = new XYSeries(nameGraphic);

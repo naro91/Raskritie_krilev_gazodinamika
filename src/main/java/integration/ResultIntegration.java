@@ -29,14 +29,14 @@ public class ResultIntegration {
 
     }
 
-    public void clearIndexAndArray() {
+    public void clearIndexAndArray() { // метод очистки данных
         for (String temp : hashMapNameAndArraylist.keySet()){
             hashMapNameAndArraylist.get(temp).clear();
             indexes.put(temp, 0);
         }
     }
 
-    public void addResult ( String name ) {
+    public void addResult ( String name ) {  // метод для выделения памяти 
         if (!hashMapNameAndArraylist.containsKey(name)){
             hashMapNameAndArraylist.put(name, new ArrayList<Double>());
             indexes.put(name, new Integer(0));
@@ -66,7 +66,7 @@ public class ResultIntegration {
     }
 
     public void printResultForName ( String name ) {
-        System.out.println(hashMapNameAndArraylist.get(name).toString());
+        System.out.println(name + hashMapNameAndArraylist.get(name).toString());
     }
 
     public void printFile(String filename) {
