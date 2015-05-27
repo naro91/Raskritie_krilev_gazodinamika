@@ -1,5 +1,6 @@
 package plotter;
 
+import gui.MainGUI;
 import initialDataForTask.InitialData;
 import integration.ResultIntegration;
 import org.jfree.chart.ChartFactory;
@@ -32,7 +33,7 @@ public class Plotter {
     private static JFreeChart chart;
     private static InitialData initialData = new InitialData();
 
-    public static void plot(String nameGraphic, ResultIntegration resultIntegration, JFrame frame, boolean addToOld, double coeffConverUnitsOY, double coeffConverUnitsOX) {
+    public static void plot(String nameGraphic, ResultIntegration resultIntegration, MainGUI mainGUI, boolean addToOld, double coeffConverUnitsOY, double coeffConverUnitsOX) {
         coeffConverUnitsOX = getCoefficientMultiplication(coeffConverUnitsOX);
         coeffConverUnitsOY = getCoefficientMultiplication(coeffConverUnitsOY);
         // метод для отображения соответствущего графика исходя из переданного значения nameGraphic
@@ -71,27 +72,28 @@ public class Plotter {
             plot.setRangeGridlinePaint(Color.black);
         }
         //plotMarker(chart, resultIntegration);
-        if (frame == null) {
-            frame = new JFrame("Program for NPO");
+        if (mainGUI.getFrame() == null) {
+            mainGUI.setFrame(new JFrame("Program for NPO"));
             ChartPanel graphic = new ChartPanel(chart);
             // Помещаем график на фрейм
-            frame.getContentPane().add(graphic);
-            frame.setSize(1000, 600);
-            frame.setLocationRelativeTo(null);
+            mainGUI.getFrame().getContentPane().add(graphic);
+            mainGUI.getFrame().setSize(1000, 600);
+            mainGUI.getFrame().setLocationRelativeTo(null);
             //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setVisible(true);
-            arrayListJFrame.add(frame);
+            mainGUI.getFrame().setVisible(true);
+            arrayListJFrame.add(MainGUI.getFrame());
         }else {
             ChartPanel graphic = new ChartPanel(chart);
             if (tempChartPanel != null) {
-                frame.remove(tempChartPanel);
+                mainGUI.getPanel().remove(tempChartPanel);
                 tempChartPanel = null;
             }
             tempChartPanel = graphic;
-            frame.add(graphic);
-            frame.setSize(1000, 600);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
+            graphic.setDomainZoomable(true);
+            mainGUI.getPanel().setLayout(new BorderLayout());
+            mainGUI.getPanel().add(graphic, BorderLayout.CENTER);
+            mainGUI.getFrame().pack();
+            mainGUI.getFrame().setVisible(true);
         }
     }
 
