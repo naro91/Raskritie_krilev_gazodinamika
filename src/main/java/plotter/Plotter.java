@@ -31,15 +31,16 @@ public class Plotter {
     private static StringBuilder nameGraphics = new StringBuilder();
     private static JFreeChart chart;
     private static InitialData initialData = new InitialData();
-    private static double coefficientConversionUnitsOY = 1;
-    private static double coefficientConversionUnitsOX = 1;
-    public static void plot(String nameGraphic, ResultIntegration resultIntegration, JFrame frame, boolean addToOld) {
+
+    public static void plot(String nameGraphic, ResultIntegration resultIntegration, JFrame frame, boolean addToOld, double coeffConverUnitsOY, double coeffConverUnitsOX) {
+        coeffConverUnitsOX = getCoefficientMultiplication(coeffConverUnitsOX);
+        coeffConverUnitsOY = getCoefficientMultiplication(coeffConverUnitsOY);
         // метод для отображения соответствущего графика исходя из переданного значения nameGraphic
         XYSeries series = new XYSeries(nameGraphic);
         double step = resultIntegration.getStepFunctionByName(nameGraphic);
         double x0 = resultIntegration.getRangeStartByName(nameGraphic);
         for(double temp : resultIntegration.getHashMapNameAndArraylist().get(nameGraphic)){
-            series.add(x0/coefficientConversionUnitsOX, temp/coefficientConversionUnitsOY);
+            series.add(x0 * coeffConverUnitsOX, temp * coeffConverUnitsOY);
             x0 += step;
         }
 
@@ -51,6 +52,10 @@ public class Plotter {
                             xyDataset,
                             PlotOrientation.VERTICAL,
                             true, true, true);
+            XYPlot plot = (XYPlot) chart.getPlot();
+            plot.setBackgroundPaint(Color.WHITE);
+            plot.setDomainGridlinePaint(Color.black);
+            plot.setRangeGridlinePaint(Color.black);
         } else {
             nameGraphics.delete(0, nameGraphics.length() == 0 ? 0 : nameGraphics.length() - 1);
             nameGraphics.append(nameGraphic).append(", ");
@@ -60,13 +65,18 @@ public class Plotter {
                             xyDataset,
                             PlotOrientation.VERTICAL,
                             true, true, true);
+            XYPlot plot = (XYPlot) chart.getPlot();
+            plot.setBackgroundPaint(Color.WHITE);
+            plot.setDomainGridlinePaint(Color.black);
+            plot.setRangeGridlinePaint(Color.black);
         }
         //plotMarker(chart, resultIntegration);
         if (frame == null) {
             frame = new JFrame("Program for NPO");
+            ChartPanel graphic = new ChartPanel(chart);
             // Помещаем график на фрейм
-            frame.getContentPane().add(new ChartPanel(chart));
-            frame.setSize(600, 400);
+            frame.getContentPane().add(graphic);
+            frame.setSize(1000, 600);
             frame.setLocationRelativeTo(null);
             //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
@@ -79,7 +89,7 @@ public class Plotter {
             }
             tempChartPanel = graphic;
             frame.add(graphic);
-            frame.pack();
+            frame.setSize(1000, 600);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         }
@@ -132,12 +142,9 @@ public class Plotter {
         }
     }
 
-    private static void setUnitMeasure (String unitMeasure) {
-        switch (unitMeasure) {
-            case "degrees" :
-                coefficientConversionUnitsOY = (initialData.rsr*Math.tan(initialData.delta));
-                break;
-            default: coefficientConversionUnitsOY = 1;
-        }
+    private static double getCoefficientMultiplication (double coefficient) {
+        if (coefficient < 0) {
+            return (1.0/Math.abs(coefficient));
+        } else return coefficient;
     }
 }

@@ -12,9 +12,8 @@ import java.util.HashMap;
  * Created by Abovyan Narek on 14.02.15.
  */
 public class Main {
-    public static void main (String args[]){
+    public static void main (String args[]){ // Главный метод программы
         GraphicInterface graphicInterface = new GraphicInterface();
         graphicInterface.begin();
-
     }
 }

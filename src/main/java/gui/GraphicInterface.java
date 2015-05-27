@@ -3,6 +3,8 @@ package gui;
 import function.GeneralFunctions;
 import plotter.Plotter;
 import util.GeneralAlgorithms;
+import util.MeasureSystem;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,15 +23,18 @@ import javax.swing.JFrame;
 
 public class GraphicInterface extends JFrame {
     private GeneralAlgorithms generalAlgorithms; // ссылка на объект который инкапсулирует в себе общий алгоритм задачи
+    private MeasureSystem measureSystem = new MeasureSystem(); // объект содержащий методы для получения коэффицента
+                                                                // перевода из одной системы единиц в другую
     private JLabel countLabel;   // текстовое поле для отображения информации
     private JButton startСalculating;  // кнопка для начала вычислений
     private JButton addChart;  // кнопка для добавления выбранного графика
     private JButton visableChart;  // кнопка для отображения выбранного графика
-    private JButton saveAllChart; // кнопка для сохранения всех графиков
+    private JButton saveAllChart, testButton1, testButton2; // кнопка для сохранения всех графиков
     private String selectesItem;//= "Temperature";
-    private JComboBox comboBox; //= new JComboBox(items);
+    private String selectesMeasureUnit;//= "единица измерения";
+    private JComboBox comboBox, measureSystemsComBox; //= new JComboBox(items);
     public GraphicInterface() {
-        super("Crow calculator");
+        super("ПРОГРАММА ДЛЯ РАСЧЕТА РАСКРЫТИЯ КРЫЛЬЕВ");
         generalAlgorithms = new GeneralAlgorithms(); // создание объекта
         setDefaultCloseOperation(EXIT_ON_CLOSE);  // устанавливаем действие при нажатии крестика
         /* Подготавливаем компоненты объекта  */
@@ -37,14 +42,22 @@ public class GraphicInterface extends JFrame {
         selectesItem = null;
      /* Подготавливаем временные компоненты  */
         JPanel buttonsPanel = new JPanel(new FlowLayout());
+        JPanel panel = new JPanel(new FlowLayout());
+
      /* Расставляем компоненты по местам  */
-        add(countLabel, BorderLayout.NORTH);
-        buttonsPanel.add(startСalculating);
+        //add(countLabel, BorderLayout.NORTH);
+        //buttonsPanel.setBackground(Color.GRAY);
         buttonsPanel.add(saveAllChart);
         buttonsPanel.add(addChart);
         buttonsPanel.add(visableChart);
         buttonsPanel.add(comboBox);
+        buttonsPanel.add(measureSystemsComBox);
+        //panel.setBackground(Color.GRAY);
+        panel.add(countLabel);
+        panel.add(startСalculating);
+        //panel.add(testButton2);
         add(buttonsPanel, BorderLayout.SOUTH);
+        add(panel, BorderLayout.NORTH);
         initListeners(); // иницируем слушателей событий формы
     }
 
@@ -52,11 +65,17 @@ public class GraphicInterface extends JFrame {
         startСalculating.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 generalAlgorithms.startCalculating();
-                comboBox.setModel(new DefaultComboBoxModel<String>(getItems()));
-                if (selectesItem != null) {
+                comboBox.setModel(new DefaultComboBoxModel<String>(getItems())); // устанавливаем список вычисленных параметров
+                if (selectesItem != null) { // если из списка выбран параметр то оставляем его
                     comboBox.setSelectedItem(selectesItem);
-                } else {
+                } else { // если не выбран параметр то получаем выбранный параметр из comBox и запоминаем значение
                     selectesItem = (String) comboBox.getSelectedItem();
+                }
+                measureSystemsComBox.setModel(new DefaultComboBoxModel<String>(measureSystem.getArrayMeasureUnitByName(selectesItem)));
+                if (selectesMeasureUnit != null) {
+                    measureSystemsComBox.setSelectedItem(selectesMeasureUnit);
+                } else {
+                    selectesMeasureUnit = (String) measureSystemsComBox.getSelectedItem();
                 }
                 countLabel.setText("Расчет завершен !!!");
             }
@@ -65,12 +84,23 @@ public class GraphicInterface extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JComboBox box = (JComboBox)e.getSource();
                 selectesItem = (String)box.getSelectedItem();
+                measureSystemsComBox.setModel(new DefaultComboBoxModel<String>(measureSystem.getArrayMeasureUnitByName(selectesItem)));
+                selectesMeasureUnit = (String) measureSystemsComBox.getSelectedItem();
+            }
+        });
+        measureSystemsComBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox box = (JComboBox)e.getSource();
+                selectesMeasureUnit = (String)box.getSelectedItem();
             }
         });
         addChart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (generalAlgorithms.getResultIntegration() != null) {
-                    Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(), GraphicInterface.this, true);
+                    double coeffX = measureSystem.getCoefficientConversionByName(selectesMeasureUnit);
+                    double coeffY = 1;
+                    Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(), GraphicInterface.this, true, coeffX, coeffY);
                 } else countLabel.setText("Необходимо сначала провести расчет !!!");
             }
         });
@@ -78,7 +108,9 @@ public class GraphicInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!(generalAlgorithms.getResultIntegration() == null)) {
-                    Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(), GraphicInterface.this, false);
+                    double coeffX = measureSystem.getCoefficientConversionByName(selectesMeasureUnit);
+                    double coeffY = 1;
+                    Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(), GraphicInterface.this, false, coeffX, coeffY);
                 } else countLabel.setText("Необходимо сначала провести расчет !!!");
             }
         });
@@ -101,7 +133,7 @@ public class GraphicInterface extends JFrame {
 
     public void begin() {
         GraphicInterface appFrame = new GraphicInterface();
-        //appFrame.setSize(900, 700);
+        //appFrame.setSize(1000, 600);
         appFrame.pack(); /* Эта команда подбирает оптимальный размер в зависимости от содержимого окна  */
         appFrame.setLocationRelativeTo(null);
         appFrame.setVisible(true);
@@ -119,6 +151,10 @@ public class GraphicInterface extends JFrame {
         comboBox = new JComboBox(getItems());
         comboBox.setFont(font);
         comboBox.setAlignmentX(LEFT_ALIGNMENT);
+        // список для выбора единицы измерения
+        measureSystemsComBox = new JComboBox(measureSystem.getArrayMeasureUnit());
+        measureSystemsComBox.setFont(font);
+        measureSystemsComBox.setAlignmentX(LEFT_ALIGNMENT);
     }
 
     private String[] getItems() {

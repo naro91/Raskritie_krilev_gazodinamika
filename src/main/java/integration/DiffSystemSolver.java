@@ -24,7 +24,7 @@ public class DiffSystemSolver {
             resultIntegration.addResult(temp);   // добавляем массив в объект хранения результатов, исходя из количества вычисляемых параметров
             resultIntegration.addRangeOfTheFunctionsByName(temp, startingValueIntegration, finalValueIntegration); // добавляем в объект хранения результатов интервал вычисления результатова для конкретной функции
             valuesTemp.put(temp, new Double[4]);  // добавляем массив для промежуточных вычислений исходя из количества вычисляемых параметров
-            resultIntegration.setValueByName(temp, initialСonditions.get(temp));  // добавляем в объект результатов вычисления для начальных значений
+            resultIntegration.setValueByName(temp, initialСonditions.get(temp));  // добавляем в объект результат вычисления для начальных значений
         }
         resultIntegration.setValueByName("parameterIntegration", startingValueIntegration);
 
@@ -34,19 +34,19 @@ public class DiffSystemSolver {
             }
 
             for ( String temp : nameValueIntegrationSet ) { // цикл для расчета промежуточных значений необходимых для проведения 2-го этапа вычислений
-                valuesForNextStep.put(temp , (initialСonditions.get(temp) + valuesTemp.get(temp)[0]/2) );
+                valuesForNextStep.put(temp , (initialСonditions.get(temp) + valuesTemp.get(temp)[0]/2.0) );
             }
 
             for ( String temp : nameValueIntegrationSet ) { // цикл для расчета 2-го этапа метода Рунге-Кутты для всех функций системы
-                valuesTemp.get(temp)[1] = step * functions.get(temp).calculate(x+step/2 , valuesForNextStep);
+                valuesTemp.get(temp)[1] = step * functions.get(temp).calculate(x+step/2.0 , valuesForNextStep);
             }
 
             for ( String temp : nameValueIntegrationSet ) { // цикл для расчета промежуточных значений необходимых для проведения 3-го этапа вычислений
-                valuesForNextStep.put(temp , (initialСonditions.get(temp) + valuesTemp.get(temp)[1]/2) );
+                valuesForNextStep.put(temp , (initialСonditions.get(temp) + valuesTemp.get(temp)[1]/2.0) );
             }
 
             for ( String temp : nameValueIntegrationSet ) { // цикл для расчета 3-го этапа метода Рунге-Кутты для всех функций системы
-                valuesTemp.get(temp)[2] = step * functions.get(temp).calculate(x+step/2 , valuesForNextStep);
+                valuesTemp.get(temp)[2] = step * functions.get(temp).calculate(x+step/2.0 , valuesForNextStep);
             }
 
             for ( String temp : nameValueIntegrationSet ) {  // цикл для расчета промежуточных значений необходимых для проведения 4-го этапа вычислений
@@ -59,7 +59,7 @@ public class DiffSystemSolver {
 
             for (String temp : nameValueIntegrationSet) { // вычмсление интеграла функции на соответствующем шаге
                 tempResult = resultIntegration.pullForNameArray(temp) +
-                        (valuesTemp.get(temp)[0] + 2*valuesTemp.get(temp)[1] + 2*valuesTemp.get(temp)[2] + valuesTemp.get(temp)[3])/6;
+                        (valuesTemp.get(temp)[0] + 2*valuesTemp.get(temp)[1] + 2*valuesTemp.get(temp)[2] + valuesTemp.get(temp)[3])/6.0;
                 resultIntegration.setValueByName(temp,tempResult);
                 initialСonditions.put(temp, tempResult);
             }

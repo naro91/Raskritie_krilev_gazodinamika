@@ -1,12 +1,13 @@
 package resources;
 
+import initialDataForTask.InitialData;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 
 public class Handler extends DefaultHandler {
-	private static String CLASSNAME = "class"; 	
+	private static String CLASSNAME = "class";
 	private String element = null; 
 	private Object object = null;
 	
@@ -43,6 +44,9 @@ public class Handler extends DefaultHandler {
 	}
 	
 	public Object getObject(){
+		if (object instanceof InitialData) {
+			((InitialData)object).initialOperation();
+		}
 		return object;
 	}
 }

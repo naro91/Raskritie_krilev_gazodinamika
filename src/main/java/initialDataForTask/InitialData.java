@@ -4,11 +4,13 @@ package initialDataForTask;
  * Created by Abovyan on 21.12.14.
  */
 public class InitialData {
+    private boolean indicatInitialOperation = true;  // индикатор фиксирующий вызов функции подготовки начальных значений и
+                                                     // перевода их в международную систему единиц
     public double J, m1, m2, r1m, r2m, msht, Spor, delta, L, Dzar, dzar, V0sc, ksi, ftr, B, g, k, R, Tp, mzar, tokrSr, rsr, dotvKr, Skr, Vzar,
             gama, mgsc0, mgg0, cp, cv, Vks0, X0, eps, S0zar, K, dp, Tks0, X_sht0, velocity0, t, r1, r2, r13, r23, r60, r4, r5, ro0, e, fi0, psi_r1,
             betta_c, alfa_c, psi_r2, angleChangeRadius, xO2, xO1, yO2, yO1;
 
-    public double[][] M_vn = {
+    public double[][] M_vn = { //
             {Math.toRadians(0), -4.71},
             {Math.toRadians(10), -58.17},
             {Math.toRadians(21), -77.50},
@@ -85,6 +87,39 @@ public class InitialData {
         ro0 = 0.021363191294607516;//(20.42) / 1000.0;
         angleChangeRadius = Math.toRadians(30);
 
+    }
+
+    private void toSIOfUnitsMvn() { // перевод в СИ значений массива содержащейго информацию об внешнем моменте
+        for (int i = 0; i < M_vn.length; i++) {
+            M_vn[i][0] = Math.toRadians(M_vn[i][0]);
+        }
+    }
+
+    private void toSIOfUnitsAll() { // перевод в СИ всех значений
+        toSIOfUnitsMvn();
+        delta = Math.toRadians(delta);
+        fi0 = Math.toRadians(fi0);
+        alfa_c = Math.toRadians(alfa_c);
+        betta_c = Math.toRadians(betta_c);
+        angleChangeRadius = Math.toRadians(angleChangeRadius);
+    }
+
+    public void initialOperation() {  // проведение инициализации значений которые расчитываются исходя из введенных
+        // данных и перевод всех значений в СИ
+        if (indicatInitialOperation) {
+            toSIOfUnitsAll();
+            Skr = Math.PI * dotvKr * dotvKr / 4.0;
+            Vzar = (Math.PI / 4.0) * ((Dzar * Dzar) - dzar * dzar) * L;
+            gama = mzar / Vzar;
+            cp = k * R / (k - 1);
+            cv = R / (k - 1);
+            eps = (Dzar - dzar) / 4.0;
+            S0zar = (Math.PI * (Dzar + dzar) / 2.0) * (Dzar - dzar + 2.0 * L);
+            r1 = Math.sqrt(xO1 * xO1 + yO1 * yO1);
+            r2 = Math.sqrt(xO2 * xO2 + yO2 * yO2);
+            psi_r1 = Math.atan(yO1 / xO1);
+            psi_r2 = Math.PI + Math.atan(yO2 / xO2);
+        }
     }
 
 }

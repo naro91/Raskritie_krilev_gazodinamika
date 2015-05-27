@@ -8,6 +8,9 @@ import java.util.HashMap;
 
 /**
  * Created by Abovyan Narek on 17.02.15.
+ * Данный класс содержит методы которые используются для вычислений в
+ * методах других классов. С целью исклчения повторения кода эти методы
+ * определены в данном классе, и доступны для использования в других классах
  */
 public class GeneralFunctions {
     private static InitialData initialData = new InitialData();  // объект содержащий исходные данные для решения задачи
