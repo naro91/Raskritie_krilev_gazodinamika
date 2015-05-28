@@ -65,10 +65,12 @@ public class MeasureSystem {
     }
 
     public String[] getArrayMeasureUnitByName(String name) {
-        return measureSystemsFromName.get(name);
+        String[] temp;
+        return (temp = measureSystemsFromName.get(name) ) != null ? temp : new String[]{"единица измерения"};
     }
 
     public double getCoefficientConversionByName(String name) {
-        return unitСonversionСoefficient.get(name);
+        Double temp;
+        return (temp = unitСonversionСoefficient.get(name)) != null ? temp : 0;
     }
 }

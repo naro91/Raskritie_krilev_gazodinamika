@@ -58,13 +58,13 @@ public class MainGUI {
             public void actionPerformed(ActionEvent e) {
                 generalAlgorithms.startCalculating();
                 comboBox.setModel(new DefaultComboBoxModel<String>(getItems())); // устанавливаем список вычисленных параметров
-                if (selectesItem != null) { // если из списка выбран параметр то оставляем его
+                if (selectesItem != null && !selectesItem.equals("Список результатов")) { // если из списка выбран параметр то оставляем его
                     comboBox.setSelectedItem(selectesItem);
                 } else { // если не выбран параметр то получаем выбранный параметр из comBox и запоминаем значение
                     selectesItem = (String) comboBox.getSelectedItem();
                 }
                 measureSystemsComBox.setModel(new DefaultComboBoxModel<String>(measureSystem.getArrayMeasureUnitByName(selectesItem)));
-                if (selectesMeasureUnit != null) {
+                if (selectesMeasureUnit != null && !selectesMeasureUnit.equals("единица измерения")) {
                     measureSystemsComBox.setSelectedItem(selectesMeasureUnit);
                 } else {
                     selectesMeasureUnit = (String) measureSystemsComBox.getSelectedItem();
@@ -89,11 +89,11 @@ public class MainGUI {
         });
         addChart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (picLabel != null) {
-                    graphicPanel.remove(picLabel);
-                    picLabel = null;
-                }
                 if (generalAlgorithms.getResultIntegration() != null) {
+                    if (picLabel != null) {
+                        graphicPanel.remove(picLabel);
+                        picLabel = null;
+                    }
                     double coeffX = measureSystem.getCoefficientConversionByName(selectesMeasureUnit);
                     double coeffY = 1;
                     Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(), MainGUI.this, true, coeffX, coeffY);
@@ -103,11 +103,11 @@ public class MainGUI {
         visableChart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (picLabel != null) {
-                    graphicPanel.remove(picLabel);
-                    picLabel = null;
-                }
                 if (!(generalAlgorithms.getResultIntegration() == null)) {
+                    if (picLabel != null) {
+                        graphicPanel.remove(picLabel);
+                        picLabel = null;
+                    }
                     double coeffX = measureSystem.getCoefficientConversionByName(selectesMeasureUnit);
                     double coeffY = 1;
                     Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(), MainGUI.this, false, coeffX, coeffY);
