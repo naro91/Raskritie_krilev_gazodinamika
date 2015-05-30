@@ -94,7 +94,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Расчитать для всех файлов"/>
+          <text value="Рассчитать для всех файлов"/>
           <verticalAlignment value="1"/>
         </properties>
       </component>
