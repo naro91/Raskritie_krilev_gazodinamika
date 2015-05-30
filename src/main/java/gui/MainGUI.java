@@ -79,7 +79,7 @@ public class MainGUI {
                     selectesMeasureUnit = (String) measureSystemsComBox.getSelectedItem();
                 }
                 countLabel.setText("Расчет завершен !!!");
-                startСalculating.setBackground(Color.GRAY);
+                startСalculating.setBackground(Color.GREEN);
             }
         });
         comboBox.addActionListener(new ActionListener() {
