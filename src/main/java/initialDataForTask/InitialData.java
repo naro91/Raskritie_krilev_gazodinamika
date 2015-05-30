@@ -7,7 +7,7 @@ public class InitialData {
     private boolean indicatInitialOperation = true;  // индикатор фиксирующий вызов функции подготовки начальных значений и
                                                      // перевода их в международную систему единиц
     public double J, m1, m2, r1m, r2m, msht, Spor, delta, L, Dzar, dzar, V0sc, ksi, ftr, B, g, k, R, Tp, mzar, tokrSr, rsr, dotvKr, Skr, Vzar,
-            gama, mgsc0, mgg0, cp, cv, Vks0, X0, eps, S0zar, K, dp, Tks0, X_sht0, velocity0, t, r1, r2, r13, r23, r60, r4, r5, ro0, e, fi0, psi_r1,
+            gama, mgsc0, mgg0, cp, cv, Vks0, X0, eps, S0zar, K, dp, Tks0, X_sht0, velocity0, p_sc0, p_ks0, t, r1, r2, r13, r23, r60, r4, r5, ro0, e, fi0, psi_r1,
             betta_c, alfa_c, psi_r2, angleChangeRadius, xO2, xO1, yO2, yO1;
 
     public double[][] M_vn = { //
@@ -33,7 +33,7 @@ public class InitialData {
         r2m = 0.197;
         msht = 0.397;
         dp = 0.026;
-        Spor = 5.39/10000;//Math.PI*dp*dp/4;
+        Spor = 5.31/10000;//Math.PI*dp*dp/4;
         delta = Math.toRadians(76.5);
         L = 0.018;
         Dzar = 0.023;//0.023;
@@ -57,15 +57,17 @@ public class InitialData {
         cp = k*R/(k-1);
         cv = R/(k-1);
         Vks0 = (52.0/1000000.0);
-        mgsc0 = 40*Math.pow(10, 5)*V0sc/(R*Tks0);
-        mgg0 = mgsc0 + 40*Math.pow(10, 5)*Vks0/(R*Tks0);
+        p_sc0 = 40*Math.pow(10, 5);
+        p_ks0 = 40*Math.pow(10, 5);
+        mgsc0 = p_sc0*V0sc/(R*Tks0);
+        mgg0 = mgsc0 + p_ks0*Vks0/(R*Tks0);
         X0 = 0;
         X_sht0 = 0;
         velocity0 = 0;
         eps = (Dzar - dzar)/4.0;
         S0zar = (Math.PI*(Dzar+dzar)/2.0) * (Dzar-dzar+2.0*L);
-        t = 20;
-        K = B / (B - (t - 20));
+//        t = 20;
+        K = B / (B - (t - tokrSr));
         //-------Данные для расчета кинематики-----------------
         xO1 = 7.28 / 1000.0;
         yO1 = -4.47 / 1000.0;
@@ -114,6 +116,9 @@ public class InitialData {
             cp = k * R / (k - 1);
             cv = R / (k - 1);
             eps = (Dzar - dzar) / 4.0;
+            K = B / (B - (t - tokrSr));
+            mgsc0 = p_sc0*V0sc/(R*Tks0);
+            mgg0 = mgsc0 + p_ks0*Vks0/(R*Tks0);
             S0zar = (Math.PI * (Dzar + dzar) / 2.0) * (Dzar - dzar + 2.0 * L);
             r1 = Math.sqrt(xO1 * xO1 + yO1 * yO1);
             r2 = Math.sqrt(xO2 * xO2 + yO2 * yO2);

@@ -31,7 +31,7 @@ public class Plotter {
     private static XYSeriesCollection xyDataset;
     private static StringBuilder nameGraphics = new StringBuilder();
     private static JFreeChart chart;
-    private static InitialData initialData = new InitialData();
+
 
     public static void plot(String nameGraphic, ResultIntegration resultIntegration, MainGUI mainGUI, boolean addToOld, double coeffConverUnitsOY, double coeffConverUnitsOX) {
         coeffConverUnitsOX = getCoefficientMultiplication(coeffConverUnitsOX);

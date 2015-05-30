@@ -2,8 +2,7 @@ package resources;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Stack;
+
 
 public class ReflectionHelper {
     private static ArrayList<Double[]> tempArray = new ArrayList<>();
@@ -71,7 +70,8 @@ public class ReflectionHelper {
             try {
                 Field field = object.getClass().getDeclaredField(fieldName);
                 field.setAccessible(true);
-                field.set(object, arrayListToArray());
+                double[][] temp = arrayListToArray();
+                field.set(object, temp);
                 field.setAccessible(false);
                 indicateArray = false;
             } catch (Exception e) {

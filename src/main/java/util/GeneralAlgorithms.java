@@ -6,6 +6,7 @@ import integration.DiffSystemSolver;
 import integration.ResultIntegration;
 import resources.ResourceFactory;
 
+import java.io.File;
 import java.util.HashMap;
 
 /**
@@ -16,13 +17,14 @@ public class GeneralAlgorithms {
     private DiffSystemSolver diffSystemSolver = new DiffSystemSolver();
     private HashMap<String, Double> initialConditions = new HashMap<String, Double>();
     private HashMap<String, interfaceFunction> functionHashMap = new HashMap<String, interfaceFunction>();
-    Kinematic kinematic = new Kinematic();
+    private Kinematic kinematic = new Kinematic();
     private ResultIntegration resultIntegration;
+    private GeneralFunctions generalFunctions = GeneralFunctions.instance();
     public static double step = 0.00001, theBeginningOfTheInterval = 0, endOfTheInterval = 0.03;
     public static int round = 5;
 
     public void startCalculating () {
-        GeneralFunctions.instance().getResultIntegration().clearIndexAndArray();
+        generalFunctions.getResultIntegration().clearIndexAndArray();
         // system equation
         // добавляем уравнения в хэшмэп для передачи в метод решения дифф. ур.
         functionHashMap.put(Temperature.getName(), new Temperature());
@@ -53,6 +55,25 @@ public class GeneralAlgorithms {
     public void startCalculatKinematics (ResultIntegration resultIntegration) {
         kinematic.calculate(resultIntegration);
         //kinematic.calculateSplit(resultIntegration);
+    }
+
+    public void enterInitialDataFromFile(String path){
+        generalFunctions.enterInitialDataFromFile(path);
+    }
+
+    public String[] getFilesNamesOfDirectory(String path) {
+        File folder = new File(path);
+        File[] listOfFiles = folder.listFiles();
+        String[] filesNames = new String[listOfFiles.length - 1];
+        for (int i = 1; i < listOfFiles.length; i++) {
+            filesNames[i - 1] = listOfFiles[i].getName();
+//            if (listOfFiles[i].isFile()) {
+//                System.out.println("File " + listOfFiles[i].getName());
+//            } else if (listOfFiles[i].isDirectory()) {
+//                System.out.println("Directory " + listOfFiles[i].getName());
+//            }
+        }
+        return filesNames;
     }
 
     public ResultIntegration getResultIntegration( ) {

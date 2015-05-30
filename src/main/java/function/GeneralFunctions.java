@@ -14,20 +14,15 @@ import java.util.HashMap;
  */
 public class GeneralFunctions {
     private static InitialData initialData = new InitialData();  // объект содержащий исходные данные для решения задачи
-    private ResultIntegration resultIntegration = new ResultIntegration();  // объект предоставляющий возможность структурированного хранения результатов вычислений
+    private ResultIntegration resultIntegration;  // объект предоставляющий возможность структурированного хранения результатов вычислений
     private static GeneralFunctions generalFunctions = null;  // для реализации патерна Singleton
     private volatile double P_ks, P_sc, V_sc, U, S;  // вспомогательные переменные
     private GeneralFunctions() {
-        resultIntegration.addResult("P_ks"); // добавление параметров необходимых для сохранения в resultIntegration
-        resultIntegration.addResult("P_sc");
-        resultIntegration.addResult("V_sc");
-        resultIntegration.addResult("U");
-        resultIntegration.addResult("S");
         initialization();
-        InitialData initialData1 = ResourceFactory.instance().getResource("./initialData/initialData.xml");
-        System.out.println(initialData1.J);
     }
-    public static GeneralFunctions instance() { // для реализации патерна Singleton
+
+    // для реализации патерна Singleton
+    public static GeneralFunctions instance() {
         if (generalFunctions == null) {
             return generalFunctions = new GeneralFunctions();
         } else return generalFunctions;
@@ -57,7 +52,8 @@ public class GeneralFunctions {
         } else return initialData.S0zar - 4*Math.PI*(initialData.Dzar+initialData.dzar)*values.get("X");
     }
 
-    public void calculate(HashMap<String, Double> values) {//метод для расчета и сохранения всех параметоров на каждом шаге интегирования в resultIntegration
+    //метод для расчета и сохранения всех параметоров на каждом шаге интегирования в resultIntegration
+    public void calculate(HashMap<String, Double> values) {
         P_ks = p_ks(values);
         V_sc = v_sc(values);
         P_sc = p_sc(values);
@@ -70,12 +66,23 @@ public class GeneralFunctions {
         resultIntegration.setValueByName("S", S);
     }
 
-    private void initialization () {// расчет и сохранение начальных значений параметров определенных в GeneralFunctions в resultIntegretion
+    // расчет и сохранение начальных значений параметров определенных в GeneralFunctions в resultIntegretion
+    private void initialization () {
+        resultIntegration = new ResultIntegration();
+
+        // добавление параметров необходимых для сохранения в resultIntegration
+        resultIntegration.addResult("P_ks");
+        resultIntegration.addResult("P_sc");
+        resultIntegration.addResult("V_sc");
+        resultIntegration.addResult("U");
+        resultIntegration.addResult("S");
+
         P_ks = ( ( initialData.mgg0 - initialData.mgsc0 ) * initialData.R * initialData.Tks0 ) / (initialData.Vks0);
         V_sc = initialData.V0sc;
         P_sc = (initialData.mgsc0  * initialData.R * initialData.Tks0) / (V_sc);
         U = initialData.K * (0.00546 + 5.36* Math.pow(10, -8)*P_ks);
         S = initialData.S0zar;
+
         resultIntegration.setValueByName("P_ks", P_ks);
         resultIntegration.setValueByName("P_sc", P_sc);
         resultIntegration.setValueByName("V_sc", V_sc);
@@ -83,12 +90,20 @@ public class GeneralFunctions {
         resultIntegration.setValueByName("S", S);
     }
 
+    // добавление интервалов вычислений для функций
     public void setRange(double startRange, double finishRange) {
-        resultIntegration.addRangeOfTheFunctionsByName("P_ks", startRange, finishRange); // добавление интервалов вычислений для функций
+        resultIntegration.addRangeOfTheFunctionsByName("P_ks", startRange, finishRange);
         resultIntegration.addRangeOfTheFunctionsByName("P_sc", startRange, finishRange);
         resultIntegration.addRangeOfTheFunctionsByName("V_sc", startRange, finishRange);
         resultIntegration.addRangeOfTheFunctionsByName("U", startRange, finishRange);
         resultIntegration.addRangeOfTheFunctionsByName("S", startRange, finishRange);
+    }
+
+    // считывание начальных данных из xml файла по заданному пути path (например path = "./initialData/initialData.xml")
+    public void enterInitialDataFromFile(String path){
+        initialData = ResourceFactory.instance().getResource(path);
+        initialization();
+        //System.out.println(initialData1.J);
     }
 
     public ResultIntegration getResultIntegration() {

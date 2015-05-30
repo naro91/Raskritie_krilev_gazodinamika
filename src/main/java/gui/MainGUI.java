@@ -22,6 +22,7 @@ public class MainGUI {
     private GeneralAlgorithms generalAlgorithms; // ссылка на объект который инкапсулирует в себе общий алгоритм задачи
     private MeasureSystem measureSystem = new MeasureSystem(); // объект содержащий методы для получения коэффицента
     // перевода из одной системы единиц в другую
+    private static final String pathInitialFiles = "./initialData/";
     private static JFrame frame;
     private JButton saveAllChart;
     private JButton visableChart;
@@ -29,27 +30,35 @@ public class MainGUI {
     private JComboBox comboBox;
     private JComboBox measureSystemsComBox;
     private JButton startСalculating;
-    private JComboBox comboBox3;
+    private JComboBox initialFilesBox;
     private JLabel countLabel;
     private JPanel graphicPanel;
     private JPanel panel;
-    private JCheckBox checkBox1;
+    private JCheckBox calculateForAllFiles;
+    private JButton updateFilesList;
     private JLabel picLabel;
     private String selectesItem;//= "Temperature";
     private String selectesMeasureUnit;//= "единица измерения";
+    private String selectesInitialFile;
 
     public MainGUI () throws IOException {
         generalAlgorithms = new GeneralAlgorithms(); // создание объекта
         comboBox.setModel(new DefaultComboBoxModel<String>(getItems()));
         measureSystemsComBox.setModel(new DefaultComboBoxModel<String>(measureSystem.getArrayMeasureUnit()));
+        initialFilesBox.setModel(new DefaultComboBoxModel<String>(generalAlgorithms.getFilesNamesOfDirectory(pathInitialFiles)));
+        startСalculating.setBackground(Color.red);
+        startСalculating.setOpaque(true);
+        selectesInitialFile = (String) initialFilesBox.getSelectedItem();
+        if (selectesInitialFile != null) generalAlgorithms.enterInitialDataFromFile(pathInitialFiles.concat(selectesInitialFile));
         BufferedImage myPicture = ImageIO.read(new File("./image/image.jpg"));
         BufferedImage resizedImage = resize(myPicture,600,400);
         picLabel = new JLabel(new ImageIcon(resizedImage));
         graphicPanel.setLayout(new BorderLayout());
         graphicPanel.add(picLabel, BorderLayout.CENTER);
         /* Подготавливаем компоненты объекта  */
-        selectesItem = null;
-        selectesMeasureUnit = null;
+//        selectesItem = null;
+//        selectesMeasureUnit = null;
+//        selectesInitialFile
         initListeners(); // иницируем слушателей событий формы
     }
 
@@ -70,6 +79,7 @@ public class MainGUI {
                     selectesMeasureUnit = (String) measureSystemsComBox.getSelectedItem();
                 }
                 countLabel.setText("Расчет завершен !!!");
+                startСalculating.setBackground(Color.GRAY);
             }
         });
         comboBox.addActionListener(new ActionListener() {
@@ -85,6 +95,18 @@ public class MainGUI {
             public void actionPerformed(ActionEvent e) {
                 JComboBox box = (JComboBox)e.getSource();
                 selectesMeasureUnit = (String)box.getSelectedItem();
+            }
+        });
+
+        initialFilesBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox box = (JComboBox)e.getSource();
+                if ( !selectesInitialFile.equals((String)box.getSelectedItem()) ) {
+                    selectesInitialFile = (String) box.getSelectedItem();
+                    generalAlgorithms.enterInitialDataFromFile(pathInitialFiles.concat(selectesInitialFile));
+                    startСalculating.setBackground(Color.red);
+                }
             }
         });
         addChart.addActionListener(new ActionListener() {
@@ -129,6 +151,14 @@ public class MainGUI {
                 } else countLabel.setText("Необходимо сначала провести расчет !!!");
             }
         });
+
+        updateFilesList.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initialFilesBox.setModel(new DefaultComboBoxModel<String>(generalAlgorithms.getFilesNamesOfDirectory(pathInitialFiles)));
+                selectesInitialFile = (String) initialFilesBox.getSelectedItem();
+            }
+        });
     }
 
     public static void begin() throws IOException {
@@ -160,6 +190,7 @@ public class MainGUI {
         MainGUI.frame = frame;
     }
 
+    // метод для изменения масштаба изображения
     public static BufferedImage resize(BufferedImage image, int width, int height) {
         BufferedImage bi = new BufferedImage(width, height, BufferedImage.TRANSLUCENT);
         Graphics2D g2d = (Graphics2D) bi.createGraphics();
