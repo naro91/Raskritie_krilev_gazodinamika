@@ -34,9 +34,9 @@ public class Velocity implements interfaceFunction {
 
         double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = generalFunctions.p_sc(values);
         //System.out.println("fi = " + Math.toDegrees(fi(values)));
-        double K = A(values, (Mvn + Mves)/initialData.rsr);
-        double result = ( Psc*initialData.Spor + ( (Mvn + Mves)/initialData.rsr ) * K ) /
-                (initialData.msht + (initialData.J ) / (Math.pow(initialData.rsr, 2)*Math.tan(initialData.delta)));
+        double K = A(values, (Mvn + Mves)/initialData.r_vint);
+        double result = ( Psc*initialData.Spor + ( (Mvn + Mves)/initialData.r_vint ) * K ) /
+                (initialData.msht + (initialData.J ) / (Math.pow(initialData.r_vint, 2)*Math.tan(initialData.delta)));
         return result;
     }
 
@@ -57,7 +57,7 @@ public class Velocity implements interfaceFunction {
 
     // метод возвращает угол поворота корневой панели в зависимости от перемещения штока
     private double fi(HashMap<String, Double> values) {
-        return values.get("X_sht")/(initialData.rsr*Math.tan(initialData.delta));
+        return values.get("X_sht")/(initialData.r_vint*Math.tan(initialData.delta));
     }
 
     // метод провести линейную интерполяцию по заданным табличным значениям

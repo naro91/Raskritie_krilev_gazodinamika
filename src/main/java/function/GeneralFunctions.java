@@ -64,7 +64,7 @@ public class GeneralFunctions {
     }
 
     public double fi(HashMap<String, Double> values) {
-        return values.get("X_sht")/(initialData.rsr*Math.tan(initialData.delta));
+        return values.get("X_sht")/(initialData.r_vint*Math.tan(initialData.delta));
     }
 
     //метод для расчета и сохранения всех параметров на каждом шаге интегирования в resultIntegration

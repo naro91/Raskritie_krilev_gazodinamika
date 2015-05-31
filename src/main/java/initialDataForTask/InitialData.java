@@ -6,7 +6,7 @@ package initialDataForTask;
 public class InitialData {
     private boolean indicatInitialOperation = true;  // индикатор фиксирующий вызов функции подготовки начальных значений и
                                                      // перевода их в международную систему единиц
-    public double J, m1, m2, r1m, r2m, msht, Spor, delta, L, Dzar, dzar, V0sc, ksi, ftr, B, g, k, R, Tp, mzar, tokrSr, rsr, dotvKr, Skr, Vzar,
+    public double J, m1, m2, r1m, r2m, msht, Spor, delta, L, Dzar, dzar, V0sc, ksi, ftr, B, g, k, R, Tp, mzar, tokrSr, rsr, r_vint, dotvKr, Skr, Vzar,
             gama, mgsc0, mgg0, cp, cv, Vks0, X0, eps, S0zar, K, dp, Tks0, X_sht0, velocity0, p_sc0, p_ks0, t, r1, r2, r13, r23, r60, r4, r5, ro0, e, fi0, psi_r1,
             betta_c, alfa_c, psi_r2, angleChangeRadius, xO2, xO1, yO2, yO1;
 
@@ -50,6 +50,7 @@ public class InitialData {
         tokrSr = 20;
         Tks0 = 2200;
         rsr = (0.005/2.0) + (0.01645/2.0);
+        r_vint = 0.010316625;
         dotvKr = 0.002;
         Skr = Math.PI * dotvKr * dotvKr/4.0;
         Vzar = (Math.PI/4.0)*((Dzar*Dzar)-dzar*dzar)*L;

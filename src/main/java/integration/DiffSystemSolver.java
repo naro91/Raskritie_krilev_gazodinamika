@@ -19,16 +19,16 @@ public class DiffSystemSolver {
         ResultIntegration resultIntegration = new ResultIntegration();  // объект для хранения результатов вычислений
         resultIntegration.addParametrIntegration();
         Set<String> nameValueIntegrationSet = initialСonditions.keySet();  // получение множества имен функций для которых необходимо произвести вычисления
-        GeneralFunctions.instance().setRange(startingValueIntegration, finalValueIntegration);
+
         for (String temp : nameValueIntegrationSet ) { // выделяем необходимые ресурсы для данной задачи
             resultIntegration.addResult(temp);   // добавляем массив в объект хранения результатов, исходя из количества вычисляемых параметров
-            resultIntegration.addRangeOfTheFunctionsByName(temp, startingValueIntegration, finalValueIntegration); // добавляем в объект хранения результатов интервал вычисления результатова для конкретной функции
+            //resultIntegration.addRangeOfTheFunctionsByName(temp, startingValueIntegration, finalValueIntegration); // добавляем в объект хранения результатов интервал вычисления результатова для конкретной функции
             valuesTemp.put(temp, new Double[4]);  // добавляем массив для промежуточных вычислений исходя из количества вычисляемых параметров
             resultIntegration.setValueByName(temp, initialСonditions.get(temp));  // добавляем в объект результат вычисления для начальных значений
         }
         resultIntegration.setValueByName("parameterIntegration", startingValueIntegration);
 
-        for (; r( x , digitRounding ) < finalValueIntegration; x += step ) {  // главный цикл вычисления. Условие выхода - достижение конца интервала вычисления
+        for (; r( initialСonditions.get("X_sht") , digitRounding ) < finalValueIntegration; x += step ) {  // главный цикл вычисления. Условие выхода - достижение конца интервала вычисления
             for ( String temp : nameValueIntegrationSet ) {  // цикл для расчета 1-го этапа метода Рунге-Кутты для всех функций системы
                 valuesTemp.get(temp)[0] = step * functions.get(temp).calculate(x , initialСonditions);
             }
@@ -68,6 +68,10 @@ public class DiffSystemSolver {
 
         }
 
+        for (String temp : nameValueIntegrationSet ) { // выделяем необходимые ресурсы для данной задачи
+            resultIntegration.addRangeOfTheFunctionsByName(temp, startingValueIntegration, x); // добавляем в объект хранения результатов интервал вычисления результатова для конкретной функции
+        }
+        GeneralFunctions.instance().setRange(startingValueIntegration, x);
         return resultIntegration;
     }
 
