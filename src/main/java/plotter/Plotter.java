@@ -12,6 +12,8 @@ import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import util.MeasureSystem;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileOutputStream;
@@ -97,23 +99,28 @@ public class Plotter {
         }
     }
 
-    public static void saveAllChart (ResultIntegration resultIntegration) {
+    public static void saveAllChart (ResultIntegration resultIntegration, MeasureSystem measureSystem) {
         // метод для сохранения всех графиков
         for (String temp : resultIntegration.getHashMapNameAndArraylist().keySet()) {
             if (temp.equals("parameterIntegration")) continue;
-            saveChart(temp, resultIntegration, false);
+            saveChart(temp, resultIntegration, false, measureSystem);
         }
     }
 
-    public static void saveChart (String nameGraphic, ResultIntegration resultIntegration, boolean currentChart) {
+    public static void saveChart (String nameGraphic, ResultIntegration resultIntegration, boolean currentChart, MeasureSystem measureSystem) {
         JFreeChart chartTemp;
         if (!currentChart) {
             // метод для сохранения соответствующего графика исходя из переданного значения nameGraphic
+            double coeffConverUnitsOY = measureSystem.getCoefficientConversionByName(measureSystem.getArrayMeasureUnitByName(nameGraphic)[0]);
+            double coeffConverUnitsOX = 1;
+            coeffConverUnitsOX = getCoefficientMultiplication(coeffConverUnitsOX);
+            coeffConverUnitsOY = getCoefficientMultiplication(coeffConverUnitsOY);
+
             XYSeries series = new XYSeries(nameGraphic);
             double step = resultIntegration.getStepFunctionByName(nameGraphic);
             double x0 = resultIntegration.getRangeStartByName(nameGraphic);
             for(double temp : resultIntegration.getHashMapNameAndArraylist().get(nameGraphic)){
-                series.add(x0, temp);
+                series.add(x0*coeffConverUnitsOX, temp*coeffConverUnitsOY);
                 x0 += step;
             }
             XYSeriesCollection xyDatasetTemp = new XYSeriesCollection(series);
@@ -125,9 +132,13 @@ public class Plotter {
         } else chartTemp = chart;
 
         try {
+            XYPlot plot = (XYPlot) chartTemp.getPlot();
+            plot.setBackgroundPaint(Color.WHITE);
+            plot.setDomainGridlinePaint(Color.black);
+            plot.setRangeGridlinePaint(Color.black);
             // сохранение в файл
             OutputStream stream = new FileOutputStream("./graphicsImage/".concat(nameGraphic.concat(".png")));
-            ChartUtilities.writeChartAsPNG(stream, chartTemp, 700, 500);
+            ChartUtilities.writeChartAsPNG(stream, chartTemp, 800, 500);
         } catch (IOException e) {
             System.err.println("Failed to render chart as png: " + e.getMessage());
             e.printStackTrace();

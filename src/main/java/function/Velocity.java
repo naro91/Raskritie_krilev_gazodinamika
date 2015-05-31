@@ -35,9 +35,9 @@ public class Velocity implements interfaceFunction {
         double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = generalFunctions.p_sc(values);
         //System.out.println("fi = " + Math.toDegrees(fi(values)));
         double K = A(values, (Mvn + Mves)/initialData.rsr);
-
-        return ( Psc*initialData.Spor+ ( (Mvn + Mves)/initialData.rsr ) * K ) /
+        double result = ( Psc*initialData.Spor + ( (Mvn + Mves)/initialData.rsr ) * K ) /
                 (initialData.msht + (initialData.J ) / (Math.pow(initialData.rsr, 2)*Math.tan(initialData.delta)));
+        return result;
     }
 
     //метод возвращает коэффициент для расчета силы в зависимости от момента на винтовой передаче

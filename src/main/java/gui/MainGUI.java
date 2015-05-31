@@ -116,9 +116,9 @@ public class MainGUI {
                         graphicPanel.remove(picLabel);
                         picLabel = null;
                     }
-                    double coeffX = measureSystem.getCoefficientConversionByName(selectesMeasureUnit);
-                    double coeffY = 1;
-                    Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(), MainGUI.this, true, coeffX, coeffY);
+                    double coeffY = measureSystem.getCoefficientConversionByName(selectesMeasureUnit);
+                    double coeffX = 1;
+                    Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(), MainGUI.this, true, coeffY, coeffX);
                 } else countLabel.setText("Необходимо сначала провести расчет !!!");
             }
         });
@@ -130,9 +130,9 @@ public class MainGUI {
                         graphicPanel.remove(picLabel);
                         picLabel = null;
                     }
-                    double coeffX = measureSystem.getCoefficientConversionByName(selectesMeasureUnit);
-                    double coeffY = 1;
-                    Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(), MainGUI.this, false, coeffX, coeffY);
+                    double coeffY = measureSystem.getCoefficientConversionByName(selectesMeasureUnit);
+                    double coeffX = 1;
+                    Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(), MainGUI.this, false, coeffY, coeffX);
                 } else countLabel.setText("Необходимо сначала провести расчет !!!");
             }
         });
@@ -143,7 +143,7 @@ public class MainGUI {
                         @Override
                         public void run() {
                             countLabel.setText("Идет процесс сохранения графиков !!!");
-                            Plotter.saveAllChart(generalAlgorithms.getResultIntegration());
+                            Plotter.saveAllChart(generalAlgorithms.getResultIntegration(), measureSystem);
                             countLabel.setText("Все графики сохранены с расширением png в директории graphicsImage !!!");
                         }
                     });

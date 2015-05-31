@@ -120,7 +120,7 @@ public class InitialData {
             cp = k * R / (k - 1);
             cv = R / (k - 1);
             eps = (Dzar - dzar) / 4.0;
-            K = B / (B - (t - tokrSr));
+            K = B * 0.01/ (B - (t - tokrSr));
             mgsc0 = p_sc0*V0sc/(R*Tks0);
             mgg0 = mgsc0 + p_ks0*Vks0/(R*Tks0);
             S0zar = (Math.PI * (Dzar + dzar) / 2.0) * (Dzar - dzar + 2.0 * L);

@@ -20,7 +20,7 @@ public class GeneralAlgorithms {
     private Kinematic kinematic = new Kinematic();
     private ResultIntegration resultIntegration;
     private GeneralFunctions generalFunctions = GeneralFunctions.instance();
-    public static double step = 0.00001, theBeginningOfTheInterval = 0, endOfTheInterval = 0.03;
+    public static double step = 0.00001, theBeginningOfTheInterval = 0, endOfTheInterval = 0.3;
     public static int round = 5;
 
     public void startCalculating () {

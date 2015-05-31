@@ -130,7 +130,7 @@ public class GraphicInterface extends JFrame {
                         @Override
                         public void run() {
                             countLabel.setText("Идет процесс сохранения графиков !!!");
-                            Plotter.saveAllChart(generalAlgorithms.getResultIntegration());
+                            Plotter.saveAllChart(generalAlgorithms.getResultIntegration(), measureSystem);
                             countLabel.setText("Все графики сохранены с расширением png в директории graphicsImage !!!");
                         }
                     });
