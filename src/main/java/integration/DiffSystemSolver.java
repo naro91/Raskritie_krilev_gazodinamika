@@ -15,10 +15,10 @@ public class DiffSystemSolver {
 
         double x = startingValueIntegration, tempResult = 0;  // переменная по которому производится вычисление и переменная для временного хранения результата вычисления
         HashMap<String, Double[]> valuesTemp = new HashMap<String, Double[]>(); // HashMap для хранения значений имя функции - массив для промежуточных вычислений для метода Рунге-Кутты 4-го порядка
-        HashMap<String, Double> valuesForNextStep = new HashMap<String, Double>(); // HashMap для хранеия значений имя функции - переменные для вычисления следующего промежуточного шага
+        HashMap<String, Double> valuesForNextStep = new HashMap<String, Double>(); // HashMap для хранения значений имя функции - переменные для вычисления следующего промежуточного шага
         ResultIntegration resultIntegration = new ResultIntegration();  // объект для хранения результатов вычислений
         resultIntegration.addParametrIntegration();
-        Set<String> nameValueIntegrationSet = initialСonditions.keySet();  // получение множества имен функций для которых необходимо провести вычисления
+        Set<String> nameValueIntegrationSet = initialСonditions.keySet();  // получение множества имен функций для которых необходимо произвести вычисления
         GeneralFunctions.instance().setRange(startingValueIntegration, finalValueIntegration);
         for (String temp : nameValueIntegrationSet ) { // выделяем необходимые ресурсы для данной задачи
             resultIntegration.addResult(temp);   // добавляем массив в объект хранения результатов, исходя из количества вычисляемых параметров
@@ -57,7 +57,7 @@ public class DiffSystemSolver {
                 valuesTemp.get(temp)[3] = step * functions.get(temp).calculate(x+step, valuesForNextStep);
             }
 
-            for (String temp : nameValueIntegrationSet) { // вычмсление интеграла функции на соответствующем шаге
+            for (String temp : nameValueIntegrationSet) { // вычисление интеграла функции на соответствующем шаге
                 tempResult = resultIntegration.pullForNameArray(temp) +
                         (valuesTemp.get(temp)[0] + 2*valuesTemp.get(temp)[1] + 2*valuesTemp.get(temp)[2] + valuesTemp.get(temp)[3])/6.0;
                 resultIntegration.setValueByName(temp,tempResult);

@@ -91,7 +91,7 @@ public class InitialData {
 
     }
 
-    // перевод в СИ значений массива содержащейго информацию об внешнем моменте
+    // перевод в СИ значений массива содержащего информацию об внешнем моменте
     private void toSIOfUnitsMvn() {
         for (int i = 0; i < M_vn.length; i++) {
             M_vn[i][0] = Math.toRadians(M_vn[i][0]);
@@ -108,7 +108,7 @@ public class InitialData {
         angleChangeRadius = Math.toRadians(angleChangeRadius);
     }
 
-    // проведение инициализации значений которые расчитываются исходя из введенных
+    // проведение инициализации значений которые рассчитываются исходя из введенных
     public void initialOperation() {
         // данных и перевод всех значений в СИ
         if (indicatInitialOperation) {

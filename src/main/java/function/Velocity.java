@@ -60,7 +60,7 @@ public class Velocity implements interfaceFunction {
         return values.get("X_sht")/(initialData.rsr*Math.tan(initialData.delta));
     }
 
-    // метод проводит линейную интерполяцию по заданным табличным значениям
+    // метод провести линейную интерполяцию по заданным табличным значениям
     public double M_vn(double fi) {
         int index = binarySearch(initialData.M_vn, fi);
         if (fi < initialData.M_vn[0][0]) {
@@ -81,7 +81,7 @@ public class Velocity implements interfaceFunction {
         return initialData.g*(initialData.m1*initialData.r1m +initialData.m2*initialData.r2m)*Math.sin(fi);
     }
 
-    // метод находит индекс элемента наиболее близкого по значениб к заданному.
+    // метод находит индекс элемента наиболее близкого по значению к заданному.
     // Поиск проводится в заданном массиве значений.
     private int binarySearch (double[][] mass, double value) {
         int first = 0;

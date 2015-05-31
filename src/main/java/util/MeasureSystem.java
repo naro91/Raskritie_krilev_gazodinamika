@@ -37,7 +37,7 @@ public class MeasureSystem {
         measureSystemsFromName.put("P_ks", pressureMeasureUnit);
         measureSystemsFromName.put("P_sc", pressureMeasureUnit);
 
-        // добавление коэффицентов перевода из СИ в требуемую систему единиц
+        // добавление коэффициентов перевода из СИ в требуемую систему единиц
         //unitСonversionСoefficient.put("ton", -1000.0);
         unitСonversionСoefficient.put("kg", 1.0);
         unitСonversionСoefficient.put("g", 1000.0);

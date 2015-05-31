@@ -36,7 +36,7 @@ public class Plotter {
     public static void plot(String nameGraphic, ResultIntegration resultIntegration, MainGUI mainGUI, boolean addToOld, double coeffConverUnitsOY, double coeffConverUnitsOX) {
         coeffConverUnitsOX = getCoefficientMultiplication(coeffConverUnitsOX);
         coeffConverUnitsOY = getCoefficientMultiplication(coeffConverUnitsOY);
-        // метод для отображения соответствущего графика исходя из переданного значения nameGraphic
+        // метод для отображения соответствующего графика исходя из переданного значения nameGraphic
         XYSeries series = new XYSeries(nameGraphic);
         double step = resultIntegration.getStepFunctionByName(nameGraphic);
         double x0 = resultIntegration.getRangeStartByName(nameGraphic);
@@ -108,7 +108,7 @@ public class Plotter {
     public static void saveChart (String nameGraphic, ResultIntegration resultIntegration, boolean currentChart) {
         JFreeChart chartTemp;
         if (!currentChart) {
-            // метод для сохранения соответствущего графика исходя из переданного значения nameGraphic
+            // метод для сохранения соответствующего графика исходя из переданного значения nameGraphic
             XYSeries series = new XYSeries(nameGraphic);
             double step = resultIntegration.getStepFunctionByName(nameGraphic);
             double x0 = resultIntegration.getRangeStartByName(nameGraphic);

@@ -59,7 +59,7 @@ public class MainGUI {
 //        selectesItem = null;
 //        selectesMeasureUnit = null;
 //        selectesInitialFile
-        initListeners(); // иницируем слушателей событий формы
+        initListeners(); // инициируем слушателей событий формы
     }
 
     private void initListeners() {

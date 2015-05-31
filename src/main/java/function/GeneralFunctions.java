@@ -10,13 +10,13 @@ import java.util.Map;
 /**
  * Created by Abovyan Narek on 17.02.15.
  * Данный класс содержит методы которые используются для вычислений в
- * методах других классов. С целью исклчения повторения кода эти методы
+ * методах других классов. С целью исключения повторения кода эти методы
  * определены в данном классе, и доступны для использования в других классах
  */
 public class GeneralFunctions {
     private static InitialData initialData = new InitialData();  // объект содержащий исходные данные для решения задачи
     private ResultIntegration resultIntegration;  // объект предоставляющий возможность структурированного хранения результатов вычислений
-    private static GeneralFunctions generalFunctions = null;  // для реализации патерна Singleton
+    private static GeneralFunctions generalFunctions = null;  // для реализации паттерна Singleton
     private volatile double P_ks, P_sc, V_sc, U, S, fi;  // вспомогательные переменные
     private String[] valueList;
     private Map<String, Double> valueHashmap;
@@ -27,7 +27,7 @@ public class GeneralFunctions {
         initialization();
     }
 
-    // для реализации патерна Singleton
+    // для реализации паттерна Singleton
     public static GeneralFunctions instance() {
         if (generalFunctions == null) {
             return generalFunctions = new GeneralFunctions();
@@ -67,7 +67,7 @@ public class GeneralFunctions {
         return values.get("X_sht")/(initialData.rsr*Math.tan(initialData.delta));
     }
 
-    //метод для расчета и сохранения всех параметоров на каждом шаге интегирования в resultIntegration
+    //метод для расчета и сохранения всех параметров на каждом шаге интегирования в resultIntegration
     public void calculate(HashMap<String, Double> values) {
         valueHashmap.put("P_ks", p_ks(values));
         valueHashmap.put("P_sc", p_sc(values));

@@ -24,7 +24,7 @@ import javax.swing.JFrame;
 
 public class GraphicInterface extends JFrame {
     private GeneralAlgorithms generalAlgorithms; // ссылка на объект который инкапсулирует в себе общий алгоритм задачи
-    private MeasureSystem measureSystem = new MeasureSystem(); // объект содержащий методы для получения коэффицента
+    private MeasureSystem measureSystem = new MeasureSystem(); // объект содержащий методы для получения коэффициента
                                                                 // перевода из одной системы единиц в другую
     private JLabel countLabel;   // текстовое поле для отображения информации
     private JButton startСalculating;  // кнопка для начала вычислений
@@ -59,7 +59,7 @@ public class GraphicInterface extends JFrame {
         //panel.add(testButton2);
         add(buttonsPanel, BorderLayout.SOUTH);
         add(panel, BorderLayout.NORTH);
-        initListeners(); // иницируем слушателей событий формы
+        initListeners(); // инициируем слушателей событий формы
     }
 
     private void initListeners() {

@@ -90,7 +90,7 @@ public class ResultIntegration {
     }
 
     public void addParametrIntegration() {
-        addResult("parameterIntegration"); // добавление контейнера для переменной по которому происходит интегирование
+        addResult("parameterIntegration"); // добавление контейнера для переменной по которому происходит интегрирование
     }
 
     // добавление маркера для серии значений по координате position
@@ -116,7 +116,7 @@ public class ResultIntegration {
         return rangeOfTheFunctions;
     }
 
-    // возвращает интервал храненимых значений для массива даных по имени name
+    // возвращает интервал хранимых значений для массива данных по имени name
     public Double[] getRangeByName(String name) {
         return rangeOfTheFunctions.get(name);
     }
