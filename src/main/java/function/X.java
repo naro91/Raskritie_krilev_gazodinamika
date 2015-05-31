@@ -28,8 +28,7 @@ public class X implements interfaceFunction {
     @Override
     public double calculate(double x, HashMap<String, Double> values) {
         if (values.get("X") < initialData.eps) {
-            double result = generalFunctions.U(values);
-            return result;
+            return generalFunctions.U(values);
         } else {
             if ( markerFix ) {
                 generalFunctions.getResultIntegration().addMarker("EndOfBurning", x);

@@ -24,8 +24,9 @@ public class Velocity implements interfaceFunction {
         return "Velocity";
     }
 
+    //метод возвращает ускорение штока
     @Override
-    public double calculate(double x, HashMap<String, Double> values) { // возвращает ускорение штока
+    public double calculate(double x, HashMap<String, Double> values) {
 
         double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = generalFunctions.p_sc(values); System.out.println("fi = " + Math.toDegrees(fi(values)));
         double K = A(values, (Mvn + Mves)/initialData.rsr);
@@ -34,7 +35,8 @@ public class Velocity implements interfaceFunction {
                 (initialData.msht + (initialData.J ) / (Math.pow(initialData.rsr, 2)*Math.tan(initialData.delta)));
     }
 
-    public double A(HashMap<String, Double> values, double externalForce) { // коэффициент для расчета силы в зависимости от момента на винтовой передаче
+    //метод возвращает коэффициент для расчета силы в зависимости от момента на винтовой передаче
+    public double A(HashMap<String, Double> values, double externalForce) {
         if(values.get("Velocity") * externalForce > 0) { // если момент направлен против силы трения
             return diffirentDirectionCoefficient;
         } else {
@@ -48,11 +50,13 @@ public class Velocity implements interfaceFunction {
         }
     }
 
-    private double fi(HashMap<String, Double> values) { // метод возвращает угол поворота корневой панели в зависимости от перемещения штока
+    // метод возвращает угол поворота корневой панели в зависимости от перемещения штока
+    private double fi(HashMap<String, Double> values) {
         return values.get("X_sht")/(initialData.rsr*Math.tan(initialData.delta));
     }
 
-    public double M_vn(double fi) { // метод проводит линейную интерполяцию по заданным табличным значениям
+    // метод проводит линейную интерполяцию по заданным табличным значениям
+    public double M_vn(double fi) {
         int index = binarySearch(initialData.M_vn, fi);
         if (fi < initialData.M_vn[0][0]) {
             return 0;
@@ -72,8 +76,9 @@ public class Velocity implements interfaceFunction {
         return initialData.g*(initialData.m1*initialData.r1m +initialData.m2*initialData.r2m)*Math.sin(fi);
     }
 
+    // метод находит индекс элемента наиболее близкого по значениб к заданному.
+    // Поиск проводится в заданном массиве значений.
     private int binarySearch (double[][] mass, double value) {
-    // метод находит индекс элемента наиболее близкого по значение к заданному. Поиск проводится в заданном массиве значений.
         int first = 0;
         int last = mass.length;
         int mid = 0;

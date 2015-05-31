@@ -18,7 +18,7 @@ public class MeasureSystem {
         String[] massaMeasureUnit = {"kg", "g"};
         measureSystemsFromName.put("Massa_g", massaMeasureUnit);
         measureSystemsFromName.put("Massa_sc", massaMeasureUnit);
-        String[] movementMeasureUnit = {"m", "сm", "mm", "km"};
+        String[] movementMeasureUnit = {"m", "cm", "mm", "km"};
         measureSystemsFromName.put("X", movementMeasureUnit);
         measureSystemsFromName.put("X_sht", movementMeasureUnit);
         measureSystemsFromName.put("movingPusher", movementMeasureUnit);
@@ -41,7 +41,7 @@ public class MeasureSystem {
         unitСonversionСoefficient.put("kg", 1.0);
         unitСonversionСoefficient.put("g", 1000.0);
         unitСonversionСoefficient.put("km", -1000.0);
-        unitСonversionСoefficient.put("m", -1.0);
+        unitСonversionСoefficient.put("m", 1.0);
         unitСonversionСoefficient.put("cm", 100.0);
         unitСonversionСoefficient.put("mm", 1000.0);
         unitСonversionСoefficient.put("km/h", 3.6);

@@ -28,25 +28,30 @@ public class GeneralFunctions {
         } else return generalFunctions;
     }
 
-    public double p_ks(HashMap<String, Double> values) {  // метод для расчета давления в камере сгорания на текущем шаге интегрирования
+    // метод для расчета давления в камере сгорания на текущем шаге интегрирования
+    public double p_ks(HashMap<String, Double> values) {
         return ( ( values.get("Massa_g") - values.get("Massa_sc") ) * initialData.R * values.get("Temperature") ) / values.get("Vks");
     }
 
-    public double p_sc(HashMap<String, Double> values) { // метод для расчета давления в силовом цилиндре на текущем шаге интегрирования
+    // метод для расчета давления в силовом цилиндре на текущем шаге интегрирования
+    public double p_sc(HashMap<String, Double> values) {
         return ( values.get("Massa_sc") * initialData.R * values.get("Temperature") ) / v_sc(values) ;
     }
 
-    public double v_sc(HashMap<String, Double> values) { // метод для расчета объема силового цилиндра на текущем шаге интегрирования
+    // метод для расчета объема силового цилиндра на текущем шаге интегрирования
+    public double v_sc(HashMap<String, Double> values) {
         return initialData.V0sc + initialData.Spor * values.get("X_sht");
     }
 
-    public double U(HashMap<String, Double> values) { // метод для расчета скорости горения на текущем шаге интегрирования
+    // метод для расчета скорости горения на текущем шаге интегрирования
+    public double U(HashMap<String, Double> values) {
         if (values.get("X") > initialData.eps) {
             return 0;
-        } else return initialData.K * (0.00546 + 5.36*Math.pow(10, -9.3)*p_ks(values));
+        } else return initialData.K * (0.00546 + 5.36*Math.pow(10, -8)*p_ks(values));
     }
 
-    public double S(HashMap<String, Double> values) { // метод для расчета площади горения заряда на текущем шаге интегрирования
+    // метод для расчета площади горения заряда на текущем шаге интегрирования
+    public double S(HashMap<String, Double> values) {
         if (values.get("X") > initialData.eps) {
             return 0;
         } else return initialData.S0zar - 4*Math.PI*(initialData.Dzar+initialData.dzar)*values.get("X");
@@ -77,10 +82,10 @@ public class GeneralFunctions {
         resultIntegration.addResult("U");
         resultIntegration.addResult("S");
 
-        P_ks = ( ( initialData.mgg0 - initialData.mgsc0 ) * initialData.R * initialData.Tks0 ) / (initialData.Vks0);
+        P_ks = initialData.p_ks0;
         V_sc = initialData.V0sc;
-        P_sc = (initialData.mgsc0  * initialData.R * initialData.Tks0) / (V_sc);
-        U = initialData.K * (0.00546 + 5.36* Math.pow(10, -8)*P_ks);
+        P_sc = initialData.p_sc0;
+        U = initialData.K * (0.00546 + 5.36* Math.pow(10, -8)*P_ks)/10.0;
         S = initialData.S0zar;
 
         resultIntegration.setValueByName("P_ks", P_ks);
@@ -114,9 +119,4 @@ public class GeneralFunctions {
         return initialData;
     }
 
-//    public static String[] getListFunctionsNames() {
-//        String[] listFunctionsNames = {"P_ks", "P_sc", "V_sc", "U", "S", Massa_g.getName(), Massa_sc.getName(), Temperature.getName(), Velocity.getName(),
-//        Vks.getName(), X.getName(), X_sht.getName(), "movingPusher", "angleEndPanel", "movingPusher_r1", "movingPusher_r2"};
-//        return listFunctionsNames;
-//    }
 }

@@ -33,7 +33,7 @@ public class InitialData {
         r2m = 0.197;
         msht = 0.397;
         dp = 0.026;
-        Spor = 5.31/10000;//Math.PI*dp*dp/4;
+        Spor = Math.PI*dp*dp/4.0;
         delta = Math.toRadians(76.5);
         L = 0.018;
         Dzar = 0.023;//0.023;
@@ -67,7 +67,7 @@ public class InitialData {
         eps = (Dzar - dzar)/4.0;
         S0zar = (Math.PI*(Dzar+dzar)/2.0) * (Dzar-dzar+2.0*L);
 //        t = 20;
-        K = B / (B - (t - tokrSr));
+        K = B / (B - (tokrSr - 20));
         //-------Данные для расчета кинематики-----------------
         xO1 = 7.28 / 1000.0;
         yO1 = -4.47 / 1000.0;
@@ -91,13 +91,15 @@ public class InitialData {
 
     }
 
-    private void toSIOfUnitsMvn() { // перевод в СИ значений массива содержащейго информацию об внешнем моменте
+    // перевод в СИ значений массива содержащейго информацию об внешнем моменте
+    private void toSIOfUnitsMvn() {
         for (int i = 0; i < M_vn.length; i++) {
             M_vn[i][0] = Math.toRadians(M_vn[i][0]);
         }
     }
 
-    private void toSIOfUnitsAll() { // перевод в СИ всех значений
+    // перевод в СИ всех значений
+    private void toSIOfUnitsAll() {
         toSIOfUnitsMvn();
         delta = Math.toRadians(delta);
         fi0 = Math.toRadians(fi0);
@@ -106,11 +108,13 @@ public class InitialData {
         angleChangeRadius = Math.toRadians(angleChangeRadius);
     }
 
-    public void initialOperation() {  // проведение инициализации значений которые расчитываются исходя из введенных
+    // проведение инициализации значений которые расчитываются исходя из введенных
+    public void initialOperation() {
         // данных и перевод всех значений в СИ
         if (indicatInitialOperation) {
             toSIOfUnitsAll();
             Skr = Math.PI * dotvKr * dotvKr / 4.0;
+            Spor = Math.PI*dp*dp/4.0;
             Vzar = (Math.PI / 4.0) * ((Dzar * Dzar) - dzar * dzar) * L;
             gama = mzar / Vzar;
             cp = k * R / (k - 1);

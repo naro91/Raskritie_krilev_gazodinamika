@@ -67,11 +67,6 @@ public class GeneralAlgorithms {
         String[] filesNames = new String[listOfFiles.length - 1];
         for (int i = 1; i < listOfFiles.length; i++) {
             filesNames[i - 1] = listOfFiles[i].getName();
-//            if (listOfFiles[i].isFile()) {
-//                System.out.println("File " + listOfFiles[i].getName());
-//            } else if (listOfFiles[i].isDirectory()) {
-//                System.out.println("Directory " + listOfFiles[i].getName());
-//            }
         }
         return filesNames;
     }

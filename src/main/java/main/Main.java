@@ -14,7 +14,8 @@ import java.util.HashMap;
  * Created by Abovyan Narek on 14.02.15.
  */
 public class Main {
-    public static void main (String args[]) throws IOException { // Главный метод программы
+    // Главный метод программы
+    public static void main (String args[]) throws IOException {
         MainGUI.begin();
     }
 }
