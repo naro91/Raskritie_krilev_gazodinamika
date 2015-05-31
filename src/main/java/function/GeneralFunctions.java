@@ -5,6 +5,7 @@ import integration.ResultIntegration;
 import resources.ResourceFactory;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Abovyan Narek on 17.02.15.
@@ -16,8 +17,13 @@ public class GeneralFunctions {
     private static InitialData initialData = new InitialData();  // объект содержащий исходные данные для решения задачи
     private ResultIntegration resultIntegration;  // объект предоставляющий возможность структурированного хранения результатов вычислений
     private static GeneralFunctions generalFunctions = null;  // для реализации патерна Singleton
-    private volatile double P_ks, P_sc, V_sc, U, S;  // вспомогательные переменные
+    private volatile double P_ks, P_sc, V_sc, U, S, fi;  // вспомогательные переменные
+    private String[] valueList;
+    private Map<String, Double> valueHashmap;
+
     private GeneralFunctions() {
+        valueList = new String[]{"P_ks", "P_sc", "V_sc", "U", "S", "fi"};
+        valueHashmap = new HashMap<>();
         initialization();
     }
 
@@ -57,18 +63,22 @@ public class GeneralFunctions {
         } else return initialData.S0zar - 4*Math.PI*(initialData.Dzar+initialData.dzar)*values.get("X");
     }
 
+    public double fi(HashMap<String, Double> values) {
+        return values.get("X_sht")/(initialData.rsr*Math.tan(initialData.delta));
+    }
+
     //метод для расчета и сохранения всех параметоров на каждом шаге интегирования в resultIntegration
     public void calculate(HashMap<String, Double> values) {
-        P_ks = p_ks(values);
-        V_sc = v_sc(values);
-        P_sc = p_sc(values);
-        U = U(values);
-        S = S(values);
-        resultIntegration.setValueByName("P_ks", P_ks);
-        resultIntegration.setValueByName("P_sc", P_sc);
-        resultIntegration.setValueByName("V_sc", V_sc);
-        resultIntegration.setValueByName("U", U);
-        resultIntegration.setValueByName("S", S);
+        valueHashmap.put("P_ks", p_ks(values));
+        valueHashmap.put("P_sc", p_sc(values));
+        valueHashmap.put("V_sc", v_sc(values));
+        valueHashmap.put("U", U(values) );
+        valueHashmap.put("S", S(values));
+        valueHashmap.put("fi", fi(values));
+
+        for (String temp : valueList) {
+            resultIntegration.setValueByName(temp, valueHashmap.get(temp));
+        }
     }
 
     // расчет и сохранение начальных значений параметров определенных в GeneralFunctions в resultIntegretion
@@ -76,32 +86,27 @@ public class GeneralFunctions {
         resultIntegration = new ResultIntegration();
 
         // добавление параметров необходимых для сохранения в resultIntegration
-        resultIntegration.addResult("P_ks");
-        resultIntegration.addResult("P_sc");
-        resultIntegration.addResult("V_sc");
-        resultIntegration.addResult("U");
-        resultIntegration.addResult("S");
+        for (String temp : valueList) {
+            resultIntegration.addResult(temp);
+        }
 
-        P_ks = initialData.p_ks0;
-        V_sc = initialData.V0sc;
-        P_sc = initialData.p_sc0;
-        U = initialData.K * (0.00546 + 5.36* Math.pow(10, -8)*P_ks)/10.0;
-        S = initialData.S0zar;
+        valueHashmap.put("P_ks", initialData.p_ks0);
+        valueHashmap.put("P_sc", initialData.p_sc0);
+        valueHashmap.put("V_sc", initialData.V0sc);
+        valueHashmap.put("U", (initialData.K * (0.00546 + 5.36* Math.pow(10, -8)*P_ks)) );
+        valueHashmap.put("S", initialData.S0zar);
+        valueHashmap.put("fi", 0.0);
 
-        resultIntegration.setValueByName("P_ks", P_ks);
-        resultIntegration.setValueByName("P_sc", P_sc);
-        resultIntegration.setValueByName("V_sc", V_sc);
-        resultIntegration.setValueByName("U", U);
-        resultIntegration.setValueByName("S", S);
+        for (String temp : valueList) {
+            resultIntegration.setValueByName(temp, valueHashmap.get(temp));
+        }
     }
 
     // добавление интервалов вычислений для функций
     public void setRange(double startRange, double finishRange) {
-        resultIntegration.addRangeOfTheFunctionsByName("P_ks", startRange, finishRange);
-        resultIntegration.addRangeOfTheFunctionsByName("P_sc", startRange, finishRange);
-        resultIntegration.addRangeOfTheFunctionsByName("V_sc", startRange, finishRange);
-        resultIntegration.addRangeOfTheFunctionsByName("U", startRange, finishRange);
-        resultIntegration.addRangeOfTheFunctionsByName("S", startRange, finishRange);
+        for (String temp : valueList) {
+            resultIntegration.addRangeOfTheFunctionsByName(temp, startRange, finishRange);
+        }
     }
 
     // считывание начальных данных из xml файла по заданному пути path (например path = "./initialData/initialData.xml")

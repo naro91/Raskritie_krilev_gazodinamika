@@ -15,8 +15,12 @@ public class Velocity implements interfaceFunction {
     public Velocity() {
         this.initialData = GeneralFunctions.getInitialData();
         this.generalFunctions = GeneralFunctions.instance();
-        diffirentDirectionCoefficient =  (1 - Math.tan(initialData.delta) * initialData.ftr) / (Math.tan(initialData.delta) + initialData.ftr);
-        collinearDirectionCoefficient = (1 + Math.tan(initialData.delta)*initialData.ftr) / (Math.tan(initialData.delta) - initialData.ftr);
+        // коэффициент в случае разнонаправленности силы трения и внешнего момента
+        diffirentDirectionCoefficient =  (1 - Math.tan(initialData.delta) * initialData.ftr) /
+                (Math.tan(initialData.delta) + initialData.ftr);
+        // коэффициент в случае сонаправленности силы трения и внешнего момента
+        collinearDirectionCoefficient = (1 + Math.tan(initialData.delta)*initialData.ftr) /
+                (Math.tan(initialData.delta) - initialData.ftr);
         System.out.printf("%f  %f ", diffirentDirectionCoefficient, collinearDirectionCoefficient);
     }
 
@@ -28,7 +32,8 @@ public class Velocity implements interfaceFunction {
     @Override
     public double calculate(double x, HashMap<String, Double> values) {
 
-        double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = generalFunctions.p_sc(values); System.out.println("fi = " + Math.toDegrees(fi(values)));
+        double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = generalFunctions.p_sc(values);
+        //System.out.println("fi = " + Math.toDegrees(fi(values)));
         double K = A(values, (Mvn + Mves)/initialData.rsr);
 
         return ( Psc*initialData.Spor+ ( (Mvn + Mves)/initialData.rsr ) * K ) /
@@ -40,7 +45,7 @@ public class Velocity implements interfaceFunction {
         if(values.get("Velocity") * externalForce > 0) { // если момент направлен против силы трения
             return diffirentDirectionCoefficient;
         } else {
-            if ( values.get("Velocity") * externalForce < 0 ) {
+            if ( values.get("Velocity") * externalForce < 0 ) { // если момент сонаправлен с силой трения
                 return collinearDirectionCoefficient;
             } else {
                 if ( values.get("Velocity") == 0.0 ) {

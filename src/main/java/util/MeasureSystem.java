@@ -25,14 +25,15 @@ public class MeasureSystem {
         String[] velocityMeasureUnit = {"m/s", "cm/s", "mm/s", "km/h"};
         measureSystemsFromName.put("Velocity", velocityMeasureUnit);
         measureSystemsFromName.put("U", velocityMeasureUnit);
-        String[] angleMeasureUnit = {"radian", "degree"};
+        String[] angleMeasureUnit = {"degree", "radian"};
         measureSystemsFromName.put("angleEndPanel", angleMeasureUnit);
+        measureSystemsFromName.put("fi", angleMeasureUnit);
         String[] areaMeasureUnit = {"m^2", "cm^2", "mm^2"};
         measureSystemsFromName.put("S", areaMeasureUnit);
         String[] volumeMeasureUnit = {"m^3", "cm^3", "mm^3"};
         measureSystemsFromName.put("Vks", volumeMeasureUnit);
         measureSystemsFromName.put("V_sc", volumeMeasureUnit);
-        String[] pressureMeasureUnit = {"Pa", "at"};
+        String[] pressureMeasureUnit = {"at", "Pa"};
         measureSystemsFromName.put("P_ks", pressureMeasureUnit);
         measureSystemsFromName.put("P_sc", pressureMeasureUnit);
 
