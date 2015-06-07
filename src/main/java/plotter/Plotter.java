@@ -35,7 +35,8 @@ public class Plotter {
     private static JFreeChart chart;
 
 
-    public static void plot(String nameGraphic, ResultIntegration resultIntegration, MainGUI mainGUI, boolean addToOld, double coeffConverUnitsOY, double coeffConverUnitsOX) {
+    public static void plot( String nameGraphic, ResultIntegration resultIntegration, MainGUI mainGUI, boolean addToOld,
+                            double coeffConverUnitsOY, double coeffConverUnitsOX ) {
         coeffConverUnitsOX = getCoefficientMultiplication(coeffConverUnitsOX);
         coeffConverUnitsOY = getCoefficientMultiplication(coeffConverUnitsOY);
         // метод для отображения соответствующего графика исходя из переданного значения nameGraphic

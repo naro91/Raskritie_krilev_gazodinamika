@@ -22,11 +22,15 @@ public class MeasureSystem {
         measureSystemsFromName.put("X", movementMeasureUnit);
         measureSystemsFromName.put("X_sht", movementMeasureUnit);
         measureSystemsFromName.put("movingPusher", movementMeasureUnit);
+        measureSystemsFromName.put("movingPusher_r1(fi)", movementMeasureUnit);
+        measureSystemsFromName.put("movingPusher_r2(fi)", movementMeasureUnit);
+        measureSystemsFromName.put("movingPusher_fi(fi)", movementMeasureUnit);
         String[] velocityMeasureUnit = {"m/s", "cm/s", "mm/s", "km/h"};
         measureSystemsFromName.put("Velocity", velocityMeasureUnit);
         measureSystemsFromName.put("U", velocityMeasureUnit);
         String[] angleMeasureUnit = {"degree", "radian"};
         measureSystemsFromName.put("angleEndPanel", angleMeasureUnit);
+        measureSystemsFromName.put("angleEndPanel_fi(fi)", angleMeasureUnit);
         measureSystemsFromName.put("fi", angleMeasureUnit);
         String[] areaMeasureUnit = {"m^2", "cm^2", "mm^2"};
         measureSystemsFromName.put("S", areaMeasureUnit);

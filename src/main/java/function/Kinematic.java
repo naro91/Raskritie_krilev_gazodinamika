@@ -15,22 +15,21 @@ public class Kinematic {
     private double moveToAngle;
     private double movingPusher0 = 0;
     public Kinematic() {
-        this.initialData = GeneralFunctions.getInitialData();
         this.generalFunctions = GeneralFunctions.instance();
-        angleChangeRadius = initialData.angleChangeRadius; // угол при котором изменяется радиус
-        moveToAngle = (initialData.rsr*Math.tan(initialData.delta));
+        //moveToAngle = (initialData.rsr*Math.tan(initialData.delta));
     }
 
 
     public void calculate(ResultIntegration resultIntegration) {
+        this.initialData = GeneralFunctions.getInitialData();
+        angleChangeRadius = initialData.angleChangeRadius; // угол при котором изменяется радиус
         int i = 0;
         resultIntegration.addResult("movingPusher");
         resultIntegration.addResult("angleEndPanel");
         resultIntegration.addRangeOfTheFunctionsByName("movingPusher", resultIntegration.getRangeStartByName("X_sht"), resultIntegration.getRangeFinishByName("X_sht"));
         resultIntegration.addRangeOfTheFunctionsByName("angleEndPanel", resultIntegration.getRangeStartByName("X_sht"), resultIntegration.getRangeFinishByName("X_sht"));
         calculateMuvingPusher0();
-        for (double fi : resultIntegration.getHashMapNameAndArraylist().get("X_sht")) {
-            fi = fi / moveToAngle;
+        for (double fi : resultIntegration.getHashMapNameAndArraylist().get("fi")) {
             resultIntegration.setValueByName("movingPusher", movingPusher(fi, resultIntegration, i));
             resultIntegration.setValueByName("angleEndPanel", angleEndPanel(fi, resultIntegration, i));
             i++;
@@ -59,8 +58,7 @@ public class Kinematic {
     }
 
     public void calculateMuvingPusher0() {
-        double temp = movingPusher_r1(0);
-        movingPusher0 = temp;
+        this.movingPusher0 = movingPusher_r1(-initialData.fi0);
     }
 
     public double movingPusher_r1(double psi) {
@@ -87,18 +85,20 @@ public class Kinematic {
     }
 
     public void calculateSplit(ResultIntegration resultIntegration) {
-        calculateMuvingPusher0();
-        resultIntegration.addResult("movingPusher_r1");
-        resultIntegration.addResult("movingPusher_r2");
-        resultIntegration.addResult("movingPusher_fi");
-        resultIntegration.addResult("angleEndPanel_fi");
-        resultIntegration.addResult("parameterIntegration");
+        resultIntegration.addResult("movingPusher_r1(fi)");
+        resultIntegration.addResult("movingPusher_r2(fi)");
+        resultIntegration.addResult("movingPusher_fi(fi)");
+        resultIntegration.addResult("angleEndPanel_fi(fi)");
+        resultIntegration.addRangeOfTheFunctionsByName("movingPusher_r1(fi)", 0, 109);
+        resultIntegration.addRangeOfTheFunctionsByName("movingPusher_r2(fi)", 0, 109);
+        resultIntegration.addRangeOfTheFunctionsByName("movingPusher_fi(fi)", 0, 109);
+        resultIntegration.addRangeOfTheFunctionsByName("angleEndPanel_fi(fi)", 0, 109);
         for (double fi = 0; fi < Math.toRadians(109); fi += 0.01) {
-            resultIntegration.setValueByName("movingPusher_r1", movingPusher_r1(fi));
-            resultIntegration.setValueByName("movingPusher_r2", movingPusher_r2(fi));
-            resultIntegration.setValueByName("movingPusher_fi", movingPusher_fi (fi));
-            resultIntegration.setValueByName("angleEndPanel_fi", angleEndPanel_fi (fi));
-            resultIntegration.setValueByName("parameterIntegration", fi);
+            resultIntegration.setValueByName("angleEndPanel_fi(fi)", angleEndPanel_fi (fi));
+            resultIntegration.setValueByName("movingPusher_fi(fi)", movingPusher_fi (fi));
+            double psi = fi - initialData.fi0;
+            resultIntegration.setValueByName("movingPusher_r1(fi)", movingPusher_r1(psi));
+            resultIntegration.setValueByName("movingPusher_r2(fi)", movingPusher_r2(psi));
         }
     }
 }

@@ -46,7 +46,7 @@ public class InitialData {
         k = 1.24;
         R = 361;
         Tp = 4000;
-        mzar = 0.0082;//0.0082;
+        mzar = 0.0082;
         tokrSr = 20;
         Tks0 = 2200;
         rsr = (0.005/2.0) + (0.01645/2.0);

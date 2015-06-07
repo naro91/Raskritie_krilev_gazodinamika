@@ -63,6 +63,7 @@ public class GeneralFunctions {
         } else return initialData.S0zar - 4*Math.PI*(initialData.Dzar+initialData.dzar)*values.get("X");
     }
 
+    // вычисляет угол корневой панели по перемещению штока
     public double fi(HashMap<String, Double> values) {
         return values.get("X_sht")/(initialData.r_vint*Math.tan(initialData.delta));
     }

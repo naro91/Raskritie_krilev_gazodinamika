@@ -23,6 +23,7 @@ public class GeneralAlgorithms {
     public static double step = 0.00001, theBeginningOfTheInterval = 0, endOfTheInterval = 0.08175;
     public static int round = 5;
 
+    // основной метод класса
     public void startCalculating () {
         generalFunctions.getResultIntegration().clearIndexAndArray();
         // system equation
@@ -46,21 +47,24 @@ public class GeneralAlgorithms {
         initialConditions.put(Velocity.getName(), GeneralFunctions.getInitialData().velocity0);
         // получаем решение дифференциальных уравнений путем вызова метода integration
         resultIntegration = diffSystemSolver.integration(initialConditions, step, theBeginningOfTheInterval, endOfTheInterval, round, functionHashMap);
-        startCalculatKinematics(resultIntegration);
         resultIntegration.addResultResultIntegration(GeneralFunctions.instance().getResultIntegration());
+        startCalculatKinematics(resultIntegration);
         //System.out.println( resultIntegration.getHashMapNameAndArraylist().get("S").size() == resultIntegration.getHashMapNameAndArraylist().get("parameterIntegration").size());
         //resultIntegration.printFile("resultSolve.txt");
     }
 
+    // рассчитывает кинематику
     public void startCalculatKinematics (ResultIntegration resultIntegration) {
         kinematic.calculate(resultIntegration);
-        //kinematic.calculateSplit(resultIntegration);
+        kinematic.calculateSplit(resultIntegration);
     }
 
+    // импортирует начальные условия из файла xml по пути path
     public void enterInitialDataFromFile(String path){
         generalFunctions.enterInitialDataFromFile(path);
     }
 
+    // возвращает массив с названиями файлов которые находятся в директории path
     public String[] getFilesNamesOfDirectory(String path) {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
@@ -71,6 +75,7 @@ public class GeneralAlgorithms {
         return filesNames;
     }
 
+    // возвращает объект с результатом вычисления
     public ResultIntegration getResultIntegration( ) {
         return resultIntegration;
     }
