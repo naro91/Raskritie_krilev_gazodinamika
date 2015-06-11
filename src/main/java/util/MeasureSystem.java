@@ -31,6 +31,7 @@ public class MeasureSystem {
         String[] angleMeasureUnit = {"degree", "radian"};
         measureSystemsFromName.put("angleEndPanel", angleMeasureUnit);
         measureSystemsFromName.put("angleEndPanel_fi(fi)", angleMeasureUnit);
+        measureSystemsFromName.put("fi_diff_dir", angleMeasureUnit);
         measureSystemsFromName.put("fi", angleMeasureUnit);
         String[] areaMeasureUnit = {"m^2", "cm^2", "mm^2"};
         measureSystemsFromName.put("S", areaMeasureUnit);
@@ -40,6 +41,7 @@ public class MeasureSystem {
         String[] pressureMeasureUnit = {"at", "Pa"};
         measureSystemsFromName.put("P_ks", pressureMeasureUnit);
         measureSystemsFromName.put("P_sc", pressureMeasureUnit);
+        measureSystemsFromName.put("P(t)_diff_dir_exp", pressureMeasureUnit);
 
         // добавление коэффициентов перевода из СИ в требуемую систему единиц
         //unitСonversionСoefficient.put("ton", -1000.0);

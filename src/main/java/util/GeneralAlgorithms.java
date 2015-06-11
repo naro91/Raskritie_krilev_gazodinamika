@@ -34,7 +34,7 @@ public class GeneralAlgorithms {
         functionHashMap.put(Vks.getName(), new Vks());
         functionHashMap.put(Massa_sc.getName(), new Massa_sc());
         functionHashMap.put(Massa_g.getName(), new Massa_g());
-        functionHashMap.put(Velocity.getName(), new Velocity());
+        functionHashMap.put(Velocity.getName(), new Velocity(109));
 
         // initial conditions
         // добавляем начальные условия в хэшмэп для передачи методу решения дифференциальных уравнений
@@ -49,6 +49,8 @@ public class GeneralAlgorithms {
         resultIntegration = diffSystemSolver.integration(initialConditions, step, theBeginningOfTheInterval, endOfTheInterval, round, functionHashMap);
         resultIntegration.addResultResultIntegration(GeneralFunctions.instance().getResultIntegration());
         startCalculatKinematics(resultIntegration);
+        AddDataFromFile addDataFromFile = ResourceFactory.instance().getResource("./experimentalData/experimentalData.xml");
+        addDataFromFile.addDataForComparisonFromFile(resultIntegration);
         //System.out.println( resultIntegration.getHashMapNameAndArraylist().get("S").size() == resultIntegration.getHashMapNameAndArraylist().get("parameterIntegration").size());
         //resultIntegration.printFile("resultSolve.txt");
     }

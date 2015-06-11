@@ -11,8 +11,9 @@ public class Velocity implements interfaceFunction {
     private InitialData initialData;
     private GeneralFunctions generalFunctions;
     private double diffirentDirectionCoefficient, collinearDirectionCoefficient;
+    private double fi_end;
 
-    public Velocity() {
+    public Velocity(double fi_end) {
         this.initialData = GeneralFunctions.getInitialData();
         this.generalFunctions = GeneralFunctions.instance();
         // коэффициент в случае разнонаправленности силы трения и внешнего момента
@@ -21,7 +22,8 @@ public class Velocity implements interfaceFunction {
         // коэффициент в случае сонаправленности силы трения и внешнего момента
         collinearDirectionCoefficient = (1 + Math.tan(initialData.delta)*initialData.ftr) /
                 (Math.tan(initialData.delta) - initialData.ftr);
-        System.out.printf("%f  %f ", diffirentDirectionCoefficient, collinearDirectionCoefficient);
+        this.fi_end = fi_end;
+        //System.out.printf("%f  %f ", diffirentDirectionCoefficient, collinearDirectionCoefficient);
     }
 
     public static String getName() {
@@ -37,7 +39,11 @@ public class Velocity implements interfaceFunction {
         double K = A(values, (Mvn + Mves)/initialData.r_vint);
         double result = ( Psc*initialData.Spor + ( (Mvn + Mves)/initialData.r_vint ) * K ) /
                 (initialData.msht + (initialData.J ) / (Math.pow(initialData.r_vint, 2)*Math.tan(initialData.delta)));
-        return result;
+        if (fi(values) >= fi_end) {
+            return 0;
+        }else {
+            return result;
+        }
     }
 
     //метод возвращает коэффициент для расчета силы в зависимости от момента на винтовой передаче
@@ -60,7 +66,7 @@ public class Velocity implements interfaceFunction {
         return values.get("X_sht")/(initialData.r_vint*Math.tan(initialData.delta));
     }
 
-    // метод провести линейную интерполяцию по заданным табличным значениям
+    // метод проводит линейную интерполяцию по заданным табличным значениям
     public double M_vn(double fi) {
         int index = binarySearch(initialData.M_vn, fi);
         if (fi < initialData.M_vn[0][0]) {

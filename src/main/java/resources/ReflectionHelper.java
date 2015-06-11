@@ -27,7 +27,7 @@ public class ReflectionHelper {
                 field.set(object, Double.valueOf(value));
             } else if (field.getType().equals(double[][].class)){
                 indicateArray = true;
-                readArray(object, field, value);
+                readArray(value);
             }
 
             field.setAccessible(false);
@@ -39,7 +39,7 @@ public class ReflectionHelper {
 
     }
 
-    private static void readArray(Object object, Field field, String value) {
+    private static void readArray(String value) {
         Double[] tempDoubleMass;
         String[] massStr = value.split("\n");
         for (String temp1 : massStr) {
@@ -62,6 +62,7 @@ public class ReflectionHelper {
             mass[i][1] = temp[1];
             ++i;
         }
+        tempArray.clear();
         return mass;
     }
 

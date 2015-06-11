@@ -53,7 +53,7 @@ public class GeneralFunctions {
     public double U(HashMap<String, Double> values) {
         if (values.get("X") > initialData.eps) {
             return 0;
-        } else return initialData.K * (0.00546 + 5.36*Math.pow(10, -8)*p_ks(values));
+        } else return initialData.K * (0.00546 + (5.36*Math.pow(10, -5)*p_ks(values)/101325.0) );
     }
 
     // метод для расчета площади горения заряда на текущем шаге интегрирования
@@ -94,7 +94,7 @@ public class GeneralFunctions {
         valueHashmap.put("P_ks", initialData.p_ks0);
         valueHashmap.put("P_sc", initialData.p_sc0);
         valueHashmap.put("V_sc", initialData.V0sc);
-        valueHashmap.put("U", (initialData.K * (0.00546 + 5.36* Math.pow(10, -8)*P_ks)) );
+        valueHashmap.put("U", (initialData.K * (0.00546 + (5.36* Math.pow(10, -5)*P_ks/101325.0) )) );
         valueHashmap.put("S", initialData.S0zar);
         valueHashmap.put("fi", 0.0);
 
