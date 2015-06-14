@@ -1,7 +1,6 @@
 package util;
 
 import function.*;
-import initialDataForTask.InitialData;
 import integration.DiffSystemSolver;
 import integration.ResultIntegration;
 import resources.ResourceFactory;
@@ -15,10 +14,15 @@ import java.util.HashMap;
  */
 public class GeneralAlgorithms {
     private DiffSystemSolver diffSystemSolver = new DiffSystemSolver();
+    // hashmap для хранения начальных условий
     private HashMap<String, Double> initialConditions = new HashMap<String, Double>();
+    // hashmap для хранения функций
     private HashMap<String, interfaceFunction> functionHashMap = new HashMap<String, interfaceFunction>();
+    // объект вычисляющий кинематические параметры системы
     private Kinematic kinematic = new Kinematic();
+    // объект для хранения результатов вычислений
     private ResultIntegration resultIntegration;
+    // объект содержащий  общие методы и данные
     private GeneralFunctions generalFunctions = GeneralFunctions.instance();
     public static double step = 0.00001, theBeginningOfTheInterval = 0, endOfTheInterval = 0.08175;
     public static int round = 5;
@@ -29,12 +33,12 @@ public class GeneralAlgorithms {
         // system equation
         // добавляем уравнения в хэшмэп для передачи в метод решения дифф. ур.
         functionHashMap.put(Temperature.getName(), new Temperature());
-        functionHashMap.put(X_sht.getName(), new X_sht());
+        functionHashMap.put(X_sht.getName(), new X_sht(endOfTheInterval));
         functionHashMap.put(X.getName(), new X());
         functionHashMap.put(Vks.getName(), new Vks());
         functionHashMap.put(Massa_sc.getName(), new Massa_sc());
         functionHashMap.put(Massa_g.getName(), new Massa_g());
-        functionHashMap.put(Velocity.getName(), new Velocity(109));
+        functionHashMap.put(Velocity.getName(), new Velocity(endOfTheInterval));
 
         // initial conditions
         // добавляем начальные условия в хэшмэп для передачи методу решения дифференциальных уравнений
@@ -46,12 +50,15 @@ public class GeneralAlgorithms {
         initialConditions.put(Vks.getName(), GeneralFunctions.getInitialData().Vks0);
         initialConditions.put(Velocity.getName(), GeneralFunctions.getInitialData().velocity0);
         // получаем решение дифференциальных уравнений путем вызова метода integration
-        resultIntegration = diffSystemSolver.integration(initialConditions, step, theBeginningOfTheInterval, endOfTheInterval, round, functionHashMap);
+        resultIntegration = diffSystemSolver.integration(initialConditions, step, theBeginningOfTheInterval,
+                endOfTheInterval, round, functionHashMap);
         resultIntegration.addResultResultIntegration(GeneralFunctions.instance().getResultIntegration());
         startCalculatKinematics(resultIntegration);
-        AddDataFromFile addDataFromFile = ResourceFactory.instance().getResource("./experimentalData/experimentalData.xml");
-        addDataFromFile.addDataForComparisonFromFile(resultIntegration);
-        //System.out.println( resultIntegration.getHashMapNameAndArraylist().get("S").size() == resultIntegration.getHashMapNameAndArraylist().get("parameterIntegration").size());
+        ExperimentalDataFromFile experimentalDataFromFile =
+                ResourceFactory.instance().getResource("./experimentalData/experimentalData.xml");
+        experimentalDataFromFile.addDataForComparisonFromFile(resultIntegration);
+        //System.out.println( resultIntegration.getHashMapNameAndArraylist().get("S").size() ==
+        // resultIntegration.getHashMapNameAndArraylist().get("parameterIntegration").size());
         //resultIntegration.printFile("resultSolve.txt");
     }
 

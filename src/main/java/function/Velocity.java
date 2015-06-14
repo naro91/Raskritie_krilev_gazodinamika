@@ -11,9 +11,9 @@ public class Velocity implements interfaceFunction {
     private InitialData initialData;
     private GeneralFunctions generalFunctions;
     private double diffirentDirectionCoefficient, collinearDirectionCoefficient;
-    private double fi_end;
+    private double endOfInterval;
 
-    public Velocity(double fi_end) {
+    public Velocity(double endOfInterval) {
         this.initialData = GeneralFunctions.getInitialData();
         this.generalFunctions = GeneralFunctions.instance();
         // коэффициент в случае разнонаправленности силы трения и внешнего момента
@@ -22,7 +22,7 @@ public class Velocity implements interfaceFunction {
         // коэффициент в случае сонаправленности силы трения и внешнего момента
         collinearDirectionCoefficient = (1 + Math.tan(initialData.delta)*initialData.ftr) /
                 (Math.tan(initialData.delta) - initialData.ftr);
-        this.fi_end = fi_end;
+        this.endOfInterval = endOfInterval;
         //System.out.printf("%f  %f ", diffirentDirectionCoefficient, collinearDirectionCoefficient);
     }
 
@@ -37,9 +37,9 @@ public class Velocity implements interfaceFunction {
         double Mvn = M_vn(fi(values)), Mves = M_ves(fi(values)), Psc = generalFunctions.p_sc(values);
         //System.out.println("fi = " + Math.toDegrees(fi(values)));
         double K = A(values, (Mvn + Mves)/initialData.r_vint);
-        double result = ( Psc*initialData.Spor + ( (Mvn + Mves)/initialData.r_vint ) * K ) /
+        double result = ( (Psc - initialData.atm) *initialData.Spor + ( (Mvn + Mves)/initialData.r_vint ) * K ) /
                 (initialData.msht + (initialData.J ) / (Math.pow(initialData.r_vint, 2)*Math.tan(initialData.delta)));
-        if (fi(values) >= fi_end) {
+        if (values.get("X_sht") >= endOfInterval) {
             return 0;
         }else {
             return result;
@@ -77,7 +77,8 @@ public class Velocity implements interfaceFunction {
         if (fi == initialData.M_vn[index][0]) {
             return initialData.M_vn[index][1];
         }else {
-            return initialData.M_vn[index-1][1] + ( (fi - initialData.M_vn[index-1][0])/(initialData.M_vn[index][0] - initialData.M_vn[index-1][0]) ) *
+            return initialData.M_vn[index-1][1] + ( (fi - initialData.M_vn[index-1][0])/
+                    (initialData.M_vn[index][0] - initialData.M_vn[index-1][0]) ) *
                     (initialData.M_vn[index][1] - initialData.M_vn[index-1][1]);
         }
 

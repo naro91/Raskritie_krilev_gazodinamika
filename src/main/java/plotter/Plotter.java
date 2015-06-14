@@ -108,11 +108,13 @@ public class Plotter {
         }
     }
 
-    public static void saveChart (String nameGraphic, ResultIntegration resultIntegration, boolean currentChart, MeasureSystem measureSystem) {
+    public static void saveChart (String nameGraphic, ResultIntegration resultIntegration,
+                                  boolean currentChart, MeasureSystem measureSystem) {
         JFreeChart chartTemp;
         if (!currentChart) {
             // метод для сохранения соответствующего графика исходя из переданного значения nameGraphic
-            double coeffConverUnitsOY = measureSystem.getCoefficientConversionByName(measureSystem.getArrayMeasureUnitByName(nameGraphic)[0]);
+            double coeffConverUnitsOY = measureSystem.getCoefficientConversionByName(
+                    measureSystem.getArrayMeasureUnitByName(nameGraphic)[0]);
             double coeffConverUnitsOX = 1;
             coeffConverUnitsOX = getCoefficientMultiplication(coeffConverUnitsOX);
             coeffConverUnitsOY = getCoefficientMultiplication(coeffConverUnitsOY);
@@ -139,7 +141,7 @@ public class Plotter {
             plot.setRangeGridlinePaint(Color.black);
             // сохранение в файл
             OutputStream stream = new FileOutputStream("./graphicsImage/".concat(nameGraphic.concat(".png")));
-            ChartUtilities.writeChartAsPNG(stream, chartTemp, 800, 500);
+            ChartUtilities.writeChartAsPNG(stream, chartTemp, 850, 450);
         } catch (IOException e) {
             System.err.println("Failed to render chart as png: " + e.getMessage());
             e.printStackTrace();
@@ -149,9 +151,11 @@ public class Plotter {
     public static void plotMarker(JFreeChart chart, ResultIntegration resultIntegration) {
         XYPlot plot = (XYPlot) chart.getPlot();
         for (String temp : resultIntegration.getMarker().keySet()) {
-            ValueMarker marker = new ValueMarker(resultIntegration.getMarker().get(temp));  // position is the value on the axis
+            // position is the value on the axis
+            ValueMarker marker = new ValueMarker(resultIntegration.getMarker().get(temp));
             marker.setPaint(Color.black);
-            marker.setLabel(temp); // see JavaDoc for labels, colors, strokes
+            // see JavaDoc for labels, colors, strokes
+            marker.setLabel(temp);
             plot.addDomainMarker(marker);
         }
     }

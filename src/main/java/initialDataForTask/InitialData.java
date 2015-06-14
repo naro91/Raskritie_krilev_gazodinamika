@@ -4,11 +4,13 @@ package initialDataForTask;
  * Created by Abovyan on 21.12.14.
  */
 public class InitialData {
-    private boolean indicatInitialOperation = true;  // индикатор фиксирующий вызов функции подготовки начальных значений и
-                                                     // перевода их в международную систему единиц
-    public double J, m1, m2, r1m, r2m, msht, Spor, delta, L, Dzar, dzar, V0sc, ksi, ftr, B, g, k, R, Tp, mzar, tokrSr, rsr, r_vint, dotvKr, Skr, Vzar,
-            gama, mgsc0, mgg0, cp, cv, Vks0, X0, eps, S0zar, K, dp, Tks0, X_sht0, velocity0, p_sc0, p_ks0, t, r1, r2, r13, r23, r60, r4, r5, ro0, e, fi0, psi_r1,
-            betta_c, alfa_c, psi_r2, angleChangeRadius, xO2, xO1, yO2, yO1;
+    // индикатор фиксирующий вызов функции подготовки начальных
+    // значений и перевода их в международную систему единиц
+    private boolean indicatInitialOperation = true;
+    public double J, m1, m2, r1m, r2m, msht, Spor, delta, L, Dzar, dzar, V0sc, ksi, ftr, B, g, k, R, Tp, mzar, tokrSr,
+            rsr, r_vint, dotvKr, Skr, Vzar, gama, mgsc0, mgg0, cp, cv, Vks0, X0, eps, S0zar, K, dp, Tks0, X_sht0,
+            velocity0, p_sc0, p_ks0, t, r1, r2, r13, r23, r60, r4, r5, ro0, e, fi0, psi_r1, betta_c, alfa_c, psi_r2,
+            angleChangeRadius, xO2, xO1, yO2, yO1, atm;
 
     public double[][] M_vn = { //
             {Math.toRadians(0), -4.71},
@@ -67,6 +69,7 @@ public class InitialData {
         velocity0 = 0;
         eps = (Dzar - dzar)/4.0;
         S0zar = (Math.PI*(Dzar+dzar)/2.0) * (Dzar-dzar+2.0*L);
+        atm = 101325;
 //        t = 20;
         K = B / (B - (tokrSr - 20));
         //-------Данные для расчета кинематики-----------------
@@ -121,7 +124,7 @@ public class InitialData {
             cp = k * R / (k - 1);
             cv = R / (k - 1);
             eps = (Dzar - dzar) / 4.0;
-            K = B * 0.6/ (B - (tokrSr - tokrSr));//0.016/ (B - (t - tokrSr));0.01
+            K = B / (B - (tokrSr - tokrSr));
             mgsc0 = p_sc0*V0sc/(R*Tks0);
             mgg0 = mgsc0 + p_ks0*Vks0/(R*Tks0);
             S0zar = (Math.PI * (Dzar + dzar) / 2.0) * (Dzar - dzar + 2.0 * L);

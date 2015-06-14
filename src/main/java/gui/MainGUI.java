@@ -17,62 +17,66 @@ import java.io.IOException;
 
 /**
  * Created by Abovyan on 27.05.15.
+ * Класс содержит пользовательский интерфейс и методы взаимодействия с пользователем
  */
 public class MainGUI {
     private GeneralAlgorithms generalAlgorithms; // ссылка на объект который инкапсулирует в себе общий алгоритм задачи
     private MeasureSystem measureSystem = new MeasureSystem(); // объект содержащий методы для получения коэффицента
     // перевода из одной системы единиц в другую
-    private static final String pathInitialFiles = "./initialData/";
+    private static final String pathInitialFiles = "./initialData/";  // путь к файлам с начальными условиями
     private static JFrame frame;
-    private JButton saveAllChart;
-    private JButton visableChart;
-    private JButton addChart;
-    private JComboBox comboBox;
-    private JComboBox measureSystemsComBox;
-    private JButton startСalculating;
-    private JComboBox initialFilesBox;
-    private JLabel countLabel;
-    private JPanel graphicPanel;
-    private JPanel panel;
-    private JCheckBox calculateForAllFiles;
-    private JButton updateFilesList;
+    private JButton saveAllChart;  // кнопка сохранения всех графиков
+    private JButton visableChart;  // кнопка отображения графика
+    private JButton addChart;  // кнопка добавления графика
+    private JComboBox comboBox;  // список с результатами расчетов
+    private JComboBox measureSystemsComBox;  // список единиц измерений
+    private JButton startСalculating;  // кнопка старта вычисления
+    private JComboBox initialFilesBox;  // список файлов с начальными условиями
+    private JLabel countLabel;  //
+    private JPanel graphicPanel;  // панель для вывода графиков
+    private JPanel panel;  // для вывода информации в текстовом виде
+    private JCheckBox calculateForAllFiles;  // checkBox для расчета всех файлов
+    private JButton updateFilesList;  // кнопка обновления списка файлов с начальными условиями
     private JLabel picLabel;
-    private String selectesItem;//= "Temperature";
-    private String selectesMeasureUnit;//= "единица измерения";
-    private String selectesInitialFile;
+    private String selectesItem;  //  выбранный параметр для построения графика
+    private String selectesMeasureUnit;  // выбранная единица измерения
+    private String selectesInitialFile;  // выбранный файл исходных данных
 
     public MainGUI () throws IOException {
-        generalAlgorithms = new GeneralAlgorithms(); // создание объекта
+        generalAlgorithms = new GeneralAlgorithms();
         comboBox.setModel(new DefaultComboBoxModel<String>(getItems()));
         measureSystemsComBox.setModel(new DefaultComboBoxModel<String>(measureSystem.getArrayMeasureUnit()));
-        initialFilesBox.setModel(new DefaultComboBoxModel<String>(generalAlgorithms.getFilesNamesOfDirectory(pathInitialFiles)));
+        initialFilesBox.setModel(new DefaultComboBoxModel<String>(
+                generalAlgorithms.getFilesNamesOfDirectory(pathInitialFiles)));
         startСalculating.setBackground(Color.red);
         startСalculating.setOpaque(true);
         selectesInitialFile = (String) initialFilesBox.getSelectedItem();
-        if (selectesInitialFile != null) generalAlgorithms.enterInitialDataFromFile(pathInitialFiles.concat(selectesInitialFile));
+        if (selectesInitialFile != null) generalAlgorithms.enterInitialDataFromFile(
+                pathInitialFiles.concat(selectesInitialFile));
         BufferedImage myPicture = ImageIO.read(new File("./image/image.jpg"));
         BufferedImage resizedImage = resize(myPicture,600,400);
         picLabel = new JLabel(new ImageIcon(resizedImage));
         graphicPanel.setLayout(new BorderLayout());
         graphicPanel.add(picLabel, BorderLayout.CENTER);
         /* Подготавливаем компоненты объекта  */
-//        selectesItem = null;
-//        selectesMeasureUnit = null;
-//        selectesInitialFile
         initListeners(); // инициируем слушателей событий формы
     }
 
     private void initListeners() {
+        // слушатель кнопки старта вычисления
         startСalculating.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 generalAlgorithms.startCalculating();
-                comboBox.setModel(new DefaultComboBoxModel<String>(getItems())); // устанавливаем список вычисленных параметров
-                if (selectesItem != null && !selectesItem.equals("Список результатов")) { // если из списка выбран параметр то оставляем его
+                // устанавливаем список вычисленных параметров
+                comboBox.setModel(new DefaultComboBoxModel<String>(getItems()));
+                // если из списка выбран параметр то оставляем его
+                if (selectesItem != null && !selectesItem.equals("Список результатов")) {
                     comboBox.setSelectedItem(selectesItem);
                 } else { // если не выбран параметр то получаем выбранный параметр из comBox и запоминаем значение
                     selectesItem = (String) comboBox.getSelectedItem();
                 }
-                measureSystemsComBox.setModel(new DefaultComboBoxModel<String>(measureSystem.getArrayMeasureUnitByName(selectesItem)));
+                measureSystemsComBox.setModel(new DefaultComboBoxModel<String>(
+                        measureSystem.getArrayMeasureUnitByName(selectesItem)));
                 if (selectesMeasureUnit != null && !selectesMeasureUnit.equals("единица измерения")) {
                     measureSystemsComBox.setSelectedItem(selectesMeasureUnit);
                 } else {
@@ -82,14 +86,17 @@ public class MainGUI {
                 startСalculating.setBackground(Color.GREEN);
             }
         });
+        // слушатель списка вычисленных параметров
         comboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JComboBox box = (JComboBox)e.getSource();
                 selectesItem = (String)box.getSelectedItem();
-                measureSystemsComBox.setModel(new DefaultComboBoxModel<String>(measureSystem.getArrayMeasureUnitByName(selectesItem)));
+                measureSystemsComBox.setModel(new DefaultComboBoxModel<String>(
+                        measureSystem.getArrayMeasureUnitByName(selectesItem)));
                 selectesMeasureUnit = (String) measureSystemsComBox.getSelectedItem();
             }
         });
+        // слушатель списка единиц измерения
         measureSystemsComBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -97,7 +104,7 @@ public class MainGUI {
                 selectesMeasureUnit = (String)box.getSelectedItem();
             }
         });
-
+        // слушатель списка файлов с начальными условиями
         initialFilesBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,6 +116,7 @@ public class MainGUI {
                 }
             }
         });
+        // слушатель кнопки добавления графика
         addChart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (generalAlgorithms.getResultIntegration() != null) {
@@ -118,10 +126,12 @@ public class MainGUI {
                     }
                     double coeffY = measureSystem.getCoefficientConversionByName(selectesMeasureUnit);
                     double coeffX = 1;
-                    Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(), MainGUI.this, true, coeffY, coeffX);
+                    Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(),
+                            MainGUI.this, true, coeffY, coeffX);
                 } else countLabel.setText("Необходимо сначала провести расчет !!!");
             }
         });
+        // слушатель кнопки отображения графика
         visableChart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -132,10 +142,12 @@ public class MainGUI {
                     }
                     double coeffY = measureSystem.getCoefficientConversionByName(selectesMeasureUnit);
                     double coeffX = 1;
-                    Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(), MainGUI.this, false, coeffY, coeffX);
+                    Plotter.plot(selectesItem, generalAlgorithms.getResultIntegration(),
+                            MainGUI.this, false, coeffY, coeffX);
                 } else countLabel.setText("Необходимо сначала провести расчет !!!");
             }
         });
+        // слушатель кнопки сохранения всех графиков
         saveAllChart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (generalAlgorithms.getResultIntegration() != null) {
@@ -151,17 +163,20 @@ public class MainGUI {
                 } else countLabel.setText("Необходимо сначала провести расчет !!!");
             }
         });
-
+        // слушатель кнопки обновления списка файлов с исходными данными
         updateFilesList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                initialFilesBox.setModel(new DefaultComboBoxModel<String>(generalAlgorithms.getFilesNamesOfDirectory(pathInitialFiles)));
+                initialFilesBox.setModel(new DefaultComboBoxModel<String>(
+                        generalAlgorithms.getFilesNamesOfDirectory(pathInitialFiles)));
                 selectesInitialFile = (String) initialFilesBox.getSelectedItem();
             }
         });
     }
 
+    // метод стартует работу графического интерфейса
     public static void begin() throws IOException {
+        // устанавливаем название программы
         frame = new JFrame("ПРОГРАММА ДЛЯ РАСЧЕТА РАСКРЫТИЯ КРЫЛЬЕВ");
         MainGUI mainGUI = new MainGUI();
         frame.setContentPane(mainGUI.panel);
@@ -172,20 +187,24 @@ public class MainGUI {
         frame.setVisible(true);
     }
 
-
+    // метод возвращает список результатов проведенных вычислений
     private String[] getItems() {
         String[] temp = {"Список результатов"};
-        return generalAlgorithms.getResultIntegration() == null ? temp : generalAlgorithms.getResultIntegration().getListResultsNames();
+        return generalAlgorithms.getResultIntegration() == null ? temp :
+                generalAlgorithms.getResultIntegration().getListResultsNames();
     }
 
+    // метод возвращает панель для размещения графика
     public JPanel getPanel() {
         return graphicPanel;
     }
 
+    // метод возвращает Frame
     public static JFrame getFrame() {
         return frame;
     }
 
+    // метод устанавливает Frame
     public static void setFrame(JFrame frame) {
         MainGUI.frame = frame;
     }

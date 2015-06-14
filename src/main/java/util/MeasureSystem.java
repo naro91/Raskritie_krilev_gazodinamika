@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * Created by Abovyan on 27.05.15.
- * Вспомогательный класс для определения коэффициента перевода из системы единиц СИ в требуемую единицу измерения
+ * Вспомогательный класс для определения коэффициента перевода из системы единиц СИ в требуемую систему измерения
  */
 public class MeasureSystem {
     private Map<String, String[]> measureSystemsFromName = new HashMap<>();
@@ -15,10 +15,10 @@ public class MeasureSystem {
         // добавляем информацию о единицах измерения вычисляемых параметров
         String[] temperatureMeasureUnit = {"kelvin"};
         measureSystemsFromName.put("Temperature", temperatureMeasureUnit);
-        String[] massaMeasureUnit = {"kg", "g"};
+        String[] massaMeasureUnit = {"g", "kg"};
         measureSystemsFromName.put("Massa_g", massaMeasureUnit);
         measureSystemsFromName.put("Massa_sc", massaMeasureUnit);
-        String[] movementMeasureUnit = {"m", "cm", "mm", "km"};
+        String[] movementMeasureUnit = {"mm", "m", "cm", "km"};
         measureSystemsFromName.put("X", movementMeasureUnit);
         measureSystemsFromName.put("X_sht", movementMeasureUnit);
         measureSystemsFromName.put("movingPusher", movementMeasureUnit);
@@ -31,17 +31,26 @@ public class MeasureSystem {
         String[] angleMeasureUnit = {"degree", "radian"};
         measureSystemsFromName.put("angleEndPanel", angleMeasureUnit);
         measureSystemsFromName.put("angleEndPanel_fi(fi)", angleMeasureUnit);
-        measureSystemsFromName.put("fi_diff_dir", angleMeasureUnit);
+        String[] angleMeasureUnitExperiment = {"deg", "rad"};
+        measureSystemsFromName.put("fi_experimental1", angleMeasureUnitExperiment);
+        measureSystemsFromName.put("fi_experimental2", angleMeasureUnitExperiment);
         measureSystemsFromName.put("fi", angleMeasureUnit);
-        String[] areaMeasureUnit = {"m^2", "cm^2", "mm^2"};
+        String[] angularVelocityUnitExperiment = {"deg/s", "rad/s"};
+        measureSystemsFromName.put("w", angularVelocityUnitExperiment);
+        String[] areaMeasureUnit = {"cm^2", "m^2", "mm^2"};
         measureSystemsFromName.put("S", areaMeasureUnit);
-        String[] volumeMeasureUnit = {"m^3", "cm^3", "mm^3"};
+        String[] volumeMeasureUnit = {"cm^3", "m^3", "mm^3"};
         measureSystemsFromName.put("Vks", volumeMeasureUnit);
         measureSystemsFromName.put("V_sc", volumeMeasureUnit);
         String[] pressureMeasureUnit = {"at", "Pa"};
         measureSystemsFromName.put("P_ks", pressureMeasureUnit);
         measureSystemsFromName.put("P_sc", pressureMeasureUnit);
-        measureSystemsFromName.put("P(t)_diff_dir_exp", pressureMeasureUnit);
+        String[] pressureMeasureUnitExperimental = {"atm", "Pascal"};
+        measureSystemsFromName.put("P(t)_experimental1", pressureMeasureUnitExperimental);
+        measureSystemsFromName.put("P(t)_experimental2", pressureMeasureUnitExperimental);
+        String[] tanLine = {"безразмерная"};
+        measureSystemsFromName.put("K_FirstWing", tanLine);
+        measureSystemsFromName.put("K_SecondWing", tanLine);
 
         // добавление коэффициентов перевода из СИ в требуемую систему единиц
         //unitСonversionСoefficient.put("ton", -1000.0);
@@ -56,7 +65,11 @@ public class MeasureSystem {
         unitСonversionСoefficient.put("cm/s", 100.0);
         unitСonversionСoefficient.put("mm/s", 1000.0);
         unitСonversionСoefficient.put("degree", (180.0/Math.PI));
+        unitСonversionСoefficient.put("deg/s", (180.0/Math.PI));
         unitСonversionСoefficient.put("radian", 1.0);
+        unitСonversionСoefficient.put("rad/s", 1.0);
+        unitСonversionСoefficient.put("rad", -(180.0/Math.PI));
+        unitСonversionСoefficient.put("deg", 1.0);
         unitСonversionСoefficient.put("m^2", 1.0);
         unitСonversionСoefficient.put("cm^2", 10000.0);
         unitСonversionСoefficient.put("mm^2", 1000000.0);
@@ -65,17 +78,24 @@ public class MeasureSystem {
         unitСonversionСoefficient.put("mm^3", 1000000000.0);
         unitСonversionСoefficient.put("Pa", 1.0);
         unitСonversionСoefficient.put("at", -101325.0);
+        unitСonversionСoefficient.put("atm", 1.0);
+        unitСonversionСoefficient.put("Pascal", 101325.0);
         unitСonversionСoefficient.put("kelvin", 1.0);
+        unitСonversionСoefficient.put("безразмерная", 1.0);
     }
+
+    // возвращает начальный список единиц измерения
     public String[] getArrayMeasureUnit() {
         return new String[]{"единица измерения"};
     }
 
+    // возвращает список единиц измерения для функции с именем name
     public String[] getArrayMeasureUnitByName(String name) {
         String[] temp;
         return (temp = measureSystemsFromName.get(name) ) != null ? temp : new String[]{"единица измерения"};
     }
 
+    // возвращает коэффиценты перевода из си в требуемую систему измеренеия
     public double getCoefficientConversionByName(String name) {
         Double temp;
         return (temp = unitСonversionСoefficient.get(name)) != null ? temp : 0;

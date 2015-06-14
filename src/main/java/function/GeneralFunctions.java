@@ -14,15 +14,17 @@ import java.util.Map;
  * определены в данном классе, и доступны для использования в других классах
  */
 public class GeneralFunctions {
-    private static InitialData initialData = new InitialData();  // объект содержащий исходные данные для решения задачи
-    private ResultIntegration resultIntegration;  // объект предоставляющий возможность структурированного хранения результатов вычислений
+    // объект содержащий исходные данные для решения задачи
+    private static InitialData initialData = new InitialData();
+    // объект предоставляющий возможность структурированного хранения результатов вычислений
+    private ResultIntegration resultIntegration;
     private static GeneralFunctions generalFunctions = null;  // для реализации паттерна Singleton
     private volatile double P_ks, P_sc, V_sc, U, S, fi;  // вспомогательные переменные
     private String[] valueList;
     private Map<String, Double> valueHashmap;
 
     private GeneralFunctions() {
-        valueList = new String[]{"P_ks", "P_sc", "V_sc", "U", "S", "fi"};
+        valueList = new String[]{"P_ks", "P_sc", "V_sc", "U", "S", "fi", "w"};
         valueHashmap = new HashMap<>();
         initialization();
     }
@@ -36,7 +38,8 @@ public class GeneralFunctions {
 
     // метод для расчета давления в камере сгорания на текущем шаге интегрирования
     public double p_ks(HashMap<String, Double> values) {
-        return ( ( values.get("Massa_g") - values.get("Massa_sc") ) * initialData.R * values.get("Temperature") ) / values.get("Vks");
+        return ( ( values.get("Massa_g") - values.get("Massa_sc") ) * initialData.R * values.get("Temperature") )
+                / values.get("Vks");
     }
 
     // метод для расчета давления в силовом цилиндре на текущем шаге интегрирования
@@ -53,7 +56,7 @@ public class GeneralFunctions {
     public double U(HashMap<String, Double> values) {
         if (values.get("X") > initialData.eps) {
             return 0;
-        } else return initialData.K * (0.00546 + (5.36*Math.pow(10, -5)*p_ks(values)/101325.0) );
+        } else return initialData.K * (0.00546 + (5.36*Math.pow(10, -5)*p_ks(values)/initialData.atm) );
     }
 
     // метод для расчета площади горения заряда на текущем шаге интегрирования
@@ -68,6 +71,11 @@ public class GeneralFunctions {
         return values.get("X_sht")/(initialData.r_vint*Math.tan(initialData.delta));
     }
 
+    // вычисляет уголовую скорость корневой панели по скорости перемещения штока
+    public double w(HashMap<String, Double> values) {
+        return values.get("Velocity")/(initialData.r_vint*Math.tan(initialData.delta));
+    }
+
     //метод для расчета и сохранения всех параметров на каждом шаге интегирования в resultIntegration
     public void calculate(HashMap<String, Double> values) {
         valueHashmap.put("P_ks", p_ks(values));
@@ -76,6 +84,7 @@ public class GeneralFunctions {
         valueHashmap.put("U", U(values) );
         valueHashmap.put("S", S(values));
         valueHashmap.put("fi", fi(values));
+        valueHashmap.put("w", w(values));
 
         for (String temp : valueList) {
             resultIntegration.setValueByName(temp, valueHashmap.get(temp));
@@ -94,9 +103,10 @@ public class GeneralFunctions {
         valueHashmap.put("P_ks", initialData.p_ks0);
         valueHashmap.put("P_sc", initialData.p_sc0);
         valueHashmap.put("V_sc", initialData.V0sc);
-        valueHashmap.put("U", (initialData.K * (0.00546 + (5.36* Math.pow(10, -5)*P_ks/101325.0) )) );
+        valueHashmap.put("U", (initialData.K * (0.00546 +(5.36* Math.pow(10, -5)*initialData.p_ks0/initialData.atm))) );
         valueHashmap.put("S", initialData.S0zar);
         valueHashmap.put("fi", 0.0);
+        valueHashmap.put("w", 0.0);
 
         for (String temp : valueList) {
             resultIntegration.setValueByName(temp, valueHashmap.get(temp));

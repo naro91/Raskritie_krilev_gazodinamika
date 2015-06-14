@@ -31,17 +31,21 @@ public class Massa_sc implements interfaceFunction {
 
     private double a_ist(HashMap<String, Double> values) {
         double Pks = generalFunctions.p_ks(values), Psc = generalFunctions.p_sc(values);
-        if ( Pks == Psc ) {
+        if ( Math.abs(Pks - Psc) <= 50 ) {
             return 0;
         } else if ( Pks > Psc ) {
             if ( Pks/Psc >= Math.pow( (initialData.k + 1)/2, initialData.k/(initialData.k - 1) ) ) {
-                return Math.pow( 2/(initialData.k + 1), 1/(initialData.k - 1) ) * Math.sqrt(2*initialData.k / ( (initialData.k +1)*initialData.R*initialData.ksi*values.get("Temperature") ));
-            } else return Math.sqrt( ( 2*initialData.k/ ( (initialData.k-1)*initialData.R*initialData.ksi*values.get("Temperature") ) )*
+                return Math.pow( 2/(initialData.k + 1), 1/(initialData.k - 1) ) * Math.sqrt(2*initialData.k /
+                        ( (initialData.k +1)*initialData.R*initialData.ksi*values.get("Temperature") ));
+            } else return Math.sqrt( ( 2*initialData.k/ ( (initialData.k-1)
+                    *initialData.R*initialData.ksi*values.get("Temperature") ) )*
                     ( Math.pow(Psc/Pks,2/initialData.k) - Math.pow(Psc/Pks, (initialData.k+1)/initialData.k) ) );
         }else {
             if ( Psc/Pks >= Math.pow( (initialData.k + 1)/2, initialData.k/(initialData.k - 1) ) ) {
-                return -Math.pow( 2/(initialData.k + 1), 1/(initialData.k - 1) ) * Math.sqrt(2*initialData.k / ( (initialData.k +1)*initialData.R*initialData.ksi*values.get("Temperature") ));
-            } else return Math.sqrt( ( 2*initialData.k/ ( (initialData.k-1)*initialData.R*initialData.ksi*values.get("Temperature") ) )*
+                return -Math.pow( 2/(initialData.k + 1), 1/(initialData.k - 1) ) * Math.sqrt(2*initialData.k /
+                        ( (initialData.k +1)*initialData.R*initialData.ksi*values.get("Temperature") ));
+            } else return Math.sqrt( ( 2*initialData.k/ ( (initialData.k-1)
+                    *initialData.R*initialData.ksi*values.get("Temperature") ) )*
                     ( Math.pow(Pks/Psc,2/initialData.k) - Math.pow(Pks/Psc, (initialData.k+1)/initialData.k) ) );
         }
     }
