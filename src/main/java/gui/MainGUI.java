@@ -22,6 +22,7 @@ import java.io.IOException;
 public class MainGUI {
     private GeneralAlgorithms generalAlgorithms; // ссылка на объект который инкапсулирует в себе общий алгоритм задачи
     private MeasureSystem measureSystem = new MeasureSystem(); // объект содержащий методы для получения коэффицента
+    private boolean calculateAllFlag = false;
     // перевода из одной системы единиц в другую
     private static final String pathInitialFiles = "./initialData/";  // путь к файлам с начальными условиями
     private static JFrame frame;
@@ -170,6 +171,13 @@ public class MainGUI {
                 initialFilesBox.setModel(new DefaultComboBoxModel<String>(
                         generalAlgorithms.getFilesNamesOfDirectory(pathInitialFiles)));
                 selectesInitialFile = (String) initialFilesBox.getSelectedItem();
+            }
+        });
+
+        calculateForAllFiles.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                calculateAllFlag = calculateForAllFiles.isBorderPaintedFlat();
             }
         });
     }
