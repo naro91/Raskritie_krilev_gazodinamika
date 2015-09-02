@@ -1,10 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
-initialData/initialData_1.xml
-initialData/initialData_2.xml
-.idea
-graphicsImage
+initialData
 image
+graphicsImage
 experimentalData
-initialData_1.xml
 out/artifacts/Raskritie_krilev_gazodinamika_jar/Raskritie_krilev_gazodinamika.jar
 src/main/java/initialDataForTask/InitialData.java
+.idea
